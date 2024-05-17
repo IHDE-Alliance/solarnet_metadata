@@ -1,0 +1,130 @@
+ANA_NCMP,the number of components used in the analysis
+AO_LOCK,the status of any adaptive optics. For individual exposures should be either 0 or 1
+AO_NMODE,indicates the number of adaptive optics modes corrected
+ATMOS_R0,the atmospheric coherence length for adaptive optics systems
+BNAME,a human readable explanation of the data contents
+BNDCTR,For radio observations may be used instead of WAVELNTH to specify a corresponding frequency in Hz
+BTYPE,describe what the data cube itself represents
+CADAVG,[s] Average actual cadence,the average frame-to-frame spacing in seconds
+CADENCE,[s] Planned cadence,the planned/commanded frame-to-frame spacing in seconds
+CADMAX,[s] Maximum actual frame-to-frame spacing,the maximum frame-to-frame spacing in seconds
+CADMIN,[s] Minimum actual frame-to-frame spacing,the minimum frame-to-frame spacing in seconds
+CADVAR,[s] Variance of frame-to-frame spacing,the variance of the frame-to-frame spacing in seconds
+CCURRENT,a comma-separated list of its own file name plus the names of all files containing concurrent Obs-HDUs
+CMPDESn,Description of component n for Type P data
+CMPINCn
+CMPMULn
+CMPNAMn
+CMPSTRn
+CMPTYPn
+CMP_NPn
+COMPQUAL
+COMP_ALG
+CONSTEXT
+CPDISia
+CPERRia
+CWDISia
+CWERRia
+DATAEXT
+DATAMAD,data statistic - the mean absolute deviation avg( abs( x-avg(x) ) )
+DATANMAD,data statistic - normalized mean absolute deviation DATAMAD/DATAMEAN
+DATANPnn
+DATANRMS
+DATAPnn
+DATATAGS
+DSUN_AU,[AU] Distance from instrument to Sun centre
+DWia
+ELEV_ANG,[deg] Telescope elevation angle,
+FILEVERP,file version pattern
+FT_LOCK,feature tracking status (0 no tracking - 1 tracking)
+HASH_SW,Commit hash of processing software applied
+INCLEXT
+INFO_URL,a human-readable web page describing the data
+METADIM
+METADIMn
+METAFILS
+MISSION,Name of mission,all,required
+MOSAICID,Mosaic ID
+NAPRXPIX,the number of pixels with approximated values
+NBIN,Product of all NBINj
+NBINj,Binning in dimension n
+NDATAPIX,the number of usable pixels: NTOTPIX - NLOSTPIX - NSATPIX - NSPIKPIX
+NLOSTPIX,the number of lost pixels due to telemetry/acquisition glitches
+NMASKPIX,the number of dust-affected/hot/cold/padded pixels etc.
+NSATPIX,the number of saturated pixels
+NSPIKPIX,the number of identified spike pixels
+NSUMEXP,Number of summed exposures
+NTOTPIX,the number of potentially usable pixels: the number of data cube pixels minus NMASKPIX
+NXDIM,the number of dimensions absorbed by the fitting process
+OBSRVTRY,Name of observatory,all,required
+OBS_HDU,This HDU contains observational data
+OBS_LOG,URL of observation log
+OBS_VR,[km/s] Observer's outward velocity w.r.t. Sun
+PCONSna
+PCT_APRX
+PCT_DATA
+PCT_LOST
+PCT_MASK
+PCT_SATP
+PCT_SPIK
+PDESCna
+PGEXTNAM
+PGFILENA,the name of the (progenitor) file containing the original data
+PINITna
+PIXLISTS
+PIXTYPE
+PMAXna
+PMINna
+PNAMEna
+POINT_ID
+POLCANGL
+POLCCONV
+PRBRAna
+PRENVn
+PRHSHna,GIT commit hash for PRLIB1A,processing
+PRLIBna,Software library containing PRPROCn,processing
+PRLOGn,log message of PRPROCn,processing
+PRMODEn,processing mode of PRPROCn,processing
+PROJECT,Name of project
+PRPARAn,list of parameters/options for PRPROCn,processing
+PRPROCn,name of procedure performing processing step n,processing
+PRPVERn,version number of processing procedure PRPROCn,processing
+PRSTEPn,processing step type for step n,processing
+PRVERna,version number of processing procedure PRPROC1,processing
+PTRAna
+PTRBna
+PUNITna
+RELEASE
+RELEASEC
+REQUESTR
+RESEXT
+RESIDEXT
+RESOLVPW
+RESPAPPL
+RESPONSE
+ROT_COMP
+ROT_FORM
+ROT_MODL
+SETTINGS
+SLIT_WID
+SOLARNET,specifies if an Obs-HDU is fully (1.0) or partially compliant (0.5)
+SOLNETEX
+SVO_GRP
+TDESCn
+TELCONFG
+TEXPOSUR
+TKEYSn
+TPXLSn
+TVARKn
+VAR_KEYS
+VERSION
+VERS_CAL,version number of calibration pack applied
+VERS_SW,version number of processing software applied
+WAVEBAND
+WAVECOV
+WAVEMAX,the maximum wavelength of the spectral range with units specified in WAVEUNIT
+WAVEMIN,the minimum wavelength of the spectral range with units specified in WAVEUNIT
+WAVEREF,should be set to air or vacuum to signal whether wavelengths are given for air or vacuum
+WGTEXT
+XDIMTYm
+XDIMXTm
