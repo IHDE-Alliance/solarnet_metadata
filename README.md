@@ -8,3 +8,5 @@ Until the advent of the SOLARNET recommendations, metadata descriptions of Solar
 **[SOLARNET Metadata Recommendations for Solar Observations](https://arxiv.org/pdf/2011.12139)**
 
 Latest files at [https://sdc.uio.no/open/solarnet/](https://sdc.uio.no/open/solarnet/)
+
+The latest rendered documentation can be found on [readthedocs](http://solarnet-metadata.rtfd.io/).
