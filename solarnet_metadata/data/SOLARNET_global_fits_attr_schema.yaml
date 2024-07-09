@@ -1,0 +1,222 @@
+attribute_key:
+  AUTHOR:
+    data_type: str
+    default: null
+    description: Who designed the observation
+    human_readable: Author
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  CAMERA: 
+    data_type: str
+    default: null
+    description: Camera name (CAM-xxxx is recommended for other camera keywords).
+    human_readable: Name of the camera
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  CAMPAIGN:
+    data_type: str
+    default: null
+    description:  Coordinated campaign name/number, including instance number, when applicable
+    human_readable: Observation campaign
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  CCURRENT:
+    data_type: str
+    default: null
+    description: When an Obs-HDU (partially) overlaps in time and space with one or more HDUs stored in other files, CCURRENT (concurrent) may be set to a comma-separated list of its own file name plus the names of all files containing concurrent Obs-HDUs. CCURRENT serves as a pointer to other concurrent (and probably relevant) observations, but it also serves a purpose in grouping search results
+    human_readable: Concurrent files
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  DATATAGS:
+    data_type: str
+    default: null
+    description: Used for any additional search terms that do not fit in any of the other keywords.
+    human_readable: Data Tags
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  DATE:
+    data_type: date
+    default: null
+    description: FITS file creation date in UTC
+    human_readable: File Creation Date
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  DETECTOR:
+    data_type: str
+    default: null
+    description: Name of detector
+    human_readable: detector
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  FILENAME:
+    data_type: str
+    default: null
+    description: FITS filename
+    human_readable: Filename
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  FILEVERP:
+    data_type: str
+    default: null
+    description: File Version Pattern. The keyword FILEVERP (file version pattern) should be specified to highlight a version identifier included in the file name. E.g., a file named solo_SPICE_sit-V01-2395.fits and the subsequent version solo_SPICE_sit-V02-2395.fits should both have FILEVERP='solo_SPICE_sit-V*-2395.fits', where the asterisk identifies where the file version occurs in the file name. Using an asterisk means that the file version should be interpreted lexically, whereas a percentage sign should be used when the version number is not a fixed number of decimals. E.g., with file names file_V2.fits and file_V12.fits, using FILEVERP='file_V%.fits' would ensure that the second file recognized as having a higher version number (thus superseding the first file).
+    human_readable: File Version Pattern
+    required: true
+  FILTER:
+    data_type: str
+    default: null
+    description: Name(s) of the filter(s) used during the observation.
+    human_readable: Filters
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  GRATING:
+    data_type: str
+    default: null
+    description: Name of the grating used during the observation
+    human_readable: Grating
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  INSTRUME:
+    data_type: str
+    default: null
+    description: Instrument name
+    human_readable: Instrument
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  INST_TYP:
+    data_type: str
+    default: null
+    description: Instrument type (e.g., imager, spectrograph)
+    human_readable: Instrument type
+    required: true # NOT a SOLARNET recommendation, but required for conditional requirements
+    valid_values: 
+    - Imager
+    - Spectrograph
+  MISSION:
+    data_type: str
+    default: null
+    description: Mission name
+    human_readable: Mission
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBSERVER:
+    data_type: str
+    default: null
+    description: Who acquired the data
+    human_readable: Observer
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBSRVTRY:
+    data_type: str
+    default: null
+    description:  Name of the observatory
+    human_readable: Observatory
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBSTITLE:
+    data_type: str
+    default: null
+    description: Title of observation. A more generic/higher-level description, e.g., "Flare sit-and-stare", "High cadence large raster"), which often corresponds to OBS_MODE, though not necessarily as a oneto-one relationship. Used by IRIS and SPICE, corresponds to Hinode OBS_DEC. Should be identical to OBS_DESC or OBS_MODE when no more suitable value is available.
+    human_readable: Observation title
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBS_DESC:
+    data_type: str
+    default: null
+    description: Description of observation. A string describing the observation, e.g., "Sit and stare on AR10333". Should be identical to OBSTITLE when no more suitable value is available.
+    human_readable: Observation description
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBS_LOG:
+    data_type: str
+    default: null
+    description: Location of the log file that is relevant to this observation, if available, given as a URL.
+    human_readable: URL of observation log
+    required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  OBS_MODE:
+    data_type: str
+    default: null
+    description: Name of predefined settings used during observation. A string (from a limited/discrete list) uniquely identifying the mode of operation.
+    human_readable: Observation mode
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBS_TYPE:
+    data_type: str
+    default: null
+    description: Type of observatory. A string (from a limited/discrete list) uniquely identifying the type of observatory.
+    human_readable: Observatory Type
+    required: true # NOT a SOLARNET recommendation, but required for conditional requirements
+    valid_values:
+    - ground-based
+    - earth-orbiting
+    - deep-space
+  ORIGIN:
+    data_type: str
+    default: null
+    description:  set to a character string identifying the organization or institution responsible for creating the FITS file. 
+    human_readable: File originator
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  PLANNER:
+    data_type: str
+    default: null
+    description: Observation planner
+    human_readable: Planner
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  PROJECT:
+    data_type: str
+    default: null
+    description: Name(s) of the project(s) affiliated with the data
+    human_readable: Project
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  REQUESTR:
+    data_type: str
+    default: null
+    description: Who requested this particular observation.
+    human_readable: Requester
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  SETTINGS:
+    data_type: str
+    default: null
+    description: Additional instrument/acquisition settings
+    human_readable: Settings
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  SLIT_WID:
+    data_type: float
+    default: null
+    description: '[arcsec] Slit width'
+    human_readable: Slit width
+    required: true # Mandatory keywords for spectrographs (sections 15, 5.4)
+  TELCONFG:
+    data_type: str
+    default: null
+    description: Telescope configuration
+    human_readable: Telescope configuration
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  TELESCOP:
+    data_type: str
+    default: null
+    description: Telescope/Sensor name
+    human_readable: Telescope
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+conditional_requirements:
+  # ===========================================================================
+  # Conditional requirements for Observatory Type
+  # ===========================================================================
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'ground-based'
+    required_attributes:
+      - OBSGEO-X
+      - OBSGEO-Y
+      - OBSGEO-Z
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'earth-orbiting'
+    required_attributes:
+      - GEOX_OBS
+      - GEOY_OBS
+      - GEOZ_OBS
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'deep-space'
+    required_attributes:
+      - DSUN_OBS
+      - HGLN_OBS
+      - HGLT_OBS
+  # ===========================================================================
+  # Conditional requirements for Instrument Type
+  # ===========================================================================
+  - condition_type: 'attribute_value'
+    condition_key: 'INST_TYP'
+    condition_value: 'Spectrograph'
+    required_attributes:
+      - OBS_VR
+      - SPECSYS
+      - SLIT_WID
+      - VELOSYS
+      - WAVEMAX
+      - WAVEMIN
+      - WAVEREF
+      - WAVEUNIT
