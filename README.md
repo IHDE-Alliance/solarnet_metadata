@@ -12,3 +12,5 @@ The original development of this work received funding from the European Unionâ€
 Past versions (<=2.2) before migrating to this repository can be found 
 * [https://arxiv.org/pdf/2011.12139](https://arxiv.org/pdf/2011.12139)
 * [https://sdc.uio.no/open/solarnet/](https://sdc.uio.no/open/solarnet/)
+
+The latest rendered documentation can be found on [readthedocs](http://solarnet-metadata.rtfd.io/).
