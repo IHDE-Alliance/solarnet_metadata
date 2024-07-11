@@ -23,7 +23,15 @@ To provide comments or suggestions, please create an issue or create a pull requ
    :caption: Contents:
    
    generated/parta.md
-   parta_appendices
+   appendix-1.md
+   appendix-2.md
+   appendix-3.md
+   appendix-4.md
+   appendix-5.md
+   appendix-6.md
+   appendix-7.md
+   appendix-8.md
+   appendix-9.md
    references
    partb
    partc
