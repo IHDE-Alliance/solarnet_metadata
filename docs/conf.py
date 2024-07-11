@@ -93,5 +93,5 @@ with open('parta.md', 'r') as input_file:
     with open('generated/parta.md', 'w') as output_file:
         whole_file_str = input_file.read()
         for this_key in solarnet_keywords:
-            whole_file_str = whole_file_str.replace(this_key, "{index}" + f"`{this_key}`")
+            whole_file_str = whole_file_str.replace(this_key, "<code>{index}" + f"`{this_key}`</code>")
         output_file.write(whole_file_str)
