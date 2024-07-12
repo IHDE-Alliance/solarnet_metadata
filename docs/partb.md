@@ -4,15 +4,17 @@
 
 In addition to all keywords required by the FITS Standard, all HDUs (including the primary HDU) in SOLARNET FITS files must contain the keyword EXTNAME, with a value that is unique within the file.
 
+<code>
 EXTNAME= 'He_I ' / Name of HDU
+</code>
 
-## **Mandatory** keywords for all Obs-HDUs (Section 2.2)
+## Mandatory keywords for all Obs-HDUs (Section 2.2)
 
-SOLARNET= 0.5 / Fully SOLARNET-compliant=1.0, partially=0.5
-
-OBS_HDU = 1 / This HDU contains observational data
-
-DATE-BEG= '2020-12-24T17:12:00.5' / Date of start of observation
+<code>
+SOLARNET= 0.5 / Fully SOLARNET-compliant=1.0, partially=0.5 \
+OBS_HDU = 1 / This HDU contains observational data \
+DATE-BEG= '2020-12-24T17:12:00.5' / Date of start of observation \
+</code>
 
 ## Mandatory WCS keyword for all HDUs with a UTC (time) coordinate (Section 4.1)
 
