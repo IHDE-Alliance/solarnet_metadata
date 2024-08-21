@@ -36,6 +36,12 @@ attribute_key:
     description: atmospheric coherence length r0. If available, the value of r0 should be stored in the keyword ATMOS_R0. Since there are multiple ways of measuring this value, its only use should be to reflect the quality of the observing conditions whenever the measurements are performed in the same (or similar enough) way.
     human_readable: Atmospheric coherence length
     required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  AUTHOR:
+    data_type: str
+    default: null
+    description: Who designed the observation
+    human_readable: Author
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   BLANK:
     data_type: int
     default: null
@@ -108,12 +114,30 @@ attribute_key:
     description: '[s] Variability of the frame-to-frame spacing'
     human_readable: Measurement cadence variability
     required: false # Optional keywords describing cadence (sections 18, 5.3)
+  CAMERA: 
+    data_type: str
+    default: null
+    description: Camera name (CAM-xxxx is recommended for other camera keywords).
+    human_readable: Name of the camera
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  CAMPAIGN:
+    data_type: str
+    default: null
+    description:  Coordinated campaign name/number, including instance number, when applicable
+    human_readable: Observation campaign
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   CAR_ROT:
     data_type: float
     default: null
     description: Carrington rotation number for the reference pixel pointed to by CRPIXj values
     human_readable: Carrington rotation
     required: false
+  CCURRENT:
+    data_type: str
+    default: null
+    description: When an Obs-HDU (partially) overlaps in time and space with one or more HDUs stored in other files, CCURRENT (concurrent) may be set to a comma-separated list of its own file name plus the names of all files containing concurrent Obs-HDUs. CCURRENT serves as a pointer to other concurrent (and probably relevant) observations, but it also serves a purpose in grouping search results
+    human_readable: Concurrent files
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   CDELTia:
     data_type: float
     default: null
@@ -384,6 +408,18 @@ attribute_key:
     description: Sum of the data array, for checksum purposes
     human_readable: Sum of data
     required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  DATATAGS:
+    data_type: str
+    default: null
+    description: Used for any additional search terms that do not fit in any of the other keywords.
+    human_readable: Data Tags
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  DATE:
+    data_type: date
+    default: null
+    description: FITS file creation date in UTC
+    human_readable: File Creation Date
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
   DATE-AVG:
     data_type: date
     default: null
@@ -408,6 +444,12 @@ attribute_key:
     description:  Time coord. zero point (time reference, mandatory) set to the zero point of the WCS time coordinate. I.e., for pixels that have the CTYPEi='UTC' coordinate equal to zero, the time is the value given in DATEREF. In most cases the values of DATEREF and DATE-BEG will be identical, but note that according to the FITS standard, DATE-BEG is not a default value for DATEREF, thus DATEREF may not be omitted. 
     human_readable: Reference date
     required: true
+  DETECTOR:
+    data_type: str
+    default: null
+    description: Name of detector
+    human_readable: detector
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   DPja: # NOTE: Equivalent to CPDISia?
     data_type: str
     default: null
@@ -450,6 +492,24 @@ attribute_key:
     description: All HDUs - including the primary HDU - in SOLARNET FITS files must contain the string-valued keyword EXTNAME, and each EXTNAME value must be unique within the file. EXTNAME must not contain the characters comma or semicolon except as prescribed for the variable-keyword mechanism, the pixel list mechanism and the meta-observation mechanism. In addition, EXTNAME must not start with a space, but any trailing spaces are ignored. Finally, the CONTINUE Long String Keyword Convention must not be used with EXTNAME, since this is a reserved keyword defined in the FITS standard.
     human_readable: Extension name
     required: true
+  FILENAME:
+    data_type: str
+    default: null
+    description: FITS filename
+    human_readable: Filename
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  FILEVERP:
+    data_type: str
+    default: null
+    description: File Version Pattern. The keyword FILEVERP (file version pattern) should be specified to highlight a version identifier included in the file name. E.g., a file named solo_SPICE_sit-V01-2395.fits and the subsequent version solo_SPICE_sit-V02-2395.fits should both have FILEVERP='solo_SPICE_sit-V*-2395.fits', where the asterisk identifies where the file version occurs in the file name. Using an asterisk means that the file version should be interpreted lexically, whereas a percentage sign should be used when the version number is not a fixed number of decimals. E.g., with file names file_V2.fits and file_V12.fits, using FILEVERP='file_V%.fits' would ensure that the second file recognized as having a higher version number (thus superseding the first file).
+    human_readable: File Version Pattern
+    required: true
+  FILTER:
+    data_type: str
+    default: null
+    description: Name(s) of the filter(s) used during the observation.
+    human_readable: Filters
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   FT_LOCK:
     data_type: float
     default: null
@@ -474,6 +534,12 @@ attribute_key:
     description: '[m] Observer''s non-fixed geographic Z coordinate'
     human_readable: Observer Z Position
     required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for earth-orbiting observatories
+  GRATING:
+    data_type: str
+    default: null
+    description: Name of the grating used during the observation
+    human_readable: Grating
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   HASH_SW:
     data_type: str
     default: null
@@ -504,6 +570,21 @@ attribute_key:
     description:  should point to a human-readable web page describing "everything" about the data set - what it is, how to use it, links to e.g., user guides, instrument/site/telescope descriptions, descriptions of caveats, information about data rights, preferred acknowledgements, whom to contact if you have questions, and repositories of observing/engineering logs.
     human_readable: Info url
     required: false # Optional keyword for administrative information (sections 18, 9)
+  INSTRUME:
+    data_type: str
+    default: null
+    description: Instrument name
+    human_readable: Instrument
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  INST_TYP:
+    data_type: str
+    default: null
+    description: Instrument type (e.g., imager, spectrograph)
+    human_readable: Instrument type
+    required: true # NOT a SOLARNET recommendation, but required for conditional requirements
+    valid_values: 
+    - Imager
+    - Spectrograph
   LEVEL:
     data_type: float
     default: null
@@ -528,6 +609,12 @@ attribute_key:
     description: List of filenames of constituent HDUs. The filenames should be separated by commas, and the list should be ordered in the same way as the HDUs are ordered in the Meta-HDU.
     human_readable: Metadata filenames
     required: false
+  MISSION:
+    data_type: str
+    default: null
+    description: Mission name
+    human_readable: Mission
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   MOSAICID:
     data_type: str
     default: null
@@ -613,6 +700,12 @@ attribute_key:
     description: the number of dimensions absorbed by the fitting process
     human_readable: number of absorbed dimensions
     required: false
+  OBSERVER:
+    data_type: str
+    default: null
+    description: Who acquired the data
+    human_readable: Observer
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   OBSGEO-X:
     data_type: float
     default: null
@@ -631,6 +724,24 @@ attribute_key:
     description: "[m] Observer's fixed geographic Z coordinate"
     human_readable: Observer Z Position
     required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for ground-based observatories
+  OBSRVTRY:
+    data_type: str
+    default: null
+    description:  Name of the observatory
+    human_readable: Observatory
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBSTITLE:
+    data_type: str
+    default: null
+    description: Title of observation. A more generic/higher-level description, e.g., "Flare sit-and-stare", "High cadence large raster"), which often corresponds to OBS_MODE, though not necessarily as a oneto-one relationship. Used by IRIS and SPICE, corresponds to Hinode OBS_DEC. Should be identical to OBS_DESC or OBS_MODE when no more suitable value is available.
+    human_readable: Observation title
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBS_DESC:
+    data_type: str
+    default: null
+    description: Description of observation. A string describing the observation, e.g., "Sit and stare on AR10333". Should be identical to OBSTITLE when no more suitable value is available.
+    human_readable: Observation description
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   OBS_HDU:
     data_type: int
     default: null
@@ -640,12 +751,40 @@ attribute_key:
     valid_values:
     - 0
     - 1
+  OBS_LOG:
+    data_type: str
+    default: null
+    description: Location of the log file that is relevant to this observation, if available, given as a URL.
+    human_readable: URL of observation log
+    required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  OBS_MODE:
+    data_type: str
+    default: null
+    description: Name of predefined settings used during observation. A string (from a limited/discrete list) uniquely identifying the mode of operation.
+    human_readable: Observation mode
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBS_TYPE:
+    data_type: str
+    default: null
+    description: Type of observatory. A string (from a limited/discrete list) uniquely identifying the type of observatory.
+    human_readable: Observatory Type
+    required: true # NOT a SOLARNET recommendation, but required for conditional requirements
+    valid_values:
+    - ground-based
+    - earth-orbiting
+    - deep-space
   OBS_VR:
     data_type: float
     default: null
     description: "[km/s] Observer's outward velocity w.r.t. Sun"
     human_readable: Observer velocity
     required: false # Mandatory keywords for spectrographs and filter instruments (sections 15, 3.2, 5.4)
+  ORIGIN:
+    data_type: str
+    default: null
+    description:  set to a character string identifying the organization or institution responsible for creating the FITS file. 
+    human_readable: File originator
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
   PCONSna:
     data_type: int
     default: null
@@ -730,6 +869,12 @@ attribute_key:
     description: Pixel Type
     human_readable: Pixel Type
     required: false
+  PLANNER:
+    data_type: str
+    default: null
+    description: Observation planner
+    human_readable: Planner
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   PMAXna:
     data_type: float
     default: null
@@ -802,6 +947,12 @@ attribute_key:
     description: Optional pipeline processing keyword. Meant for pipelines that may be run with different trade-offs between e.g., signal to noise ratio versus spatial resolution or contrast. This should already be apparent from the other keywords, but PRMODEn provides a much simpler way of identifying data processed in a particular way (e.g., "BALANCED" or "HIGH CONTRAST"). Note that a single observation may be registered multiple times in an SVO with different values of PRMODEn - but then a PRMODEnspecific identifier in the file name is necessary in order to ensure uniqueness.
     human_readable: Processing mode
     required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PROJECT:
+    data_type: str
+    default: null
+    description: Name(s) of the project(s) affiliated with the data
+    human_readable: Project
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   PRPARAn:
     data_type: str
     default: null
@@ -868,6 +1019,12 @@ attribute_key:
     description: Email address of data release administrator.  The keyword RELEASEC may be used to give contact information for one or more people (name/email addresses, comma separated) administering the release details.
     human_readable: Release administrator
     required: false # Optional keyword for administrative information (sections 18, 9)
+  REQUESTR:
+    data_type: str
+    default: null
+    description: Who requested this particular observation.
+    human_readable: Requester
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   RESEXT:
     data_type: str
     default: null
@@ -928,6 +1085,18 @@ attribute_key:
     description: '[m] Reference solar radius in meters. For observations (instruments) where the plate scale/pointing is derived from measurements of the apparent solar radius versus the physical size, the keywords RSUN_REF should be used to report the reference value for the physical radius used in the calculations (see Thompson 2010, Section 8).'
     human_readable: Solar radius. [m] Solar rad. used for calc. px scale
     required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  SETTINGS:
+    data_type: str
+    default: null
+    description: Additional instrument/acquisition settings
+    human_readable: Settings
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  SLIT_WID:
+    data_type: float
+    default: null
+    description: '[arcsec] Slit width'
+    human_readable: Slit width
+    required: true # Mandatory keywords for spectrographs (sections 15, 5.4)
   SOLARNET:
     data_type: float
     default: null
@@ -1009,6 +1178,18 @@ attribute_key:
     description: TDIMn may be used to give the dimensions of the binary table column.
     human_readable: Table column dimensions
     required: false
+  TELCONFG:
+    data_type: str
+    default: null
+    description: Telescope configuration
+    human_readable: Telescope configuration
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  TELESCOP:
+    data_type: str
+    default: null
+    description: Telescope/Sensor name
+    human_readable: Telescope
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
   TEXPOSURE:
     data_type: float
     default: null
@@ -1208,4 +1389,42 @@ attribute_key:
     human_readable: Reference pixel
     required: true
 conditional_requirements:
-  -
+  # ===========================================================================
+  # Conditional requirements for Observatory Type
+  # ===========================================================================
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'ground-based'
+    required_attributes:
+      - OBSGEO-X
+      - OBSGEO-Y
+      - OBSGEO-Z
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'earth-orbiting'
+    required_attributes:
+      - GEOX_OBS
+      - GEOY_OBS
+      - GEOZ_OBS
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'deep-space'
+    required_attributes:
+      - DSUN_OBS
+      - HGLN_OBS
+      - HGLT_OBS
+  # ===========================================================================
+  # Conditional requirements for Instrument Type
+  # ===========================================================================
+  - condition_type: 'attribute_value'
+    condition_key: 'INST_TYP'
+    condition_value: 'Spectrograph'
+    required_attributes:
+      - OBS_VR
+      - SPECSYS
+      - SLIT_WID
+      - VELOSYS
+      - WAVEMAX
+      - WAVEMIN
+      - WAVEREF
+      - WAVEUNIT
