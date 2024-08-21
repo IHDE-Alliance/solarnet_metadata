@@ -12,8 +12,8 @@ import solarnet_metadata
 
 __all__ = ["SOLARNETSchema"]
 
-DEFAULT_GLOBAL_ATTRS_SCHEMA_FILE = "SOLARNET_global_fits_attr_schema.yaml"
-DEFAULT_VARIABLE_ATTRS_SCHEMA_FILE = "SOLARNET_variable_fits_attr_schema.yaml"
+DEFAULT_GLOBAL_ATTRS_SCHEMA_FILE = "SOLARNET_attr_schema.yaml"
+DEFAULT_VARIABLE_ATTRS_SCHEMA_FILE = "SOLARNET_attr_schema.yaml"
 
 
 class SOLARNETSchema:

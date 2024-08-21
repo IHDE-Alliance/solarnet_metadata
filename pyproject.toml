@@ -46,7 +46,7 @@ dev = [
 ]
 
 docs = [
-  'myst-parser==3.0.1`
+  'myst-parser==3.0.1',
   'pandas>=2.2.0',
   'sphinx==7.2.6',
   'sphinx-automodapi==0.16.0',
