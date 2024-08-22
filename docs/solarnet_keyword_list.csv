@@ -2,51 +2,108 @@ ANA_NCMP,the number of components used in the analysis
 AO_LOCK,the status of any adaptive optics. For individual exposures should be either 0 or 1
 AO_NMODE,indicates the number of adaptive optics modes corrected
 ATMOS_R0,the atmospheric coherence length for adaptive optics systems
+AUTHOR,Author
+BLANK,Value of missing pixels (floating HDU)
 BNAME,a human readable explanation of the data contents
 BNDCTR,For radio observations may be used instead of WAVELNTH to specify a corresponding frequency in Hz
 BTYPE,describe what the data cube itself represents
+BSCALE,Linear scaling factor
+BUNIT,Units
+BZERO,Scale Base
 CADAVG,[s] Average actual cadence,the average frame-to-frame spacing in seconds
 CADENCE,[s] Planned cadence,the planned/commanded frame-to-frame spacing in seconds
 CADMAX,[s] Maximum actual frame-to-frame spacing,the maximum frame-to-frame spacing in seconds
 CADMIN,[s] Minimum actual frame-to-frame spacing,the minimum frame-to-frame spacing in seconds
 CADVAR,[s] Variance of frame-to-frame spacing,the variance of the frame-to-frame spacing in seconds
+CAMERA,Name of the camera
+CAMPAIGN,Observation campaign
+CAR_ROT,Carrington rotation
 CCURRENT,a comma-separated list of its own file name plus the names of all files containing concurrent Obs-HDUs
+CDELTia,Coordinate scale increment
+CDi_ja,Linear-transformation matrix element
+CHECKSUM,Checksum
 CMPDESn,Description of component n for Type P data
-CMPINCn
-CMPMULn
-CMPNAMn
-CMPSTRn
-CMPTYPn
-CMP_NPn
-COMPQUAL
-COMP_ALG
-CONSTEXT
-CPDISia
-CPERRia
-CWDISia
-CWERRia
-DATAEXT
+CMPINCn,Component inclusion
+CMPMULn,Component type
+CMPNAMn,Component name
+CMPSTRn,Component string
+CMPTYPn,Component type
+CMP_NPn,Number of parameters
+CNAMEia,Coordinate axis name
+COMMENT,Comment
+COMPQUAL,Quality of data after lossy compression
+COMP_ALG,Name of lossy compression algorithm
+CONSTEXT,Constant mask
+CONTINUE,Continue
+CPDISia,Distortion correction
+CPERRia,Maximum value of prior distortion correction for axis i
+CQDISia,Distortion correction
+CQERRia,Maximum value of posterior distortion correction for axis i
+CRDERia,Random error
+CREATOR,File Creator
+CROTAia,Coordinate rotation
+CRPIXja,Reference pixel
+CRVALia,Reference value
+CSYERia,Systematic error
+CTYPEia,Coordinate type
+CUNITia,Coordinate units
+CWDISia,Distortion correction
+CWERRia,Maximum value of weighted distortion correction for axis i
+DATAEXT,Data extension
+DATAKURT,Kurtosis
 DATAMAD,data statistic - the mean absolute deviation avg( abs( x-avg(x) ) )
+DATAMAX,Maximum of data
+DATAMEAN,Mean of data
+DATAMEDN,Median of data
+DATAMIN,Minimum of data
 DATANMAD,data statistic - normalized mean absolute deviation DATAMAD/DATAMEAN
-DATANPnn
-DATANRMS
-DATAPnn
-DATATAGS
+DATANPnn,Normalized Percentiles
+DATANRMS,Normalized root mean square
+DATAPnn,Percentiles
+DATARMS,Root mean square
+DATASKEW,Skewness
+DATASUM,Sum of data
+DATATAGS,Data Tags
+DATE,File Creation Date
+DATE-AVG,Average date of observation
+DATE-BEG,Aquisition start time
+DATE-END,Date of end of observation
+DATEREF,Reference date
+DETECTOR,detector
+DPja,Primary distortion parameter
+DQia,Posterior distortion parameter
 DSUN_AU,[AU] Distance from instrument to Sun centre
-DWia
+DSUN_OBS,Distance to Sun
+DWia,Distortion correction
 ELEV_ANG,[deg] Telescope elevation angle,
-FILEVERP,file version pattern
+EXTNAME,Extension name
+EXTVER,Extension version
+EXTLEVEL,Extension level
+FILENAME,Filename
+FILEVERP,File Version Pattern
+FILTER,Filters
 FT_LOCK,feature tracking status (0 no tracking - 1 tracking)
+GEOX_OBS,Observer X Position
+GEOY_OBS,Observer Y Position
+GEOZ_OBS,Observer Z Position
+GRATING,Grating
 HASH_SW,Commit hash of processing software applied
-INCLEXT
+HGLN_OBS,Observer Heliographic Longitude
+HGLT_OBS,Observer Heliographic Latitude
+INCLEXT,Component inclusion mask
 INFO_URL,a human-readable web page describing the data
-METADIM
-METADIMn
-METAFILS
-MISSION,Name of mission,all,required
+INSTRUME,Instrument
+INST_TYP,Instrument type
+LEVEL,Data level of fits file
+METADIM,Metadata dimension splits
+METADIMn,Metadata dimension splits
+METAFILS,Metadata filenames
+MISSION,Name of mission
 MOSAICID,Mosaic ID
 NAPRXPIX,the number of pixels with approximated values
-NBIN,Product of all NBINj
+NAXIS,Number of axes
+NASIXn,Number of elements along axis
+NBIN,Combined binning factor (Product of all NBINj)
 NBINj,Binning in dimension n
 NDATAPIX,the number of usable pixels: NTOTPIX - NLOSTPIX - NSATPIX - NSPIKPIX
 NLOSTPIX,the number of lost pixels due to telemetry/acquisition glitches
@@ -56,31 +113,42 @@ NSPIKPIX,the number of identified spike pixels
 NSUMEXP,Number of summed exposures
 NTOTPIX,the number of potentially usable pixels: the number of data cube pixels minus NMASKPIX
 NXDIM,the number of dimensions absorbed by the fitting process
-OBSRVTRY,Name of observatory,all,required
+OBSERVER,Observer
+OBSGEO-X,Observer X Position
+OBSGEO-Y,Observer Y Position
+OBSGEO-Z,Observer Z Position
+OBSRVTRY,Name of Observatory
+OBSTITLE,Observation title
+OBS_DESC,Observation description
 OBS_HDU,This HDU contains observational data
 OBS_LOG,URL of observation log
+OBS_MODE,Observation mode
+OBS_TYPE,Observatory Type
 OBS_VR,[km/s] Observer's outward velocity w.r.t. Sun
-PCONSna
-PCT_APRX
-PCT_DATA
-PCT_LOST
-PCT_MASK
-PCT_SATP
-PCT_SPIK
-PDESCna
-PGEXTNAM
+ORIGIN,File originator
+PCONSna,Parameter constant
+PCT_APRX,Percentage of approximated pixels
+PCT_DATA,Percentage of usable pixels
+PCT_LOST,Percentage of lost pixels
+PCT_MASK,Percentage of masked pixels
+PCT_SATP,Percentage of saturated pixels
+PCT_SPIK,Percentage of spike pixels
+PCi_ja,linear transformation matrix element
+PDESCna,Parameter Desscription
+PGEXTNAM,Progenitor extension name
 PGFILENA,the name of the (progenitor) file containing the original data
-PINITna
-PIXLISTS
-PIXTYPE
-PMAXna
-PMINna
-PNAMEna
-POINT_ID
-POLCANGL
-POLCCONV
-PRBRAna
-PRENVn
+PINITna,Initial value
+PIXLISTS,Pixel lists
+PIXTYPE,Pixel Type
+PLANNER,Planner
+PMAXna,Maximum value
+PMINna,Minimum value
+PNAMEna,Parameter name
+POINT_ID,Pointing ID
+POLCANGL,Polarimetric angle
+POLCCONV,Polarimetric conversion
+PRBRAna,Branch name
+PRENVn,Processing environment
 PRHSHna,GIT commit hash for PRLIB1A,processing
 PRLIBna,Software library containing PRPROCn,processing
 PRLOGn,log message of PRPROCn,processing
@@ -89,42 +157,69 @@ PROJECT,Name of project
 PRPARAn,list of parameters/options for PRPROCn,processing
 PRPROCn,name of procedure performing processing step n,processing
 PRPVERn,version number of processing procedure PRPROCn,processing
+PRREFn,Factors influencing PRSTEP1
 PRSTEPn,processing step type for step n,processing
 PRVERna,version number of processing procedure PRPROC1,processing
-PTRAna
-PTRBna
-PUNITna
-RELEASE
-RELEASEC
-REQUESTR
-RESEXT
-RESIDEXT
-RESOLVPW
-RESPAPPL
-RESPONSE
-ROT_COMP
-ROT_FORM
-ROT_MODL
-SETTINGS
-SLIT_WID
+PTRAna,Linear transformation coefficient A
+PTRBna,Linear transformation constant B
+PUNITna,Parameter unit
+RELEASE,Release date
+RELEASEC,Release administrator
+REQUESTR,Requester
+RESEXT,Result extension
+RESIDEXT,Residual extension
+RESOLVPW,Resolving power
+RESPAPPL,Applid response function
+RESPONSE,Response function
+ROT_COMP,Solar rotation compensation on (1)/off (0)
+ROT_FORM,Rotation formula
+ROT_MODL,Model used for rotation compensation
+RSUN_ARC,Solar angular radius
+RSUN_REF,Solar radius. [m] Solar rad. used for calc. px scale
+SETTINGS,Settings
+SLIT_WID,Slit width
 SOLARNET,specifies if an Obs-HDU is fully (1.0) or partially compliant (0.5)
-SOLNETEX
-SVO_GRP
-TDESCn
-TELCONFG
-TEXPOSUR
-TKEYSn
-TPXLSn
-TVARKn
-VAR_KEYS
-VERSION
+SOLAR_B0,Observer latitude
+SOLAR_EP,Ecliptic angle
+SOLAR_P0,Solar angle
+SOLNETEX,SOLARNET exceptions
+SPECSYS,Spectral reference frame
+SVO_GRP,SVO Group
+SVO_SEPn,Separation keywords
+TCTYPn,Table column type
+TDESCn,Table column description
+TDIMn,Table column dimensions
+TELCONFG,Telescope configuration
+TELESCOP,Telescope
+TEXPOSURE,Single exposure time
+TFORMn,Table column format
+TIMESYS,Time system
+TKEYSn,Table keywords
+TPCn_na,Pixel list flag
+TPXLSn,Pixel lists
+TTYPEn,Table column name
+TVARKn,Var keys
+TZEROn,Zero point
+UCD,Unified Content Descriptor
+VAR_KEYS,Variance keys
+VELOSYS,Velocity system
+VERSION,Processed version
 VERS_CAL,version number of calibration pack applied
 VERS_SW,version number of processing software applied
-WAVEBAND
-WAVECOV
+WAVEBAND,Waveband description
+WAVECOV,Wavelength coverage
+WAVELNTH,Characteristic wavelength
 WAVEMAX,the maximum wavelength of the spectral range with units specified in WAVEUNIT
 WAVEMIN,the minimum wavelength of the spectral range with units specified in WAVEUNIT
 WAVEREF,should be set to air or vacuum to signal whether wavelengths are given for air or vacuum
-WGTEXT
-XDIMTYm
-XDIMXTm
+WAVEUNIT,Wavelength unit
+WCSAXES,WCS axes
+WCSNAMEa,WCS name
+WCSNn,WCS name
+WGTEXT,extension weights
+XDIMTYm,Dimension type
+XTIMXTm,Dimension extension
+XPOSURE,Exposure time
+iCRVLn,Reference value
+iCTYPn,Coordinate type
+jCRPXn,Reference pixel

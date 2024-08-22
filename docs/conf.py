@@ -77,21 +77,48 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 
 # -- Generate CSV Files for Docs ---------------------------------------------
+import csv
+import re
 if not os.path.exists("generated"):
     os.mkdir("generated")  # generate the directory before putting things in it
 # Global Attributes to CSV
 
-import csv
+# Some keywords we want to exclude from modifying in the generated documents. 
+# For example, SOLARNET is used both as a keyword and as a project name.
+# exclude_keywords = ["SOLARNET"]
+exclude_keywords = []
+
+
+
 solarnet_keywords = []
 with open('solarnet_keyword_list.csv', newline='') as csvfile:
-    spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+    spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
-        solarnet_keywords.append(row[0].rstrip())
+        kywd = row[0].rstrip()
+        if kywd not in exclude_keywords:
+            solarnet_keywords.append(kywd)
 
 # add index entries to parta
+# Process the input file
 with open('parta.md', 'r') as input_file:
     with open('generated/parta.md', 'w') as output_file:
         whole_file_str = input_file.read()
-        for this_key in solarnet_keywords:
-            whole_file_str = whole_file_str.replace(this_key, "<code>{index}" + f"`{this_key}`</code>")
-        output_file.write(whole_file_str)
+
+        # Function to replace keywords outside of code blocks
+        def replace_keywords(text):
+            for this_key in solarnet_keywords:
+                text = re.sub(rf"`\b{this_key}\b`", f"<code>{{index}}`{this_key}`</code>", text)
+            return text
+
+        # Define a regex pattern to match code blocks
+        code_block_pattern = re.compile(r"(```.*?```)", re.DOTALL)
+        # Split the file into segments using the code block pattern
+        parts = code_block_pattern.split(whole_file_str)
+        # Apply replacements only to non-code block parts
+        for i in range(len(parts)):
+            if not code_block_pattern.match(parts[i]):  # If the part is not a code block
+                parts[i] = replace_keywords(parts[i])
+
+        # Rejoin the parts and write to the output file
+        output_file.write("".join(parts))
+
