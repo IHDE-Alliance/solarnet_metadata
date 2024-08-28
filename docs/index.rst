@@ -33,18 +33,18 @@ Table of Contents
    :numbered:
    
    generated/parta.md
-   appendix-1.md
-   appendix-2.md
-   appendix-3.md
-   appendix-4.md
-   appendix-5.md
-   appendix-6.md
-   appendix-7.md
-   appendix-8.md
-   appendix-9.md
+   generated/appendix-1.md
+   generated/appendix-2.md
+   generated/appendix-3.md
+   generated/appendix-4.md
+   generated/appendix-5.md
+   generated/appendix-6.md
+   generated/appendix-7.md
+   generated/appendix-8.md
+   generated/appendix-9.md
    references
-   partb
-   partc
+   generated/partb
+   generated/partc
    glossary
 
 

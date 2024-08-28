@@ -10,7 +10,7 @@ For a discussion about file names and how to group observational data between or
 
 FITS files may contain one or more Header and Data Units (HDUs) of different types, e.g., primary HDUs, image extensions, and binary table extensions, containing data and a header with metadata stored as keyword-value pairs. Primary HDUs and image extensions are for almost all practical purposes identical: The primary HDU should simply be regarded as “_the first HDU, which must exist and is always an image HDU but is not required to contain any data, just a header”_. Thus, all SOLARNET recommendations applying to an extension HDU also applies to the primary HDU.
 
-This document primarily describes how the SOLARNET recommendations apply when using primary and image HDUs to store observational data, but [Appendix IV](#append-iv) also explains how the recommendations may be applied to observational data stored in binary table extensions. In this context, observational data are data values derived from solar photons recorded by a detector. Other types of data, e.g., temperatures, voltages, atmospheric conditions etc., will be regarded as auxiliary data.
+This document primarily describes how the SOLARNET recommendations apply when using primary and image HDUs to store observational data, but [Appendix IV](#appendix-iv) also explains how the recommendations may be applied to observational data stored in binary table extensions. In this context, observational data are data values derived from solar photons recorded by a detector. Other types of data, e.g., temperatures, voltages, atmospheric conditions etc., will be regarded as auxiliary data.
 
 In this document, HDUs storing observational data will be referred to as Obs-HDUs.
 

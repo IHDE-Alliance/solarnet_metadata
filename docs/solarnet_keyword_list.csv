@@ -10,11 +10,11 @@ BTYPE,describe what the data cube itself represents
 BSCALE,Linear scaling factor
 BUNIT,Units
 BZERO,Scale Base
-CADAVG,[s] Average actual cadence,the average frame-to-frame spacing in seconds
-CADENCE,[s] Planned cadence,the planned/commanded frame-to-frame spacing in seconds
-CADMAX,[s] Maximum actual frame-to-frame spacing,the maximum frame-to-frame spacing in seconds
-CADMIN,[s] Minimum actual frame-to-frame spacing,the minimum frame-to-frame spacing in seconds
-CADVAR,[s] Variance of frame-to-frame spacing,the variance of the frame-to-frame spacing in seconds
+CADAVG,[s] Average actual cadence. the average frame-to-frame spacing in seconds
+CADENCE,[s] Planned cadence. the planned/commanded frame-to-frame spacing in seconds
+CADMAX,[s] Maximum actual frame-to-frame spacing. the maximum frame-to-frame spacing in seconds
+CADMIN,[s] Minimum actual frame-to-frame spacing. the minimum frame-to-frame spacing in seconds
+CADVAR,[s] Variance of frame-to-frame spacing. the variance of the frame-to-frame spacing in seconds
 CAMERA,Name of the camera
 CAMPAIGN,Observation campaign
 CAR_ROT,Carrington rotation
@@ -75,7 +75,7 @@ DQia,Posterior distortion parameter
 DSUN_AU,[AU] Distance from instrument to Sun centre
 DSUN_OBS,Distance to Sun
 DWia,Distortion correction
-ELEV_ANG,[deg] Telescope elevation angle,
+ELEV_ANG,[deg] Telescope elevation angle
 EXTNAME,Extension name
 EXTVER,Extension version
 EXTLEVEL,Extension level
@@ -149,17 +149,17 @@ POLCANGL,Polarimetric angle
 POLCCONV,Polarimetric conversion
 PRBRAna,Branch name
 PRENVn,Processing environment
-PRHSHna,GIT commit hash for PRLIB1A,processing
-PRLIBna,Software library containing PRPROCn,processing
-PRLOGn,log message of PRPROCn,processing
-PRMODEn,processing mode of PRPROCn,processing
+PRHSHna,GIT commit hash for PRLIB1A
+PRLIBna,Software library containing PRPROCn
+PRLOGn,log message of PRPROCn
+PRMODEn,processing mode of PRPROCn
 PROJECT,Name of project
-PRPARAn,list of parameters/options for PRPROCn,processing
-PRPROCn,name of procedure performing processing step n,processing
-PRPVERn,version number of processing procedure PRPROCn,processing
+PRPARAn,list of parameters/options for PRPROCn
+PRPROCn,name of procedure performing processing step n
+PRPVERn,version number of processing procedure PRPROCn
 PRREFn,Factors influencing PRSTEP1
-PRSTEPn,processing step type for step n,processing
-PRVERna,version number of processing procedure PRPROC1,processing
+PRSTEPn,processing step type for step n
+PRVERna,version number of processing procedure PRPROC1
 PTRAna,Linear transformation coefficient A
 PTRBna,Linear transformation constant B
 PUNITna,Parameter unit
