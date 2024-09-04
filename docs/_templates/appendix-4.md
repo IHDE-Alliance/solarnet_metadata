@@ -9,7 +9,7 @@ However, for such quasi-HDUs, column-specific keywords replace general header ke
 
 The column-specific keyword `TTYPEn` is normally used analogously to how `EXTNAME` is used for image extensions, but binary table extensions must also have an `EXTNAME` keyword set according to the rules in Section 2.
 
-The column-specific keywords `TVARKn` replaces `VAR_KEYS`, and `TPXLSn` replaces `PIXLISTS` (see Appendix I and Appendix I-d).
+The column-specific keywords `TVARKn` replaces `VAR_KEYS`, and `TPXLSn` replaces `PIXLISTS` (see [Appendix I](#appendix-i) and [Appendix I-d](#appendix-id)).
 
 The naming conventions for column-specific keywords (starting with `T` and allowing for 3-digit column numbers) leaves only 4 letters to carry meaning, which easily leads to the creation of very awkward column-specific keyword names. To alleviate this problem for keywords that must have different values for different columns, the column-specific keyword `TKEYSn` is introduced, listing pairs of keyword names and values inside a string. The [CONTINUE Long String Keyword Convention](https://fits.gsfc.nasa.gov/registry/continue_keyword.html) may of course be used to improve readability and add comments, e.g.:
 

@@ -20,11 +20,11 @@ By default, FITS string values are limited to 68 characters, but the [CONTINUE L
 
 In order to prevent having to specify keyword information that is common to all HDUs in a file, keyword inheritance may be used according to the [FITS Header Inheritance Convention](https://fits.gsfc.nasa.gov/registry/inherit/fits_inheritance.txt) (see [References](#reference_list)).
 
-This document introduces three new mechanisms that are not part of the FITS standards, but may be useful in fully describing observations: Appendix I explains how to describe keywords that vary as a function of WCS coordinates, Appendix I-d explains how to pin-point and (optionally) associate values to specific pixels/locations inside a data cube, and Appendix III explains how to signal that an HDU is a part of a larger set of HDUs (e.g., a time series) contained in multiple files.
+This document introduces three new mechanisms that are not part of the FITS standards, but may be useful in fully describing observations: [Appendix I](#appendix-i) explains how to describe keywords that vary as a function of WCS coordinates, [Appendix I-d](#appendix-id) explains how to pin-point and (optionally) associate values to specific pixels/locations inside a data cube, and [Appendix III](#appendix-iii) explains how to signal that an HDU is a part of a larger set of HDUs (e.g., a time series) contained in multiple files.
 
 ### Naming of HDUs in SOLARNET FITS files
 
-All HDUs – including the primary HDU – in SOLARNET FITS files _must_ contain the string-valued keyword `EXTNAME`, and each `EXTNAME` value must be unique within the file[^footnote-2]. `EXTNAME` must not contain the characters comma or semicolon except as prescribed for the variable-keyword mechanism ([Appendix I](#appendix-i)), the pixel list mechanism (Appendix I-d) and the meta-observation mechanism (Appendix III). In addition, `EXTNAME` must not start with a space, but any trailing spaces are ignored. Finally, the CONTINUE Long String Keyword Convention must not be used with `EXTNAME`, since this is a reserved keyword defined in the FITS standard.
+All HDUs – including the primary HDU – in SOLARNET FITS files _must_ contain the string-valued keyword `EXTNAME`, and each `EXTNAME` value must be unique within the file[^footnote-2]. `EXTNAME` must not contain the characters comma or semicolon except as prescribed for the variable-keyword mechanism ([Appendix I](#appendix-i)), the pixel list mechanism ([Appendix I-d](#appendix-id)) and the meta-observation mechanism ([Appendix III](#appendix-iii)). In addition, `EXTNAME` must not start with a space, but any trailing spaces are ignored. Finally, the CONTINUE Long String Keyword Convention must not be used with `EXTNAME`, since this is a reserved keyword defined in the FITS standard.
 
 [^footnote-2]: There is one exception to the SOLARNET rule requiring unique `EXTNAME`s: As per the official FITS WCS mechanism for `Lookup` coordinate distortions, all extensions containing lookup tables must have `EXTNAME``=WCSDVARR`. These extensions must instead be distinguished by having different values of the seldom used FITS Standard `EXTVER` keyword.
 
@@ -56,9 +56,9 @@ Both fully and partially SOLARNET-compliant Obs_HDUs _must_ have `OBS_HDU``=1`.
 
 ### Other HDUs
 
-Other HDUs in the same file as an Obs-HDU may be used to store additional data that is required to describe the observations, to allow instrument-specific utilities to function correctly, to interpret the data correctly, or to enable further calibrations to be made. Specific cases of such HDUs are variable-keyword HDUs (Appendix I), pixel list HDUs (Appendix I-d) and Meta-HDUs (Appendix III).
+Other HDUs in the same file as an Obs-HDU may be used to store additional data that is required to describe the observations, to allow instrument-specific utilities to function correctly, to interpret the data correctly, or to enable further calibrations to be made. Specific cases of such HDUs are variable-keyword HDUs ([Appendix I](#appendix-i)), pixel list HDUs ([Appendix I-d](#appendix-id)) and Meta-HDUs ([Appendix III](#appendix-iii)).
 
-Obs-HDUs that are neither fully nor partially SOLARNET-compliant may use the mechanisms described in 0, Appendix I-d or Appendix III, if they have `SOLARNET=-1`. In fact, the HDUs described in these appendices may themselves use these mechanisms, if they have `SOLARNET=-1`.
+Obs-HDUs that are neither fully nor partially SOLARNET-compliant may use the mechanisms described in 0, [Appendix I-d](#appendix-id) or [Appendix III](#appendix-iii), if they have `SOLARNET``=-1`. In fact, the HDUs described in these appendices may themselves use these mechanisms, if they have `SOLARNET``=-1`.
 
 ### Comments
 
@@ -121,7 +121,7 @@ For rotating FOVs in a time series, the table lookup algorithm for coordinates (
 
 For observations (instruments) where the plate scale/pointing is derived from measurements of the apparent solar radius versus the physical size, the keywords `RSUN_REF` should be used to report the reference value for the physical radius used in the calculations (see Thompson 2010, Section 8).
 
-For descriptions of distortions of coordinates in complex data sets, e.g., cavity errors, see Appendix VI.
+For descriptions of distortions of coordinates in complex data sets, e.g., cavity errors, see [Appendix VI](#appendix-vi).
 
 ### WCS positional keywords and relative radial velocity
 
@@ -177,7 +177,7 @@ The exposure time used in the acquisition of an Obs-HDU should be given in the k
 
 When the data are a result of multiple summed exposures with identical exposure times, the keywords `NSUMEXP` and `TEXPOSUR` can be used to indicate the number of summed exposures and the single-exposure time, respectively.
 
-When the `XPOSURE` or `TEXPOSUR` values vary as a function of time or any other of the Obs-HDU’s dimension(s), the variable-keyword mechanism can be used to specify their exact values as a function of those dimensions (see Appendix I for further details). This would typically be the case when Automatic Exposure Control is used - both `XPOSURE` and `TEXPOSUR` could vary as a function of time.
+When the `XPOSURE` or `TEXPOSUR` values vary as a function of time or any other of the Obs-HDU’s dimension(s), the variable-keyword mechanism can be used to specify their exact values as a function of those dimensions (see [Appendix I](#appendix-i) for further details). This would typically be the case when Automatic Exposure Control is used - both `XPOSURE` and `TEXPOSUR` could vary as a function of time.
 
 Note that if the data has been binned, the `XPOSURE` keyword should reflect the _physical_ exposure time, not the sum of exposure times of the binned pixels. Binning should be specified by the keywords `NBINj`, where `j` is the dimension number (analogous to the `NAXISj` keywords). E.g., for an observational data cube with dimensions `(x,y,lambda,t)` where 2x2 binning has been performed in the `y` and `lambda` directions (as is sometimes done with slit spectrometers), `NBIN2` and `NBIN3` should be set to 2. The default value for `NBINj` is 1, so `NBIN1` and `NBIN4` may be left unspecified.
 
@@ -185,7 +185,7 @@ In order to provide a simple way to determine the combined binning factor (for a
 
 ### Cadence
 
-Cadence may be a very important search term. A meta-Obs-HDU may be used to report such attributes even if it is impossible to do so in the constituent HDUs (Appendix III).
+Cadence may be a very important search term. A meta-Obs-HDU may be used to report such attributes even if it is impossible to do so in the constituent HDUs ([Appendix III](#appendix-iii)).
 
 The planned/commanded cadence (frame-to-frame spacing measured in seconds) should be reported in `CADENCE`. The average (actual) cadence should be reported in `CADAVG`.
 
@@ -213,7 +213,7 @@ In addition, the keyword `WAVEBAND` may be used for a human-readable description
 
 For radio observations, `BNDCTR` may be used instead of `WAVELNTH` to specify a corresponding frequency in Hz.
 
-For filter observations where a more thorough specification of the response curve is required for a proper analysis or for search purposes, the variable keyword `RESPONSE` may be used – see Appendix I.
+For filter observations where a more thorough specification of the response curve is required for a proper analysis or for search purposes, the variable keyword `RESPONSE` may be used – see [Appendix I](#appendix-i).
 
 The `RESPONSE` keyword should also be used for spectrometers where there are significant variations in the response across the dataset.
 
@@ -231,7 +231,7 @@ If the polarimetric reference frame is not aligned with any set of WCS coordinat
 
 ### Quality aspects
 
-Many quality aspects of ground-based observations change rapidly, even from one exposure to the next. Keywords that describe such quality aspects must therefore often use the variable-keyword mechanism to specify the time evolution of such values, see Appendix I. This mechanism may be used to specify quality-related values for single exposures, average or effective values for composite images, while also allowing an average or effective scalar value to be given in the header.
+Many quality aspects of ground-based observations change rapidly, even from one exposure to the next. Keywords that describe such quality aspects must therefore often use the variable-keyword mechanism to specify the time evolution of such values, see [Appendix I](#appendix-i). This mechanism may be used to specify quality-related values for single exposures, average or effective values for composite images, while also allowing an average or effective scalar value to be given in the header.
 
 Until now, there has been little effort in order to characterise quality aspects of ground-based observations in a manner that is _consistent_ between different telescopes, and even between different setups at the same telescope. In FITS files from ESO (European Southern Observatory), the keyword `PSF_FWHM` is used to give the full width at half maximum in arc seconds for the point spread function. However, this quantity is generally not available for solar observations. Some adaptive optics systems, however, may record parameters like the atmospheric coherence length r<sub>0</sub>. If available, the value of r<sub>0</sub> should be stored in the keyword `ATMOS_R0`. Since there are multiple ways of measuring this value, its only use should be to reflect the quality of the observing conditions whenever the measurements are performed in the same (or similar enough) way.
 
@@ -317,7 +317,7 @@ It is strongly recommended that this naming pattern is followed whenever there i
 
 Bad pixels may be handled in one of three ways: they can be left untouched, they can be filled with the value of `BLANK` (integer-valued HDUs) or _NaN_ (floating-point-valued HDUs), or they can be filled in with estimated values.
 
-For some purposes, it may be useful to keep lists of individual bad pixels or ranges of bad pixels using the pixel list mechanism, see Appendix I-d. This is especially important when the pixels have been filled in with estimated values, storing the original values in the pixel list. Pixel lists that flag individual lost, approximated, saturated, spike or masked pixels, should have `EXTNAME`s equal to `LOSTPIXLIST`, `APRXPIXLIST`, `SATPIXLIST`, `SPIKPIXLIST`, or `MASKPIXLIST` respectively. Original values (when appropriate) should be given in the pixel list’s attribute column with `TTYPEn``='ORIGINAL'` – see Appendix I-d. for details. For cosmic ray/spike detection, a confidence level (between 0.0 and 1.0) may also be given in an attribute column with `TTYPEn``='CONFIDENCE'`. In order to ensure unique `EXTNAME`s for pixel lists belonging to different Obs-HDUs, the pixel list `EXTNAME`s may have a trailing “tag”, see Appendix I-d. Pixel lists with other `EXTNAME`s than `LOSTPIXLIST` etc. may of course be used for other purposes, e.g., storing the pixel indices and classification of sunspots, the latter stored as a string valued attribute.
+For some purposes, it may be useful to keep lists of individual bad pixels or ranges of bad pixels using the pixel list mechanism, see [Appendix I-d](#appendix-id). This is especially important when the pixels have been filled in with estimated values, storing the original values in the pixel list. Pixel lists that flag individual lost, approximated, saturated, spike or masked pixels, should have `EXTNAME`s equal to `LOSTPIXLIST`, `APRXPIXLIST`, `SATPIXLIST`, `SPIKPIXLIST`, or `MASKPIXLIST` respectively. Original values (when appropriate) should be given in the pixel list’s attribute column with `TTYPEn``='ORIGINAL'` – see [Appendix I-d](#appendix-id). for details. For cosmic ray/spike detection, a confidence level (between 0.0 and 1.0) may also be given in an attribute column with `TTYPEn``='CONFIDENCE'`. In order to ensure unique `EXTNAME`s for pixel lists belonging to different Obs-HDUs, the pixel list `EXTNAME`s may have a trailing “tag”, see [Appendix I-d](#appendix-id). Pixel lists with other `EXTNAME`s than `LOSTPIXLIST` etc. may of course be used for other purposes, e.g., storing the pixel indices and classification of sunspots, the latter stored as a string valued attribute.
 
 ## Metadata about affiliation, origin, acquisition, etc
 
@@ -628,7 +628,7 @@ For some data sets, it may be desirable to include information about how the cal
 
 ## Integrity and administrative information
 
-The `DATASUM` and `CHECKSUM` keywords (see the [Checksum Keyword Convention](http://fits.gsfc.nasa.gov/registry/checksum.html)) should be set in all HDUs to allow a check on whether the data file has been modified from the original or has become corrupted. However, their values in a Meta-HDU (see Appendix III) will be recomputed when constituent HDUs have been combined into a single HDU (after checking the constituent HDUs `DATASUM` and `CHECKSUM`).
+The `DATASUM` and `CHECKSUM` keywords (see the [Checksum Keyword Convention](http://fits.gsfc.nasa.gov/registry/checksum.html)) should be set in all HDUs to allow a check on whether the data file has been modified from the original or has become corrupted. However, their values in a Meta-HDU (see [Appendix III](#appendix-iii)) will be recomputed when constituent HDUs have been combined into a single HDU (after checking the constituent HDUs `DATASUM` and `CHECKSUM`).
 
 `INFO_URL` should point to a human-readable web page describing “everything” about the data set: what it is, how to use it, links to e.g., user guides, instrument/site/telescope descriptions, descriptions of caveats, information about data rights, preferred acknowledgements, whom to contact if you have questions, and repositories of observing/engineering logs.
 
@@ -642,6 +642,6 @@ Proprietary data should be marked by setting the keyword `RELEASE` to the date a
 
 ## Reporting of events detected by the pipeline/spacecraft
 
-If the pipeline uses event/feature detection algorithms that will only work on the raw data, not the final pipeline product, detected events/features should be reported in pixel lists (see Appendix I-d). If possible, events that are detected during acquisition of the data but are not detectable in the acquired data should also be reported (e.g., on-board-detected events in spacecraft).
+If the pipeline uses event/feature detection algorithms that will only work on the raw data, not the final pipeline product, detected events/features should be reported in pixel lists (see [Appendix I-d](#appendix-id)). If possible, events that are detected during acquisition of the data but are not detectable in the acquired data should also be reported (e.g., on-board-detected events in spacecraft).
 
 When possible, such events/features should also be reported to relevant registries following the appropriate standards (e.g., VOEvents).

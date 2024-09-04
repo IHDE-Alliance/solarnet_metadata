@@ -57,7 +57,7 @@ To ensure that the result of the analysis can be interpreted correctly, the full
 
 `ANA_NCMP` must be set to the number of components used in the analysis.
 
-The `CTYPEi` of the parameter dimension must be `'PARAMETER'`. Note that the Meta-HDU mechanism (Appendix III) may be used to split Type P data over multiple files along this dimension, so e.g., parameters from each component are stored in separate files. In such cases, all HDUs should contain a full complement of all keywords defined here (including those describing components whose parameters are not present in the file).
+The `CTYPEi` of the parameter dimension must be `'PARAMETER'`. Note that the Meta-HDU mechanism ([Appendix III](#appendix-iii)) may be used to split Type P data over multiple files along this dimension, so e.g., parameters from each component are stored in separate files. In such cases, all HDUs should contain a full complement of all keywords defined here (including those describing components whose parameters are not present in the file).
 
 **Mandatory keywords describing each component**
 
@@ -147,7 +147,7 @@ To allow full manual inspection, verification, and modification of the analysis 
 
 In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Type P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU=2` as these are also “type P” data). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
 
-For these auxiliary extensions, it may be worth considering the “external extensions” mechanism, see Appendix VII.
+For these auxiliary extensions, it may be worth considering the “external extensions” mechanism, see [Appendix VII](#appendix-vii).
 
 At the time of writing, the SPICE Level 3P pipeline is not yet set in stone, and no Level 3P data has been delivered to the Solar Orbiter archive, thus there is no lock-in of the definitions yet. Please inform us by creating an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues) if you implement this mechanism.
 

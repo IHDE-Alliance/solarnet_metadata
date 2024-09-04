@@ -26,7 +26,7 @@ DATEREF = '2020-12-24T00:00:00' / Time coordinate zero point
 
 The keywords listed in this section are mandatory for fully SOLARNET-compliant Obs-HDUs. However, most keywords are only “conditionally mandatory”, depending on the data content, which mechanisms have been used, instrument type, etc.
 
-### Mandatory general keywords (Sections 8, 9, and Appendix V-a)
+### Mandatory general keywords (Sections 8, 9, and [Appendix V-a](#appendix-va))
 
 ```
 FILENAME= 'sleep_a_zen_l2_20201224_170000.1_balanced.fits'
@@ -192,7 +192,7 @@ POLCCONV= '(+HPLT,-HPLN,+HPRZ)' / Reference system for Stokes vectors
 POLCANGL= 45.5 / [deg] Counter-clockwise rotation around +HPRZ axis
 ```
 
-### Mandatory keyword for grouping (Sections 7 and Appendix V-b )
+### Mandatory keyword for grouping (Sections 7 and [Appendix V-b](#appendix-vb) )
 
 ```
 POINT_ID= '20201224_165812_200'/ Unique (re-)pointing ID
@@ -210,9 +210,9 @@ Note that _none_ of the keywords that are mandatory for a given HDU may have con
 
 [^footnote-17]: If some existing utility requires a different definition of a mandatory keyword, we recommend that the value for the non-SOLARNET definition be given in a new keyword, and that the software be modified.
 
-## Mandatory keywords for all HDUs that uses any of the variable-keyword, pixel list or meta-observation mechanism (Sections 2.1, 2.2, 2.3, Appendix I, Appendix II, and Appendix III)
+## Mandatory keywords for all HDUs that uses any of the variable-keyword, pixel list or meta-observation mechanism (Sections 2.1, 2.2, 2.3, [Appendix I](#appendix-i), [Appendix II](#appendix-ii), and [Appendix III](#appendix-iii))
 
-Any HDU using one of these mechanisms must have `SOLARNET` set to a non-zero value, even non-Obs-HDUs (which should use a value of -1). In addition, `EXTNAME` must be set according to the guidelines in Section 2. Finally, the respective `VAR_KEYS`, `PIXLISTS` or `METADIM`/`METAFILS` must be set – see Appendix I, Appendix I-d and Appendix III for details.
+Any HDU using one of these mechanisms must have `SOLARNET` set to a non-zero value, even non-Obs-HDUs (which should use a value of -1). In addition, `EXTNAME` must be set according to the guidelines in Section 2. Finally, the respective `VAR_KEYS`, `PIXLISTS` or `METADIM`/`METAFILS` must be set – see [Appendix I](#appendix-i), [Appendix I-d](#appendix-id) and [Appendix III](#appendix-iii) for details.
 
 ```
 SOLARNET = -1.0 / SOLARNET mechanisms may be used
@@ -227,7 +227,7 @@ CONTINUE 'sleep_a_zun_l2_20201224_170112.8_balanced.fits, &'
 CONTINUE '' / All files in Meta-obs
 ```
 
-### Mandatory keyword for binary table extension value columns that use pixel-to-pixel association (Appendix I-b)
+### Mandatory keyword for binary table extension value columns that use pixel-to-pixel association ([Appendix I-b](#appendix-ib))
 
 The value of `WCSNn` must start with `“PIXEL-TO-PIXEL”` to signal that a direct pixel-to-pixel association applies:
 
@@ -235,7 +235,7 @@ The value of `WCSNn` must start with `“PIXEL-TO-PIXEL”` to signal that a dir
 WCSN5 = 'PIXEL-TO-PIXEL' / Column 5 uses pixel-to-pixel association
 ```
 
-### Mandatory keywords for binary table extensions that use the SOLARNET pixel lists mechanism for flagging pixels (Appendix I-d)
+### Mandatory keywords for binary table extensions that use the SOLARNET pixel lists mechanism for flagging pixels ([Appendix I-d](#appendix-id))
 
 Binary table columns storing pixel indices must have `TCTYPn` equal to `'PIXEL'` and `TTYPEn` equal to `'DIMENSIONk'`, where k is the dimension number in the referring HDU’s data cube. The column storing pixel types must have `TTYPEn` equal to `'PIXTYPE'`. Any attribute columns must have `TTYPEn` equal to the name of the attached attribute contained in that column. E.g.:
 
@@ -433,7 +433,7 @@ SVO_GRP = 'R_SMALL_HRES_MCAD_Polar-Observations' / SVO group
 MOSAICID= '10023b_2' / Mosaic ID
 ```
 
-### Optional keyword for binary table extensions using the variable-keyword, pixel list or meta-observation mechanism (Appendix I, Appendix I-d and Appendix III)
+### Optional keyword for binary table extensions using the variable-keyword, pixel list or meta-observation mechanism ([Appendix I](#appendix-i), [Appendix I-d](#appendix-id) and [Appendix III](#appendix-iii))
 
 `TDESCn` may be used to give a description of the contents of the binary table column.
 

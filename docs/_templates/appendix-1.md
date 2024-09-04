@@ -3,7 +3,7 @@
 
 In many cases, auxiliary data such as detector temperatures, atmospheric conditions, variable exposure times, or adaptive optics performance is recorded alongside the observations. In some cases, other kinds of information such as the instrument response as a function of wavelength or a collection of instrument temperatures may be significant for correct interpretation of the data. In these cases, the variable-keyword mechanism described below can be used to link the observational data and the auxiliary data together. It can also be used to define array-valued keywords.
 
-Since this mechanism may be used by any HDU with a non-zero `SOLARNET` keyword, we will from now on simply use the term “referring HDU” for an HDU that uses this mechanism. The actual values of a variable keyword are most commonly stored in a binary table column (called “value columns” in the description below), but image extensions may also be used (see Appendix I-d). A specification of binary table extensions can be found in Cotton et al. 1995.
+Since this mechanism may be used by any HDU with a non-zero `SOLARNET` keyword, we will from now on simply use the term “referring HDU” for an HDU that uses this mechanism. The actual values of a variable keyword are most commonly stored in a binary table column (called “value columns” in the description below), but image extensions may also be used (see [Appendix I-d](#appendix-id)). A specification of binary table extensions can be found in Cotton et al. 1995.
 
 To use this mechanism, the referring HDU must contain the keyword `VAR_KEYS` declaring the `EXTNAME` of the binary table extension containing the value followed by a semicolon, and then a comma-separated list of the variable keywords.
 
@@ -44,9 +44,9 @@ EXTNAME = 'VAR-EXT-2' / Variable keyword binary table extension name
 TTYPE1 = 'KEYWD_3' / Column 1 contains variable KEYWD_3 values
 ```
 
-There are two ways in which the values of the variable keyword data cube may be associated with the data cube in the referring HDU: association by coordinates (Appendix I-a) and pixel-to-pixel association (Appendix I-b).
+There are two ways in which the values of the variable keyword data cube may be associated with the data cube in the referring HDU: association by coordinates ([Appendix I-a](#appendix-ia)) and pixel-to-pixel association ([Appendix I-b](#appendix-ib)).
 
-The mechanism described here may also be used to store a set of values that do _not_ vary as a function of any coordinate or dimension of the referring HDU. Such constant, multi-valued keywords are described in Appendix I-d.
+The mechanism described here may also be used to store a set of values that do _not_ vary as a function of any coordinate or dimension of the referring HDU. Such constant, multi-valued keywords are described in [Appendix I-d](#appendix-id).
 
 In all the examples below, the referring HDU is an image sequence with coordinates and dimensions `[x,y,t]=[HPLN-TAN, HPLT-TAN, UTC]=[512,512,60]`, with a header containing the following entries relevant to the examples in this appendix (note the formatting of `VAR_KEYS` for readability – spaces are ignored in the interpretation of the keyword):
 
@@ -97,7 +97,7 @@ As we can see, the value of `1CTYP5` is identical to the value of `CTYPE3` in th
 
 Now, in order to find the value of `ATMOS_R0` for a given point in the referring data cube, the time corresponding to that point must be calculated. A reverse calculation is done for the value column to locate the point where its time coordinate has the same value. Then, the `ATMOS_R0` value can be extracted from that point in the value column (using linear interpolation as specified in the FITS standard).
 
-Note that the zero point for the time coordinate (`DATEREF`) _must_ be given for both extensions when one of the specified coordinates are `UTC`, and it applies to all columns with a `UTC` coordinate. Thus, if two value columns have different starting points, the relevant `iCRVLn` and/or `jCRPXn` values must be adjusted accordingly. This issue does not arise if the keyword values are stored as separate image extensions, see Appendix I-d.
+Note that the zero point for the time coordinate (`DATEREF`) _must_ be given for both extensions when one of the specified coordinates are `UTC`, and it applies to all columns with a `UTC` coordinate. Thus, if two value columns have different starting points, the relevant `iCRVLn` and/or `jCRPXn` values must be adjusted accordingly. This issue does not arise if the keyword values are stored as separate image extensions, see [Appendix I-d](#appendix-id).
 
 If multiple values must be associated with each image, the value column would have one or more additional dimensions. The values for a given image would then be all values in the value column with a time coordinate matching that of the image. Such a scenario might arise if e.g., multiple temperatures inside the instrument is being recorded.
 
@@ -122,7 +122,7 @@ In order to signal such an exact pixel-to-pixel association, the `WCSNn` keyword
 
 **_Example 4 – Variable keyword with pixel-to-pixel association_**
 
-If the `ATMOS_R0` values from Example 1 in Appendix I-a had been recorded in sync with the 60 images, i.e., a single `ATMOS_R0` value is recorded for each image, the binary table extension might instead contain the following entries:
+If the `ATMOS_R0` values from Example 1 in [Appendix I-a](#appendix-ia) had been recorded in sync with the 60 images, i.e., a single `ATMOS_R0` value is recorded for each image, the binary table extension might instead contain the following entries:
 
 ```
 EXTNAME = 'MEASUREMENTS' / Extension name of binary table extension

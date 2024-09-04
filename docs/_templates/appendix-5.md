@@ -29,7 +29,7 @@ The names of files containing different observations _must_ be unique – i.e., 
 (appendix-vb)=
 ## Appendix V-b.	Storing data in a single file or in separate files
 
-From an SVO point of view, _each Obs-HDU represents a single “observation unit”_ that may be registered separately. Thus, the choice of putting such observation units into separate files or not does not matter to an SVO in terms of searchability, but it does matter in terms of the file sizes of data that may be served. However, the meta-observation mechanism may be used to circumvent this issue (see Appendix III).
+From an SVO point of view, _each Obs-HDU represents a single “observation unit”_ that may be registered separately. Thus, the choice of putting such observation units into separate files or not does not matter to an SVO in terms of searchability, but it does matter in terms of the file sizes of data that may be served. However, the meta-observation mechanism may be used to circumvent this issue (see [Appendix III](#appendix-iii)).
 
 However, some “typical use” aspects should still be considered – including how most existing utilities [^footnote-10] interact with observations of a particular type:
 
@@ -92,7 +92,7 @@ As with the guidelines for keeping data in single or multiple files, some “typ
 
 **Examples and arguments in favour of separate HDUs:**
 
-- Observation units stored in separate files according to the guidelines Appendix V-b are of course stored as separate HDUs.
+- Observation units stored in separate files according to the guidelines [Appendix V-b](#appendix-vb) are of course stored as separate HDUs.
 - If the readout of a spectrometer has gaps (i.e., only small portions of the spectrum are extracted, in “wavelength/readout windows”), the different wavelength windows should in general _not_ be stored in a single HDU, since that would falsely indicate to an inexperienced user that the observation unit covers the entire spectrum between the minimum and maximum wavelengths. (It is of course _possible_ to store such readout windows in a single HDU, but then one would need to use a tabulated coordinate along the “gap dimension”).
 - Some observation series are made with alternating long and short exposure times. These should _not_ be collected in a single Obs-HDU, because of the resulting difficulty in describing the exposure time [^footnote-15] as well as the complexity that would be required in utilities in order to handle/display such data correctly. Instead, the data should be separated into one HDU with long exposures and one HDU with short exposures.
 - Data that are often displayed side by side, such as images in different filters should be split into separate HDUs.

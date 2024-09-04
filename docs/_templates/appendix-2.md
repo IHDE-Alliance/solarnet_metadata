@@ -25,7 +25,7 @@ As a special case, the `PIXTYPE` column may be omitted if only single pixels are
 
 To establish the connection between the referring HDU and a pixel list, the referring HDU must contain the keyword `PIXLISTS`. `PIXLISTS` must declare the `EXTNAME` of the extension containing the pixel list, followed by a semicolon, then a comma-separated list of any pixel attribute names. When multiple pixel lists are used, this is signalled by adding a comma, the `EXTNAME` of the next pixel list extension followed by a semicolon, etc. Note that even when a pixel list does not contain any attributes, a comma is needed before the `EXTNAME` of any subsequent pixel list.
 
-The `EXTNAME` of pixel lists may carry a meaning within the SOLARNET framework (e.g., `LOSTPIXLIST`, see Section 5.6.2). But if a pixel list `EXTNAME` ends with a “tag” (see Appendix I), this does not change its meaning. Thus, such tags may be used to distinguish between different extensions containing pixel lists of the same type/meaning for different referring HDUs. Multiple referring HDUs may refer to the same pixel list, even if it has a tag.
+The `EXTNAME` of pixel lists may carry a meaning within the SOLARNET framework (e.g., `LOSTPIXLIST`, see Section 5.6.2). But if a pixel list `EXTNAME` ends with a “tag” (see [Appendix I](#appendix-i)), this does not change its meaning. Thus, such tags may be used to distinguish between different extensions containing pixel lists of the same type/meaning for different referring HDUs. Multiple referring HDUs may refer to the same pixel list, even if it has a tag.
 
 As an example, in order to refer to all types of pixel lists mentioned in Section 5.6.2, the _referring HDU_'s `PIXLISTS` could contain the following:
 
