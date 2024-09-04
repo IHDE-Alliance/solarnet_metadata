@@ -8,27 +8,27 @@ Below we describe a recommended scheme for storing such results, comprehensive e
 For a typical SPICE Level 2 data cube with dimensions `[x,y,lambda,t] = [400,400,32,100]`, fitting of a single Gaussian plus a zero-order polynomial is made for every `(x,y,t)` position. The final result is a data cube `[x,y,t,p] = [400,400,100,5]` where
 
 - `(x,y,t,1)` is the fitted line peak intensity, {math}`I_0`
-- `(x,y,t,2)` is the fitted line center {math}`\lambda_c`!
+- `(x,y,t,2)` is the fitted line center {math}`\lambda_c`
 - `(x,y,t,3)` is the fitted line width {math}`w`
 - `(x,y,t,4)` is the fitted constant background {math}`a_0` (in a zeroth-order polynomial)
 - `(x,y,t,5)` is the {math}`\chi^2` value from the fit
 
-Thus, such SPICE Level 3P data are the best fitting parameters {math}`(\lambda,I_0,\lambda_c,w,a_0)` for the function:
+Thus, such SPICE Level 3P data are the best fitting parameters {math}`(\lambda;I_0,\lambda_c,w,a_0)` for the function:
 
 ```{math}
-F(\lambda,I_0,\lambda_p,w,a_0)=Gaussian(\lambda,I_0,\lambda_c,w) + Polynomial(\lambda,a_0)
+F(\lambda;I_0,\lambda_p,w,a_0)=Gaussian(\lambda;I_0,\lambda_c,w) + Polynomial(\lambda;a_0)
 ```
 for each point `(x,y,t)`.
 
-For readout windows with multiple significant emission lines, multiple Gaussians are used. When e.g., two Gaussians are used, the Level 3P data will be the best-fitting parameters {math}`(I_{p_1},\lambda_{p_1},w_1,I_{0_2},\lambda_{p_2}, w_2, a_0)` of the function:
+For readout windows with multiple significant emission lines, multiple Gaussians are used. When e.g., two Gaussians are used, the Level 3P data will be the best-fitting parameters {math}`(I_{0_1},\lambda_{p_1},w_1,I_{0_2},\lambda_{p_2}, w_2, a_0)` of the function:
 
 ```{math}
-F(\lambda,I_{0_1},\lambda_{c_1},w_1,I_{0_2},\lambda_{c_2}, w_2, a_0)=Gaussian(\lambda;I_{0_1},\lambda_{c_1},w_1) + Gaussian(\lambda,I_{0_2},\lambda_{c_2},w_2) + Polynomial(\lambda,a_0)
+F(\lambda;I_{0_1},\lambda_{c_1},w_1,I_{0_2},\lambda_{c_2}, w_2, a_0)=Gaussian(\lambda;I_{0_1},\lambda_{c_1},w_1) + Gaussian(\lambda;I_{0_2},\lambda_{c_2},w_2) + Polynomial(\lambda;a_0)
 ```
 
 for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1…3)` is  {math}`(I_{0_1},\lambda_{p_1},w_1)`, `(x,y,t,4..6)` is {math}`(I_{0_2},\lambda_{p_2},w_2)`, `(x,y,t,7)` is {math}`a_0`, and `(x,y,t,8)` is the {math}`\chi^2` value from the fit.
 
-Generally, for _n_ Gaussians and a constant background, the size of the parameter dimension would be 3n+1+1. For n Gaussians and a linear background, the size would be 3n+2+1 because the last component would be {math}`Polynomial(\lambda,a_0,a_1) = a_0 + a_1\lambda`. Additional components may be defined, e.g., Voigt profiles and instrument-specific components (broadened Gauss profiles for SOHO/CDS).
+Generally, for _n_ Gaussians and a constant background, the size of the parameter dimension would be 3n+1+1. For n Gaussians and a linear background, the size would be 3n+2+1 because the last component would be {math}`Polynomial(\lambda;a_0,a_1) = a_0 + a_1\lambda`. Additional components may be defined, e.g., Voigt profiles and instrument-specific components (broadened Gauss profiles for SOHO/CDS).
 
 Since the lambda coordinates for `(x,y,*,t)` are passed to the fitting function together with the corresponding data points, we refer to the lambda dimension as a “fitting dimension”, whereas dimensions `x`, `y`, and `t` are referred to as “result dimensions”. In principle, both the fitting dimensions and the result dimensions may be entirely different and in a completely different order for other types of data (e.g., a `STOKES` dimension may be included).
 
@@ -38,7 +38,7 @@ In general, the scheme can be used to store data analysis results from fitting o
 the form:
 
 ```{math}
-F(\lambda,\mathbf{p}) = \left( ((f_1(\lambda, \mathbf{p_1}) + f_2(\lambda, \mathbf{p_2}) + \cdots ) \cdot f_j(\lambda; \mathbf{p_j}) + \cdots \right) \cdot f_x(\lambda; \mathbf{p_x}) + \cdots
+F(\lambda;\mathbf{p}) = \left( ((f_1(\lambda;\mathbf{p_1}) + f_2(\lambda;\mathbf{p_2}) + \cdots ) \cdot f_j(\lambda;\mathbf{p_j}) + \cdots \right) \cdot f_x(\lambda;\mathbf{p_x}) + \cdots
 ```
 
 where {math}`f_n` are individual components, {math}`p_n` are their parameters, and {math}`p` is the aggregation of all parameters, by {math}`\chi^2` minimization of:
@@ -49,11 +49,11 @@ where {math}`f_n` are individual components, {math}`p_n` are their parameters, a
 
 where {math}`W(\lambda)` is the statistical weight of each pixel (typically {math}`1/\sigma^2` ) and {math}`y(\lambda)` is the original data. The bold font for {math}`\mathbf{p}` and {math}`\mathbf{p_n}` indicates vectors of parameters, distinguishing them from individual parameters in non-bold font.
 
-To ensure that the result of the analysis can be interpreted correctly, the full definition of {math}`F(\lambda,\mathbf{p})` and its parameters must be specified in the header of the extension containing the result, using the following keywords:
+To ensure that the result of the analysis can be interpreted correctly, the full definition of {math}`F(\lambda;\mathbf{p})` and its parameters must be specified in the header of the extension containing the result, using the following keywords:
 
 **Mandatory general keywords for HDUs with SOLARNET Type P data**
 
-`SOLARNET` must be set to either `0.5` or `1`, and `OBS_HDU``=2` _(not 1!)_ signals that the HDU contains SOLARNET Type P data.
+`SOLARNET` must be set to either `0.5` or `1`, and `OBS_HDU``=2` _(not `1`!)_ signals that the HDU contains SOLARNET Type P data.
 
 `ANA_NCMP` must be set to the number of components used in the analysis.
 

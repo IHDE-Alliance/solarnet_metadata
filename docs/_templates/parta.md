@@ -85,7 +85,7 @@ All keywords described in this Section are defined by the FITS Standard and Pape
 As a reference, the most commonly used conversion from the set of pixel indices _(p<sub>1</sub>, p<sub>2</sub> p<sub>3,</sub> … p<sub>N</sub>)_ to a physical WCS coordinate is given by the following formula:
 
 ```{math}
-c_i(p_1,...,p_N)=CRVAL{i} + CDELT{i}\sum_{j=1}^{N}PC{i}_{j}(p_j-CRPIXj)
+c_i(p_1,p_2,p_3,...,p_N)=CRVAL{i} + CDELT{i}\sum_{j=1}^{N}PC{i\_j}(p_j-CRPIXj)
 ```
 
 Thus, to calculate the physical (world) coordinates at any point within the data cube, the following entities are involved:
