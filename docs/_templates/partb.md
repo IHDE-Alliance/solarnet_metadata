@@ -80,9 +80,9 @@ DSUN_OBS= 88981577950.3 / \[m\] Distance from instrument to Sun centre
 
 ### Mandatory data description keywords (Sections 5.1, 5.2 and 5.6.2)
 
-The `BTYPE` keyword should contain either a UCD description of the data contents, or a more human readable description[^footnote-17]:
+The `BTYPE` keyword should contain either a UCD description of the data contents, or a more human readable description[^footnote-16]:
 
-[^footnote-17]:
+[^footnote-16]: For simulated data and simulated observations, `BTYPE` can be a plot axis description as in published Bifrost FITS files, with a further description given in `BNAME`, see Sections 5.1 and 15.1 of [S-META-SIM].
 
 ```
 BTYPE = 'phot.radiance;em.UV' / Unified Content Descriptors v1.23
@@ -206,9 +206,9 @@ If a SOLARNET HDU contains SOLARNET keywords with definitions that are in confli
 SOLNETEX= 'PLANNER, ATMOS_R0' / Exception: kws with conflicting definitions
 ```
 
-Note that _none_ of the keywords that are mandatory for a given HDU may have conflicting definitions [^footnote-18].
+Note that _none_ of the keywords that are mandatory for a given HDU may have conflicting definitions [^footnote-17].
 
-[^footnote-18]:
+[^footnote-17]: If some existing utility requires a different definition of a mandatory keyword, we recommend that the value for the non-SOLARNET definition be given in a new keyword, and that the software be modified.
 
 ## Mandatory keywords for all HDUs that uses any of the variable-keyword, pixel list or meta-observation mechanism (Sections 2.1, 2.2, 2.3, Appendix I, Appendix II, and Appendix III)
 

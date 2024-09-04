@@ -14,10 +14,10 @@ Below is an alphabetical listing of all SOLARNET keywords that are not part of t
 Below is an alphabetical listing of all keywords used in this document, both the SOLARNET keywords listed in Section 19 and FITS standard/widely accepted FITS convention keywords, the latter identified with a one-character trailing code:
 
 - `S`: Keywords defined in the FITS standard (listed in the FITS standard Appendix C)
-- `P`: Keywords defined in Paper I-V and Thompson (2006)[^footnote-19].
+- `P`: Keywords defined in Paper I-V and Thompson (2006)[^footnote-18].
 - `O`: Other keywords in common use before being specified in this document
 
-[^footnote-19]:
+[^footnote-18]: Some of the WCS keywords defined in these papers are also defined in the FITS standard Table 22
 
 
 ```
@@ -243,4 +243,4 @@ iCTYPn   P  Appendix I-a.
 jCRPXn   P  Appendix I-a.
 ```
 
-Number of keywords: 216
+Number of keywords: 220

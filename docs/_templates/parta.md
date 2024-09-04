@@ -74,11 +74,11 @@ Additional comments may be added using the `COMMENT` keyword or by leaving the k
 
 The World Coordinate System (WCS) is a very comprehensive standard that should be used for the description of physical data coordinates in Obs-HDUs.
 
-In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`, etc. Future pipelines, however, should _only_ use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`) or any instrument- or mission-specific practices[^footnote-4].
+In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`, etc. Future pipelines, however, should _only_ use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`) or any instrument- or mission-specific practices[^footnote-3].
 
 All keywords described in this Section are defined by the FITS Standard and Papers I-V. See also Thompson (2006).
 
-[^footnote-4]: This might be important when comparing observations where cross-correlation cannot be used for alignment -e.g., coronal observations vs. photospheric observations. In such cases, different rotation models might cause a drift between the two. The information in this keyword can be used to prevent misunderstandings and misinterpretations in in such situations.
+[^footnote-3]: If a full description seems impossible through the existing WCS framework, create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
 
 ### Fundamental WCS coordinate specification
 
@@ -243,9 +243,9 @@ The keyword `AO_NMODE` should be used to indicate the number of adaptive optics 
 
 The keyword `FT_LOCK` is used to indicate the status of any feature tracking `FT_LOCK``=0` (no feature tracking lock) or `FT_LOCK``=1` (feature tracking lock) for individual exposures, with appropriate averages as mentioned above.
 
-The keyword `ROT_COMP` should be set to 1 if automated solar rotation compensation was in effect during the observation, and to 0 if not. The keyword `ROT_MODL` should be set to specify the rotation model used for rotation compensation[^footnote-5]. It can refer to specific, predefined models such as `ALLEN` (Allen, Astrophys. Quantities, 1979), `HOWARD` (Howard _et al._), `SIDEREAL`, `SYNODIC`, `CARRINGTON`, `SNODGRASS` or `aaa.a` – arcseconds per hour (units \[arcsec/h\]). See also the SolarSoft routine `diff_rot.pro`. If other models have been used, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues), or set `ROT_MODL` to `FORMULA`, and specify the formula in the keyword `ROT_FORM`. The formula specified is meant to be human-readable, not machine readable, thus e.g., `' A sin(….)'`, using parameter names that are common within your community. An explanation in the comments may be useful. The units should be degrees per day. More important, though is that the coordinate variation is reflected in the WCS description of the data, using cross terms between the time coordinate and spatial coordinates in the `PCi_j` matrix or by tabulating the coordinates.
+The keyword `ROT_COMP` should be set to 1 if automated solar rotation compensation was in effect during the observation, and to 0 if not. The keyword `ROT_MODL` should be set to specify the rotation model used for rotation compensation[^footnote-4]. It can refer to specific, predefined models such as `ALLEN` (Allen, Astrophys. Quantities, 1979), `HOWARD` (Howard _et al._), `SIDEREAL`, `SYNODIC`, `CARRINGTON`, `SNODGRASS` or `aaa.a` – arcseconds per hour (units \[arcsec/h\]). See also the SolarSoft routine `diff_rot.pro`. If other models have been used, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues), or set `ROT_MODL` to `FORMULA`, and specify the formula in the keyword `ROT_FORM`. The formula specified is meant to be human-readable, not machine readable, thus e.g., `' A sin(….)'`, using parameter names that are common within your community. An explanation in the comments may be useful. The units should be degrees per day. More important, though is that the coordinate variation is reflected in the WCS description of the data, using cross terms between the time coordinate and spatial coordinates in the `PCi_j` matrix or by tabulating the coordinates.
 
-[^footnote-5]: For SolarSoft, the correct order in which these sub-packages should be listed may be found by tracing the effects on !PATH from the beginning (the $SSW_INSTR environment variable) to the end, taking into account the effects of rm_path and add_path statements.
+[^footnote-4]: This might be important when comparing observations where cross-correlation cannot be used for alignment -e.g., coronal observations vs. photospheric observations. In such cases, different rotation models might cause a drift between the two. The information in this keyword can be used to prevent misunderstandings and misinterpretations in in such situations.
 
 If other relevant keywords seem necessary, we recommend using keywords starting with `'ROT_'`, but please contact us as well.
 
@@ -591,9 +591,9 @@ CONTINUE 'dl_libs/astron/coyote’ / Software library containing PRPROC1
 PRVER1B = 59549 / Modified Julian date of last mirroring of PRLIB1B
 ```
 
-In this example, the `zun_momf.pro` routine is part of the `ZUNRED` library and relies on SolarSoft library routines. If further libraries had been used in processing step 1, they would be specified in `PRLIB1B`, etc. Libraries should be listed in the order they appear in the path. Unfortunately, some libraries such as SolarSoft contain internal routine shadowing, in which case each conflicting sub-package must be listed as a separate library in the order they appear in the effective IDL path, i.e., in the system variable `!PATH`[^footnote-6].
+In this example, the `zun_momf.pro` routine is part of the `ZUNRED` library and relies on SolarSoft library routines. If further libraries had been used in processing step 1, they would be specified in `PRLIB1B`, etc. Libraries should be listed in the order they appear in the path. Unfortunately, some libraries such as SolarSoft contain internal routine shadowing, in which case each conflicting sub-package must be listed as a separate library in the order they appear in the effective IDL path, i.e., in the system variable `!PATH`[^footnote-5].
 
-[^footnote-6]: This may seem like overkill, but there are instances where e.g., OS versions have mattered, see https://www.i-programmer.info/news/231-methodology/13188-python-script-invalidates-hundreds-of-papers.html, leading to papers being retracted/corrected. Also, for the BIFROST code, on some  particular platform a particular CPU instruction optimization has to be turned off with a compiler flag to produce correct results.In the SPICE project it was observed that calculations of mean, variance, skewness, and kurtosis using the built-in IDL method MOMENT()differed by as muchas 0.6%, 1.6%, 2.4% and 3%, respectively! This may be very significant if such parameters are used to make cuts in a data set.
+[^footnote-5]: For SolarSoft, the correct order in which these sub-packages should be listed may be found by tracing the effects on `!PATH` from the beginning (the `$SSW_INSTR` environment variable) to the end, taking into account the effects of `rm_path` and `add_path` statements.
 
 If a single procedure performs multiple steps, it is ok to list each step separately, using the same value in e.g., `PRPROC1` and `PRPROC2`, but different values for `PRSTEP1` and `PRSTEP2`.
 
@@ -614,13 +614,13 @@ When `PRPARAn` is used as a reference to an ASCII table, the extension's first t
 
 For plain parameter lists, IDL parameter syntax must be used. For ASCII table extensions, values should be specified with regular FITS syntax. For ASCII table extensions, complex values can be written with parentheses containing the real and imaginary parts. Array-valued parameters can be written as a comma-separated list in square brackets in both of these formats.
 
-`PRENVn` can be used to specify the operating environment of the pipeline such as the hardware (CPU type) and the operating system type/version, compiler/interpreter versions, compiler options, etc.[^footnote-7] The default value of a `PRENVn` keyword is the value of `PRENVn` in the previous processing step, so for a pipeline that has been run from beginning to end in a single environment, only `PRENV1` will have to be specified.
+`PRENVn` can be used to specify the operating environment of the pipeline such as the hardware (CPU type) and the operating system type/version, compiler/interpreter versions, compiler options, etc.[^footnote-6] The default value of a `PRENVn` keyword is the value of `PRENVn` in the previous processing step, so for a pipeline that has been run from beginning to end in a single environment, only `PRENV1` will have to be specified.
 
-[^footnote-7]: In order to differentiate between very different factors influencing a processing step, PRREFnx maybe used, where xis a letter A-Z.E.g., PRREF1Amay list files and PRREF1B may list names of people.
+[^footnote-6]: This may seem like overkill, but there are instances where e.g., OS versions have mattered, see https://www.i-programmer.info/news/231-methodology/13188-python-script-invalidates-hundreds-of-papers.html, leading to papers being retracted/corrected. Also, for the BIFROST code, on some  particular platform a particular CPU instruction optimization has to be turned off with a compiler flag to produce correct results.In the SPICE project it was observed that calculations of mean, variance, skewness, and kurtosis using the built-in IDL method `MOMENT()` differed by as muchas 0.6%, 1.6%, 2.4% and 3%, respectively! This may be very significant if such parameters are used to make cuts in a data set.
 
-`PRREFn` is a catch-all keyword that can be used to specify other factors/inputs influencing a processing step, e.g., references to images used for pointing adjustments. `PRREFn` may be a comma separated list of multiple factors/inputs[^footnote-8].
+`PRREFn` is a catch-all keyword that can be used to specify other factors/inputs influencing a processing step, e.g., references to images used for pointing adjustments. `PRREFn` may be a comma separated list of multiple factors/inputs[^footnote-7].
 
-[^footnote-8]: E.g., with INFO_URL='http://some.site/this/guide.html',documents http://some.site/this/manual.pdfand http://some.site/this/subdirectory/auxiliary.datmight be harvested if it is (recursively) referenced from guide.html, but not http://some.site/other/use.pdf.
+[^footnote-7]: In order to differentiate between very different factors influencing a processing step, `PRREFnx` maybe used, where `x` is a letter A-Z.E.g., `PRREF1A` may list files and `PRREF1B` may list names of people.
 
 `PRLOGn` can be used to include a processing log in case messages/warnings from the processing may be of importance.
 
@@ -632,9 +632,9 @@ The `DATASUM` and `CHECKSUM` keywords (see the [Checksum Keyword Convention](htt
 
 `INFO_URL` should point to a human-readable web page describing “everything” about the data set: what it is, how to use it, links to e.g., user guides, instrument/site/telescope descriptions, descriptions of caveats, information about data rights, preferred acknowledgements, whom to contact if you have questions, and repositories of observing/engineering logs.
 
-Upon ingestion of (meta)data into an SVO, the material pointed to by `INFO_URL` and `OBS_LOG` (Section 5.5) might be “harvested” and preserved in such a way that it is possible to retrieve a copy even if the original source is no longer available. It might be possible for an SVO to recursively harvest pages/documents and even auxiliary data such as flat fields being linked to from `INFO_URL`. The harvesting will have to be restricted somehow - presumably limited to links pointing beside or below `INFO_URL`[^footnote-9] and `OBS_LOG`.
+Upon ingestion of (meta)data into an SVO, the material pointed to by `INFO_URL` and `OBS_LOG` (Section 5.5) might be “harvested” and preserved in such a way that it is possible to retrieve a copy even if the original source is no longer available. It might be possible for an SVO to recursively harvest pages/documents and even auxiliary data such as flat fields being linked to from `INFO_URL`. The harvesting will have to be restricted somehow - presumably limited to links pointing beside or below `INFO_URL`[^footnote-8] and `OBS_LOG`.
 
-[^footnote-9]: E.g.,a short form of the contents of `PRMODEn`, see Section8.2.
+[^footnote-8]: E.g., with `INFO_URL``='http://some.site/this/guide.html'`,documents `http://some.site/this/manual.pdf` and `http://some.site/this/subdirectory/auxiliary.dat` might be harvested if it is (recursively) referenced from `guide.html`, but not `http://some.site/other/use.pdf`.
 
 Any other administrative information pertaining to the file should also be included at the `INFO_URL`.
 
