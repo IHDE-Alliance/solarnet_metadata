@@ -33,15 +33,12 @@ All HDUs – including the primary HDU – in SOLARNET FITS files _must_ contain
 
 All fully SOLARNET-compliant _and_ partially SOLARNET-compliant Obs-HDUs _must_ contain (in addition to all mandatory FITS standard keywords) the following mandatory keywords (this also applies to the primary HDU if it is an Obs-HDU):
 
-
-`EXTNAME`
-
-`SOLARNET`
-
-`OBS_HDU`
-
-`DATE-BEG`
-
+```
+EXTNAME
+SOLARNET
+OBS_HDU
+DATE-BEG
+```
 
 Obs-HDUs cannot contain keywords with definitions in conflict with other SOLARNET-defined keywords unless they occur in a comma-separated list in the keyword `SOLNETEX`. This mechanism may sometimes be necessary to ensure backwards compatibility with existing utilities. Keywords listed in `SOLNETEX` will be ignored by SOLARNET-aware utilities. The `SOLNETEX` mechanism must _not_ be applied to FITS standard keywords.
 
