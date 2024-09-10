@@ -30,7 +30,7 @@ author = 'Stein Vidar Hagfors Haugan, Terje Fredvik'
 extensions = ['myst_parser']
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ['source']
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -106,7 +106,7 @@ files_to_annotate = [
     "appendix-9.md",
 ]
 for file in files_to_annotate:
-    with open(f"_templates/{file}", 'r') as input_file:
+    with open(f"source/{file}", 'r') as input_file:
         with open(f"generated/{file}", 'w') as output_file:
             whole_file_str = input_file.read()
 
