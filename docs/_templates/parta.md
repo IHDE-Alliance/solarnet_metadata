@@ -400,13 +400,12 @@ To guide archive designers in the process of presenting grouped observations, we
 
 Examples:
 
-`SVO_SEP1`= `'POINT_ID,INSTRUME,DETECTOR,FILTER,NBIN'` / Most fine grained separation
-
-`SVO_SEP2`= `‘POINT_ID,INSTRUME,DETECTOR,FILTER’` / Img. shows target even w/binning
-
-`SVO_SEP3`= `‘POINT_ID,INSTRUME,DETECTOR’` / Target identifiable in all filters
-
-`SVO_SEP4`= `‘POINT_ID,INSTRUME’` / Still useful
+```
+SVO_SEP1= 'POINT_ID,INSTRUME,DETECTOR,FILTER,NBIN' / Most fine grained separation
+SVO_SEP2= ‘POINT_ID,INSTRUME,DETECTOR,FILTER’ / Img. shows target even w/binning
+SVO_SEP3= ‘POINT_ID,INSTRUME,DETECTOR’ / Target identifiable in all filters
+SVO_SEP4= ‘POINT_ID,INSTRUME’ / Still useful
+```
 
 Note that the `SVO_SEPn` keywords are only _guidelines_ for archive designers. Typically, an archive will also separate groups by data level if it contains more than a single level.
 
@@ -434,107 +433,65 @@ In addition to the `LEVEL`, `VERSION` and `ORIGIN` keywords, we recommend that s
 
 The name and version of the processing software should be specified by those of the following keywords that might apply:
 
-`CREATOR` `= 'ZUN_MOMF_PIPELINE' / Name of software pipeline that produced the FITS file`
-
-`VERS_SW` `= '2.5'       / Version of software applied`
-
-`HASH_SW` `= 'a7ef89ad998ea7feef4bbc0bbc1bbc2bbc3bbc4' / Commit hash of software applied`
-
-`VERS_CAL` `= '2.4'       / Version of calibration pack applied`
+```
+CREATOR = 'ZUN_MOMF_PIPELINE' / Name of software pipeline that produced the FITS file`
+VERS_SW = '2.5'       / Version of software applied`
+HASH_SW = 'a7ef89ad998ea7feef4bbc0bbc1bbc2bbc3bbc4' / Commit hash of software applied`
+VERS_CAL = '2.4'       / Version of calibration pack applied
+```
 
 In addition, `PRSTEPn` should specify the nature of the processing steps, if any, that has been applied to the data. Each `PRSTEPn` may contain a comma separated list if multiple processing steps are inseparable. The number n specifies the step number and should reflect the order in which the steps have been performed, e.g.:
 
-`PRSTEP1` `= 'FIXED-PATTERN,FLATFIELDING' / First two (inseparable) processing steps`
-
-`PRSTEP2` `= 'CALIBRATION' / Second processing step
-`
-`PRSTEP3` `= 'DISTORTION-CORRECTION' / Third processing step`
+```
+PRSTEP1 = 'FIXED-PATTERN,FLATFIELDING' / First two (inseparable) processing steps`
+PRSTEP2 = 'CALIBRATION' / Second processing step
+PRSTEP3 = 'DISTORTION-CORRECTION' / Third processing step
+```
 
 Below is a list of recommendations for descriptions of processing steps. If desirable, further specifications may be added, e.g., instead of `'LINE-FITTING'` one may want to use `'GAUSSIAN-LINE-FITTING'` versus `'vOIGT-LINE-FITTING'`. Note that distortion corrections come in two flavours: applied to the data (regridding) or applied to the coordinates. In the latter case, `COORDINATE` should be a part of the processing step description. If you need to add to this list, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
 
 ```
 ATMOSPHERIC-INVERSION
-
 BIAS-CORRECTION
-
 BINNING
-
 CALIBRATION
-
 CEILING
-
 COMPRESSION
-
 CONCATENATION
-
 DARK-SUBTRACTION
-
 DEMODULATION
-
 DEROTATION
-
 DESPIKING
-
 DESTRETCHING
-
 EDGE-DETECTION
-
 FILTERING
-
 FIXED-PATTERN-REMOVAL
-
 FLATFIELDING
-
 FLOORING
-
 LINE-FITTING
-
 MOMFBD
-
 MULTIPLICATION
-
 PIXEL-FILLING
-
 PIXEL-LEVEL-OFFSET-SUBTRACTION
-
 RADIOMETRIC-CALIBRATION
-
 ROUNDING
-
 SHACK-HARTMANN-DECONVOLUTION
-
 SPATIAL-ALIGNMENT
-
 SPATIAL-COORDINATE-CORRECTION
-
 SPATIAL-COORDINATE-CORRECTION-X
-
 SPATIAL-COORDINATE-CORRECTION-Y
-
 SPATIAL-COORDINATE-DISTORTION-CORRECTION
-
 SPATIAL-DISTORTION-CORRECTION
-
 SPECKLE-DECONVOLUTION
-
 SPECTRAL-ALIGNMENT
-
 SPECTRAL-COORDINATE-CORRECTION
-
 SPECTRAL-COORDINATE-DISTORTION-CORRECTION
-
 SPECTRAL-DISTORTION-CORRECTION
-
 STOKES-INVERSION
-
 SUBTRACTION
-
 SUMMING
-
 TELEMETRY-PARSING
-
 THRESHOLDING
-
 WFS-DECONVOLUTION
 ```
 
@@ -546,45 +503,25 @@ Libraries used in processing step `n` may be described using some or all of the 
 
 ```
 PRSTEP1 = 'MOMFBD ' / Processing step type
-
 PRPROC1 = 'zun_momf.pro' / Name of procedure performing PRSTEP1
-
 PRPVER1 = 1.5 / Version of procedure PRPROC1
-
 PRMODE1 = 'BALANCED' / Processing mode of PRPROC1
-
 PRPARA1 = 'ITER=5,MANUAL=1' / List of parameters/options for PRPROC1
-
 PRREF1 = '<miss.influencer@esa.int>' / Factors influencing PRSTEP1
-
 PRLOG1 = ' % Program caused arithmetic error: Integer divide by 0' / PRPROC1 log
-
 PRENV1 = ' Kernel: Linux &'
-
 CONTINUE ' Kernel release number: 3.10.0-1160.36.2.el7.x86_64 &'
-
 CONTINUE ' OS: Red Hat Enterprise Linux Server release 7.9 (Maipo) &'
-
 CONTINUE ' CPU: Intel(R) Xeon(R) CPU E5-2630L v4 @ 1.80GHz &'
-
 CONTINUE ' IDL 8.5 (Jul 7 2015), memory bits: 64, file offset bits: 64 &'
-
 CONTINUE '' / Processing environment of PRSTEP1
-
 PRLIB1A = 'ZUNRED ' / Software library containing PRPROC1
-
 PRVER1A = 32214 / Version of PRLIB1A
-
 PRHSH1A = 'a7ef89ad998ea7feef4bbc0bbc1bbc2bbc3bbc4' / GIT commit hash for PRLIB1A
-
 PRBRA1A = 'production' / GIT/SVN repository branch of PRLIB1A
-
 PRLIB1B = 'SSW/vobs/ontology/idl/gen_temp,SSW/packages/sunspice/idl/atest,SSW/&'
-
 CONTINUE 'so/spice/idl/atest,SSW/vobs/gen/idl,SSW/soho/gen/idl/util,SSW/gen/i&'
-
 CONTINUE 'dl_libs/astron/coyote’ / Software library containing PRPROC1
-
 PRVER1B = 59549 / Modified Julian date of last mirroring of PRLIB1B
 ```
 
