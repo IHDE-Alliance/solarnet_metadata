@@ -31,8 +31,8 @@ As an example, in order to refer to all types of pixel lists mentioned in Sectio
 
 ```
 PIXLISTS= 'LOSTPIXLIST;, MASKPIXLIST;, &' / Lost and masked pixels
-CONTINUE 'SATPIXLIST\[He_I\];ORIGINAL, &' / He_I saturated pixels w/original values
-CONTINUE 'SPIKEPIXLIST\[He_I\];ORIGINAL,CONFIDENCE, &' / Spike pixels for He_I
+CONTINUE 'SATPIXLIST [He_I];ORIGINAL, &' / He_I saturated pixels w/original values
+CONTINUE 'SPIKEPIXLIST [He_I];ORIGINAL,CONFIDENCE, &' / Spike pixels for He_I
 CONTINUE 'SUNSPOTS;CLASSIFICATION' / Sunspot locations and classification
 ```
 

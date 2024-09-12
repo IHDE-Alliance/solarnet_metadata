@@ -15,7 +15,7 @@
 - [The SolarSoft WCS Routines: A Tutorial](ftp://sohoftp.nascom.nasa.gov/solarsoft/stereo/gen/documentation/wcs_tutorial.pdf) (Thompson, [http://hesperia.gsfc.nasa.gov/ssw/gen/idl/wcs/wcs_tutorial.pdf)](http://hesperia.gsfc.nasa.gov/ssw/gen/idl/wcs/wcs_tutorial.pdf%29)
 - [SSTRED: Data- and metadata-processing pipeline for CHROMIS and CRISP](https://ui.adsabs.harvard.edu/abs/2021A%26A...653A..68L/abstract) (Löfdahl et al. 2021, A&A, **653**, A68)
 - Solar Orbiter SPICE Data Product Description Document (Haugan and Fredvik, 2023, <https://spice-wiki.ias.u-psud.fr/doku.php/data:data_analysis_manual>)
-- \[S-META-SIM\]: SOLARNET Metadata Recommendation for Simulated Data (Haugan and Fredvik, 2023, <http://sdc.uio.no/open/solarnet/> , <http://arxiv.org/abs/2403.12241>
+- [S-META-SIM]: SOLARNET Metadata Recommendation for Simulated Data (Haugan and Fredvik, 2023, <http://sdc.uio.no/open/solarnet/> , <http://arxiv.org/abs/2403.12241>
 - Binary table extension to FITS (Cotton et al., 1995, A&AS, **113**, 159-166,
 
 <http://adsabs.harvard.edu/abs/1995A%26AS..113..159C>).

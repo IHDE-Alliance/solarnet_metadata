@@ -16,7 +16,7 @@ The naming conventions for column-specific keywords (starting with `T` and allow
 ```
 TKEYS3 = 'OBS_HDU=1, &' / Contains observational data  
 CONTINUE 'DETECTOR=”ZUN_A_HIGHSPEED2”, &' / Detector 2  
-CONTINUE 'WAVELNTH=1280 ' / \[Angstrom\] Principal wavelength
+CONTINUE 'WAVELNTH=1280 ' / [Angstrom] Principal wavelength
 ```
 
 The syntax is relatively straightforward – a comma-separated list of keyword-value pairs, with string values in _double_ quotes. Spaces are ignored (except inside strings).

@@ -11,9 +11,9 @@ EXTNAME= 'He_I ' / Name of HDU
 ## 13 Mandatory keywords for all Obs-HDUs (Section 2.2)
 
 ```
-SOLARNET= 0.5 / Fully SOLARNET-compliant=1.0, partially=0.5 \
-OBS_HDU = 1 / This HDU contains observational data \
-DATE-BEG= '2020-12-24T17:12:00.5' / Date of start of observation \
+SOLARNET= 0.5 / Fully SOLARNET-compliant=1.0, partially=0.5
+OBS_HDU = 1 / This HDU contains observational data
+DATE-BEG= '2020-12-24T17:12:00.5' / Date of start of observation
 ```
 
 ## 14 Mandatory WCS keyword for all HDUs with a UTC (time) coordinate (Section 4.1)
@@ -75,7 +75,7 @@ GEOZ_OBS= 9887953.9454 / [m] Observer's non-fixed geographic Z coordinate
 ```
 HGLN_OBS= -0.0572950 / Observer's Stonyhurst heliographic longitude
 HGLT_OBS= 5.09932 / Observer's Stonyhurst heliographic latitude
-DSUN_OBS= 88981577950.3 / \[m\] Distance from instrument to Sun centre
+DSUN_OBS= 88981577950.3 / [m] Distance from instrument to Sun centre
 ```
 
 ### 15.4 Mandatory data description keywords (Sections 5.1, 5.2 and 5.6.2)

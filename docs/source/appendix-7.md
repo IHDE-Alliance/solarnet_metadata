@@ -5,7 +5,7 @@
 In SOLARNET FITS files, in keywords that have no special function within the official FITS/WCS framework, references to other extensions may be in the form of _external extension references_, e.g.:
 
 ```
-VAR_KEYS= '../auxiliary/s35837r001-aux.fits;VAR_KEY_DATA;TEMPERATURE\[He_I\]'
+VAR_KEYS= '../auxiliary/s35837r001-aux.fits;VAR_KEY_DATA;TEMPERATURE[He_I]'
 ```
 
 This means that the file with a relative path of `'../auxiliary/'` and a file name of `'s35837r001-aux.fits'` contains a binary table with `EXTNAME``='VAR_KEY_DATA'`, containing a column with `TTYPEn``='TEMPERATURE[He_I]'` which holds the data for the variable keyword `TEMPERATURE`. The path to the referenced file (`s35837r001-aux.fits`) is relative to the path of the referencing file.
