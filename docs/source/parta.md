@@ -1,12 +1,12 @@
-# Description of FITS keywords
+# Part A. Description of FITS keywords
 
-## About file formats
+## 1. About file formats
 
 The most common practice in the solar remote sensing community is currently to use the FITS Standard file format for disseminating solar remote sensing observations. For this reason, this document describes how to include the metadata content through keywords inside FITS files, but _that does not preclude the use of other file formats_. In many ways, this document simply uses FITS notation as a language to express the underlying metadata requirements.
 
 For a discussion about file names and how to group observational data between or inside different files, see [Appendix V: Other recommendations](#appendix-v).
 
-## Header and Data Units (HDUs) in FITS files
+## 2. Header and Data Units (HDUs) in FITS files
 
 FITS files may contain one or more Header and Data Units (HDUs) of different types, e.g., primary HDUs, image extensions, and binary table extensions, containing data and a header with metadata stored as keyword-value pairs. Primary HDUs and image extensions are for almost all practical purposes identical: The primary HDU should simply be regarded as “_the first HDU, which must exist and is always an image HDU but is not required to contain any data, just a header”_. Thus, all SOLARNET recommendations applying to an extension HDU also applies to the primary HDU.
 
@@ -22,14 +22,14 @@ In order to prevent having to specify keyword information that is common to all 
 
 This document introduces three new mechanisms that are not part of the FITS standards, but may be useful in fully describing observations: [Appendix I](#appendix-i) explains how to describe keywords that vary as a function of WCS coordinates, [Appendix I-d](#appendix-id) explains how to pin-point and (optionally) associate values to specific pixels/locations inside a data cube, and [Appendix III](#appendix-iii) explains how to signal that an HDU is a part of a larger set of HDUs (e.g., a time series) contained in multiple files.
 
-### Naming of HDUs in SOLARNET FITS files
+### 2.1 Naming of HDUs in SOLARNET FITS files
 
 All HDUs – including the primary HDU – in SOLARNET FITS files _must_ contain the string-valued keyword `EXTNAME`, and each `EXTNAME` value must be unique within the file[^footnote-2]. `EXTNAME` must not contain the characters comma or semicolon except as prescribed for the variable-keyword mechanism ([Appendix I](#appendix-i)), the pixel list mechanism ([Appendix I-d](#appendix-id)) and the meta-observation mechanism ([Appendix III](#appendix-iii)). In addition, `EXTNAME` must not start with a space, but any trailing spaces are ignored. Finally, the CONTINUE Long String Keyword Convention must not be used with `EXTNAME`, since this is a reserved keyword defined in the FITS standard.
 
 [^footnote-2]: There is one exception to the SOLARNET rule requiring unique `EXTNAME`s: As per the official FITS WCS mechanism for `Lookup` coordinate distortions, all extensions containing lookup tables must have `EXTNAME``=WCSDVARR`. These extensions must instead be distinguished by having different values of the seldom used FITS Standard `EXTVER` keyword.
 
 
-### Fully and partially SOLARNET-compliant Obs-HDUs
+### 2.2 Fully and partially SOLARNET-compliant Obs-HDUs
 
 All fully SOLARNET-compliant _and_ partially SOLARNET-compliant Obs-HDUs _must_ contain (in addition to all mandatory FITS standard keywords) the following mandatory keywords (this also applies to the primary HDU if it is an Obs-HDU):
 
@@ -51,13 +51,13 @@ Partially SOLARNET-compliant Obs-HDUs need not contain all keywords summarised i
 
 Both fully and partially SOLARNET-compliant Obs_HDUs _must_ have `OBS_HDU``=1`.
 
-### Other HDUs
+### 2.3 Other HDUs
 
 Other HDUs in the same file as an Obs-HDU may be used to store additional data that is required to describe the observations, to allow instrument-specific utilities to function correctly, to interpret the data correctly, or to enable further calibrations to be made. Specific cases of such HDUs are variable-keyword HDUs ([Appendix I](#appendix-i)), pixel list HDUs ([Appendix I-d](#appendix-id)) and Meta-HDUs ([Appendix III](#appendix-iii)).
 
 Obs-HDUs that are neither fully nor partially SOLARNET-compliant may use the mechanisms described in 0, [Appendix I-d](#appendix-id) or [Appendix III](#appendix-iii), if they have `SOLARNET``=-1`. In fact, the HDUs described in these appendices may themselves use these mechanisms, if they have `SOLARNET``=-1`.
 
-### Comments
+### 2.4 Comments
 
 We strongly urge pipeline designers to use the FITS mechanism for commenting keywords (using a forward slash after the keyword value). Although pipeline designers may know all their cryptic keywords by heart while writing the pipeline, this will not be the case a year or more later.
 
@@ -67,7 +67,7 @@ We are considering making a machine- and human-readable catalogue of keyword com
 
 Additional comments may be added using the `COMMENT` keyword or by leaving the keyword field blank – see Section 4.4.2.4 in the FITS Standard.
 
-## The World Coordinate System (WCS) and related keywords
+## 3 The World Coordinate System (WCS) and related keywords
 
 The World Coordinate System (WCS) is a very comprehensive standard that should be used for the description of physical data coordinates in Obs-HDUs.
 
@@ -77,7 +77,7 @@ All keywords described in this Section are defined by the FITS Standard and Pape
 
 [^footnote-3]: If a full description seems impossible through the existing WCS framework, create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
 
-### Fundamental WCS coordinate specification
+### 3.1 Fundamental WCS coordinate specification
 
 As a reference, the most commonly used conversion from the set of pixel indices _(p<sub>1</sub>, p<sub>2</sub> p<sub>3,</sub> … p<sub>N</sub>)_ to a physical WCS coordinate is given by the following formula:
 
@@ -120,7 +120,7 @@ For observations (instruments) where the plate scale/pointing is derived from me
 
 For descriptions of distortions of coordinates in complex data sets, e.g., cavity errors, see [Appendix VI](#appendix-vi).
 
-### WCS positional keywords and relative radial velocity
+### 3.2 WCS positional keywords and relative radial velocity
 
 Ground based observatories must report their geographical location using the keywords `OBSGEO-X`, `OBSGEO-Y`, and `OBSGEO-Z`, implicitly stating that the observer is following Earth rotation (see Precision effects for solar image coordinates within the FITS world coordinate systems, Section 3; Paper III Section 7). In principle, the coordinates should be given in ITRF geocentric coordinates. However, for SOLARNET purposes, GPS coordinates are an acceptable proxy.
 
@@ -134,7 +134,7 @@ For spectrometers (and for some narrow-band imagers), the radial velocity betwee
 
 As mentioned also in Section 2, many keywords already established elsewhere but not mentioned in this document may apply. Such keywords should never be used in conflict with established use. In particular, see “Other sources of keywords with established use” under References. A few that are related to those defined in this section are: `SOLAR_P0` (apparent angle from observer location between celestial north and solar north), `SOLAR_EP` (apparent angle from observer location between celestial north and ecliptic north), `RSUN_ARC` (apparent photospheric solar radius in arc seconds), and `CAR_ROT` (Carrington rotation number for the reference pixel pointed to by `CRPIXja` values).
 
-## Time-related WCS keywords
+## 4 Time-related WCS keywords
 
 `DATE-BEG` _must_ be given, referring to the start time of the data acquisition in the time system specified by the `TIMESYS` keyword, which has the default of '`UTC`'. The `TIMESYS` value applies to all `DATE-` keywords, `DATEREF` (see Section 4.1), and several other date-valued keywords.
 
@@ -146,7 +146,7 @@ Note that we do _not_ recommend using the `DATE-OBS` keyword mentioned in the FI
 
 The observer’s position may be important when comparing the times of observations from different vantage points – in particular when at least one of the observations is space based. Thus, the keywords `DSUN_OBS`, `HGLN_OBS`, and `HGLT_OBS` (Section 3.2) may be important w.r.t the timing of the observations.
 
-### Specifying WCS time coordinates
+### 4.1 Specifying WCS time coordinates
 
 The literature describing all the possible methods of specifying WCS time coordinates is very complex, but except in unusual circumstances, the following prescription should be sufficient:
 
@@ -154,11 +154,11 @@ The literature describing all the possible methods of specifying WCS time coordi
 
 Also, `DATEREF` _must_ be set to the zero point of the WCS time coordinate. I.e., for pixels that have the `CTYPEia``='UTC'` coordinate equal to zero, the time is the value given in `DATEREF`. In most cases the values of `DATEREF` and `DATE-BEG` will be identical, but note that _according to the FITS standard,_ `DATE-BEG` _is not a default value_ for `DATEREF`, thus `DATEREF` may not be omitted. The existence of both keywords allows e.g., midnight to be used as a zero point for the time coordinate for multiple observations recorded during the following day, each having different values of `DATE-BEG`.
 
-## Description of data contents
+## 5 Description of data contents
 
 A description of the actual data contents is important for the interpretation of an observation. Such a description is also important for finding relevant observations in an SVO.
 
-### Data type/units (BTYPE/BNAME/BUNIT)
+### 5.1 Data type/units (BTYPE/BNAME/BUNIT)
 
 The keywords `BTYPE`, `BNAME`, and `BUNIT` should be used to describe the nature of the data. The notation of mathematical expressions in `BUNIT` and `BNAME` should follow the rules in Table 6 of the FITS Standard, e.g. "`log(x)`" is defined as the common logarithm of `x` (to base 10).
 
@@ -168,7 +168,7 @@ The keywords `BTYPE`, `BNAME`, and `BUNIT` should be used to describe the nature
 
 `BNAME` may be used to provide a human readable explanation of the data contents. This keyword is not mentioned in any FITS standard document, but it is a natural analogy to the `CNAMEia` keywords used to provide additional description of the WCS coordinate.
 
-### Exposure time, binning factors
+### 5.2 Exposure time, binning factors
 
 The exposure time used in the acquisition of an Obs-HDU should be given in the keyword `XPOSURE` - not in `EXPTIME`. The reason why `EXPTIME` should not be used is that in _some cases_ it has been used for individual exposure times in summed multi-exposure observations, introducing an ambiguity. According to the recommendation in Paper IV, `XPOSURE` should always contain the _accumulated_ exposure time whether or not the data stems from single exposures or summed multiple exposures.
 
@@ -180,7 +180,7 @@ Note that if the data has been binned, the `XPOSURE` keyword should reflect the 
 
 In order to provide a simple way to determine the combined binning factor (for archive searches), the keyword `NBIN` should be set to the product of all specified `NBINj` keywords.
 
-### Cadence
+### 5.3 Cadence
 
 Cadence may be a very important search term. A meta-Obs-HDU may be used to report such attributes even if it is impossible to do so in the constituent HDUs ([Appendix III](#appendix-iii)).
 
@@ -192,7 +192,7 @@ Some instruments take interleaved observation series with a difference in cadenc
 
 For e.g., on-going synoptic observation series stored with single exposures in separate files (thus separate HDUs) it may be impossible to use the Meta-observation mechanism. The `CADENCE` keyword should be set to the planned series' cadence. The rest of the keywords should be set based on the available history of the synoptic series.
 
-### Instrument/data characteristics etc
+### 5.4 Instrument/data characteristics etc
 
 In order to characterise the spectral range covered by an Obs-HDU, the keywords `WAVEMIN` and `WAVEMAX` should be used to specify the minimum and maximum wavelengths.
 
@@ -218,7 +218,7 @@ If the data has already been corrected for a variable response, the response fun
 
 For spectrometric data, the resolving power R should be given in the keyword `RESOLVPW`. For slit spectrometers, the slit width in arc seconds should be given in `SLIT_WID`.
 
-#### Polarimetric data reference system
+#### 5.4.1 Polarimetric data reference system
 
 Different Stokes values are normally stored together in a _single_ extension, with a `STOKES` dimension and an associated `STOKES` coordinate to distinguish between the different values `(I/Q/U/V or RR/LL/RL/etc)`. The `STOKES` coordinate should vary along the `STOKES` dimension according to Table 29 in the FITS Standard. Pixels containing I, Q, U, and V values should have `STOKES` coordinates 1, 2, 3, and 4, respectively. If different Stokes values are stored in different extensions or in different files, the `STOKES` coordinate should still be specified - either as a “phantom” WCS coordinate without an associated data dimension (i.e., `WCSAXES > NAXIS`) or as a regular coordinate for a singular data dimension.
 
@@ -226,7 +226,7 @@ Existing conventions for specifying the _reference system_ for Stokes vectors us
 
 If the polarimetric reference frame is not aligned with any set of WCS coordinate names, a rotation of the reference frame given in `POLCCONV` can be specified in `POLCANGL`. The rotation, specified in degrees, should be applied to the `POLCCONV`-specified system around its third axis. The rotation is counter-clockwise as seen from a point with a positive third-axis coordinate value, taking the sign from `POLCCONV` into account. I.e., specifying a positive angle with `POLCCONV``='(…, …, +HPRZ)'` specifies a counter-clockwise rotation as seen from Earth, whereas with `POLCCONV``='(…, …, -HPRZ)'` would specify a clockwise rotation as seen from Earth.
 
-### Quality aspects
+### 5.5 Quality aspects
 
 Many quality aspects of ground-based observations change rapidly, even from one exposure to the next. Keywords that describe such quality aspects must therefore often use the variable-keyword mechanism to specify the time evolution of such values, see [Appendix I](#appendix-i). This mechanism may be used to specify quality-related values for single exposures, average or effective values for composite images, while also allowing an average or effective scalar value to be given in the header.
 
@@ -258,7 +258,7 @@ However, for searching and sorting purposes it would be useful to have a generic
 
 `COMMENT`: May be used to include the relevant parts of the `OBS_LOG`, and any other relevant comments about the HDU that may be useful for the interpretation of the data.
 
-### Data statistics
+### 5.6 Data statistics
 
 It may be useful to have statistics about the data cube of a Obs-HDU in order to search for “particularly interesting” files (or to filter out particularly _uninteresting_ files for that matter).
 
@@ -288,7 +288,7 @@ It may be useful to have statistics about the data cube of a Obs-HDU in order to
 
 Note that the calculation of these keywords should be based only on pixels containing actual observational data – not including e.g., padding due to rectification, etc.
 
-#### Missing and saturated pixels, spikes/cosmic rays, padding, etc
+#### 5.6.1 Missing and saturated pixels, spikes/cosmic rays, padding, etc
 
 In some data sets, the data in the HDU may be affected by missing/lost telemetry, acquisition system glitches, cosmic rays/noise spikes, or saturation, hot/cold pixels etc. Some keywords are useful to find/exclude files based on how many such pixels there are. In order to allow such searches, the following keywords should be used:
 
@@ -310,13 +310,13 @@ Corresponding percentages relative to `NTOTPIX` should be given in `PCT_LOST`, `
 
 It is strongly recommended that this naming pattern is followed whenever there is a need to specify further “classes of pixels”. I.e., to introduce the pixel class `'SOME'`, `PCT_SOME` should be used to give the corresponding percentage relative to `NTOTPIX`. Analogously, the associated list of pixels (see below), should be named `SOMEPIXLIST`.
 
-#### Explicit listing of missing, saturated, spike/cosmic ray pixels etc
+#### 5.6.2 Explicit listing of missing, saturated, spike/cosmic ray pixels etc
 
 Bad pixels may be handled in one of three ways: they can be left untouched, they can be filled with the value of `BLANK` (integer-valued HDUs) or _NaN_ (floating-point-valued HDUs), or they can be filled in with estimated values.
 
 For some purposes, it may be useful to keep lists of individual bad pixels or ranges of bad pixels using the pixel list mechanism, see [Appendix I-d](#appendix-id). This is especially important when the pixels have been filled in with estimated values, storing the original values in the pixel list. Pixel lists that flag individual lost, approximated, saturated, spike or masked pixels, should have `EXTNAME`s equal to `LOSTPIXLIST`, `APRXPIXLIST`, `SATPIXLIST`, `SPIKPIXLIST`, or `MASKPIXLIST` respectively. Original values (when appropriate) should be given in the pixel list’s attribute column with `TTYPEn``='ORIGINAL'` – see [Appendix I-d](#appendix-id). for details. For cosmic ray/spike detection, a confidence level (between 0.0 and 1.0) may also be given in an attribute column with `TTYPEn``='CONFIDENCE'`. In order to ensure unique `EXTNAME`s for pixel lists belonging to different Obs-HDUs, the pixel list `EXTNAME`s may have a trailing “tag”, see [Appendix I-d](#appendix-id). Pixel lists with other `EXTNAME`s than `LOSTPIXLIST` etc. may of course be used for other purposes, e.g., storing the pixel indices and classification of sunspots, the latter stored as a string valued attribute.
 
-## Metadata about affiliation, origin, acquisition, etc
+## 6 Metadata about affiliation, origin, acquisition, etc
 
 The keywords in this section describe metadata regarding the origin, acquisition, and affiliation of the data. Although not generally required for the _use_ of the data, such metadata are very useful w.r.t. e.g., searching, grouping, counting, and reporting. Some of the keywords will not make sense for all data sets, because the nature and nomenclature of the observational scenarios vary. In such cases, leave them out. Also, some of the keywords will have different meanings within different settings, in many cases based on tradition.
 
@@ -368,13 +368,13 @@ Note also this catch-all keyword:
 
 `DATATAGS`: Used for any additional search terms that do not fit in any of the above keywords.
 
-## Grouping
+## 7 Grouping
 
 _It is very important for an SVO to be able to group search results in a meaningful way!_
 
 E.g., if a search matches 1000 Obs-HDUs, but they are part of only 5 different observation series, it makes sense to have a grouping mechanism to collapse the result listing into only 5 lines, showing some form of summary of the underlying Obs-HDUs for each series.
 
-### Pointing ID _separates_ observations into groups
+### 7.1 Pointing ID _separates_ observations into groups
 
 To make such grouping work, the concept of a “pointing id” has proven to be useful in e.g., the Hinode archive – it serves to _separate_ otherwise identical observations into groups in a logical way.
 
@@ -390,7 +390,7 @@ Planning tools/databases are often good sources for of `POINT_ID` values, but wi
 
 Even fixed-pointing instruments should use `POINT_ID` to e.g., separate multiple contiguous sequences with breaks in between.
 
-### Further separating observations with identical pointing ID
+### 7.2 Further separating observations with identical pointing ID
 
 Grouping observations solely on the basis of their `POINT_ID` values will lump together observations regardless of other characteristics such as filters, exposure times, slit widths, etc. In order to separate such disparate observations, further information needs to be taken into account. As an example, grouping on the basis of a concatenation of the values of `POINT_ID`, `CAMERA`, `DETECTOR`, `GRATING`, `FILTER`, `SLIT_WID`, `XPOSURE`, `OBS_MODE`, `SETTINGS`, `NBIN1`, `NBIN2`, `NAXIS1`, and `NAXIS2` would in most cases ensure that only completely identical observations are grouped together (if `XPOSURE` is a measured quantity with slight variations due to e.g., shutter speed variance it should be left out). Exactly which keywords should be used is of course highly instrument dependent.
 
@@ -409,15 +409,15 @@ SVO_SEP4= ‘POINT_ID,INSTRUME’ / Still useful
 
 Note that the `SVO_SEPn` keywords are only _guidelines_ for archive designers. Typically, an archive will also separate groups by data level if it contains more than a single level.
 
-### Group ID ties together logical groups of observations
+### 7.3 Group ID ties together logical groups of observations
 
 `SVO_GRP` may be used to achieve the opposite, to tie observations _together_ even if they have different `POINT_ID`s and/or have other differing characteristics. Heuristically, a shared value for `SVO_GRP` signals that “if you are interested in this observation, you are probably interested in all of these observations (with the same `SVO_GRP` value)”.
 
-### Mosaics
+### 7.4 Mosaics
 
 For mosaic observations, the keyword `MOSAICID` can be used to tie individual observations together.
 
-## Pipeline processing applied to the data
+## 7.4 Pipeline processing applied to the data
 
 The concept of “data level” is often used to label data with a particular degree of processing, from raw data up to complex data products.
 
@@ -429,7 +429,7 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 
 In addition to the `LEVEL`, `VERSION` and `ORIGIN` keywords, we recommend that some additional keywords are used in order to indicate the processing steps that has been applied to the data. The four keywords described in Section 8.1 may be used instead of or in addition to the more complex set of keywords described in Section 8.2.
 
-### Basic description of processing software
+### 8 Basic description of processing software
 
 The name and version of the processing software should be specified by those of the following keywords that might apply:
 
@@ -495,7 +495,7 @@ THRESHOLDING
 WFS-DECONVOLUTION
 ```
 
-### Detailed description of all processing steps
+### 8.1 Detailed description of all processing steps
 
 Each processing step may be described in further detail using some or all of the following keywords in addition to `PRSTEPn`: `PRPROCn`, `PRPVERn`, `PRMODEn`, `PRPARAn`, `PRREFn`, `PRLOGn`, and `PRENVn`.
 
@@ -560,7 +560,7 @@ For plain parameter lists, IDL parameter syntax must be used. For ASCII table ex
 
 For some data sets, it may be desirable to include information about how the calibration data has been created/processed (e.g., acquisition of flat fields/dark images). In such cases, the same mechanism should be used, even though the observational data in the HDU is not altered by that processing in itself. The processing steps for the calibration data should have a lower n than those steps that use the calibration data (e.g., `PRSTEP1='CALIBRATION-PREPARATION'` and `PRSTEP2='CALIBRATION'`).
 
-## Integrity and administrative information
+## 9 Integrity and administrative information
 
 The `DATASUM` and `CHECKSUM` keywords (see the [Checksum Keyword Convention](http://fits.gsfc.nasa.gov/registry/checksum.html)) should be set in all HDUs to allow a check on whether the data file has been modified from the original or has become corrupted. However, their values in a Meta-HDU (see [Appendix III](#appendix-iii)) will be recomputed when constituent HDUs have been combined into a single HDU (after checking the constituent HDUs `DATASUM` and `CHECKSUM`).
 
@@ -574,7 +574,7 @@ Any other administrative information pertaining to the file should also be inclu
 
 Proprietary data should be marked by setting the keyword `RELEASE` to the date at which the data can be freely distributed. The keyword `RELEASEC` may be used to give contact information for one or more people (name/email addresses, comma separated) administering the release details.
 
-## Reporting of events detected by the pipeline/spacecraft
+## 10 Reporting of events detected by the pipeline/spacecraft
 
 If the pipeline uses event/feature detection algorithms that will only work on the raw data, not the final pipeline product, detected events/features should be reported in pixel lists (see [Appendix I-d](#appendix-id)). If possible, events that are detected during acquisition of the data but are not detectable in the acquired data should also be reported (e.g., on-board-detected events in spacecraft).
 
