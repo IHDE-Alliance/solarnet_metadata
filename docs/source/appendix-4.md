@@ -13,7 +13,7 @@ The column-specific keywords `TVARKn` replaces `VAR_KEYS`, and `TPXLSn` replaces
 
 The naming conventions for column-specific keywords (starting with `T` and allowing for 3-digit column numbers) leaves only 4 letters to carry meaning, which easily leads to the creation of very awkward column-specific keyword names. To alleviate this problem for keywords that must have different values for different columns, the column-specific keyword `TKEYSn` is introduced, listing pairs of keyword names and values inside a string. The [CONTINUE Long String Keyword Convention](https://fits.gsfc.nasa.gov/registry/continue_keyword.html) may of course be used to improve readability and add comments, e.g.:
 
-```
+```none
 TKEYS3 = 'OBS_HDU=1, &' / Contains observational data  
 CONTINUE 'DETECTOR=”ZUN_A_HIGHSPEED2”, &' / Detector 2  
 CONTINUE 'WAVELNTH=1280 ' / [Angstrom] Principal wavelength

@@ -21,7 +21,7 @@ Below is an alphabetical listing of all keywords used in this document, both the
 [^footnote-18]: Some of the WCS keywords defined in these papers are also defined in the FITS standard Table 22
 
 
-```
+```none
 ANA_NCMP    Appendix IX.
 AO_LOCK     5.5., 18.6.
 AO_NMODE    5.5., 18.6.

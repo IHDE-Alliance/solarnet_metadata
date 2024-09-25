@@ -33,7 +33,7 @@ All HDUs – including the primary HDU – in SOLARNET FITS files _must_ contain
 
 All fully SOLARNET-compliant _and_ partially SOLARNET-compliant Obs-HDUs _must_ contain (in addition to all mandatory FITS standard keywords) the following mandatory keywords (this also applies to the primary HDU if it is an Obs-HDU):
 
-```
+```none
 EXTNAME
 SOLARNET
 OBS_HDU
@@ -400,7 +400,7 @@ To guide archive designers in the process of presenting grouped observations, we
 
 Examples:
 
-```
+```none
 SVO_SEP1= 'POINT_ID,INSTRUME,DETECTOR,FILTER,NBIN' / Most fine grained separation
 SVO_SEP2= ‘POINT_ID,INSTRUME,DETECTOR,FILTER’ / Img. shows target even w/binning
 SVO_SEP3= ‘POINT_ID,INSTRUME,DETECTOR’ / Target identifiable in all filters
@@ -417,7 +417,7 @@ Note that the `SVO_SEPn` keywords are only _guidelines_ for archive designers. T
 
 For mosaic observations, the keyword `MOSAICID` can be used to tie individual observations together.
 
-## 7.4 Pipeline processing applied to the data
+## 8 Pipeline processing applied to the data
 
 The concept of “data level” is often used to label data with a particular degree of processing, from raw data up to complex data products.
 
@@ -429,11 +429,11 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 
 In addition to the `LEVEL`, `VERSION` and `ORIGIN` keywords, we recommend that some additional keywords are used in order to indicate the processing steps that has been applied to the data. The four keywords described in Section 8.1 may be used instead of or in addition to the more complex set of keywords described in Section 8.2.
 
-### 8 Basic description of processing software
+### 8.1 Basic description of processing software
 
 The name and version of the processing software should be specified by those of the following keywords that might apply:
 
-```
+```none
 CREATOR = 'ZUN_MOMF_PIPELINE' / Name of software pipeline that produced the FITS file`
 VERS_SW = '2.5'       / Version of software applied`
 HASH_SW = 'a7ef89ad998ea7feef4bbc0bbc1bbc2bbc3bbc4' / Commit hash of software applied`
@@ -442,7 +442,7 @@ VERS_CAL = '2.4'       / Version of calibration pack applied
 
 In addition, `PRSTEPn` should specify the nature of the processing steps, if any, that has been applied to the data. Each `PRSTEPn` may contain a comma separated list if multiple processing steps are inseparable. The number n specifies the step number and should reflect the order in which the steps have been performed, e.g.:
 
-```
+```none
 PRSTEP1 = 'FIXED-PATTERN,FLATFIELDING' / First two (inseparable) processing steps`
 PRSTEP2 = 'CALIBRATION' / Second processing step
 PRSTEP3 = 'DISTORTION-CORRECTION' / Third processing step
@@ -450,7 +450,7 @@ PRSTEP3 = 'DISTORTION-CORRECTION' / Third processing step
 
 Below is a list of recommendations for descriptions of processing steps. If desirable, further specifications may be added, e.g., instead of `'LINE-FITTING'` one may want to use `'GAUSSIAN-LINE-FITTING'` versus `'vOIGT-LINE-FITTING'`. Note that distortion corrections come in two flavours: applied to the data (regridding) or applied to the coordinates. In the latter case, `COORDINATE` should be a part of the processing step description. If you need to add to this list, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
 
-```
+```none
 ATMOSPHERIC-INVERSION
 BIAS-CORRECTION
 BINNING
@@ -495,13 +495,13 @@ THRESHOLDING
 WFS-DECONVOLUTION
 ```
 
-### 8.1 Detailed description of all processing steps
+### 8.2 Detailed description of all processing steps
 
 Each processing step may be described in further detail using some or all of the following keywords in addition to `PRSTEPn`: `PRPROCn`, `PRPVERn`, `PRMODEn`, `PRPARAn`, `PRREFn`, `PRLOGn`, and `PRENVn`.
 
 Libraries used in processing step `n` may be described using some or all of the keywords `PRLIBna`, `PRVERna`, `PRHSHna`, and `PRBRAna`, where a is an optional but highly recommended letter `A-Z` to signal that the keyword describes a library, not the main procedure, and to distinguish between different libraries. E.g.:
 
-```
+```none
 PRSTEP1 = 'MOMFBD ' / Processing step type
 PRPROC1 = 'zun_momf.pro' / Name of procedure performing PRSTEP1
 PRPVER1 = 1.5 / Version of procedure PRPROC1

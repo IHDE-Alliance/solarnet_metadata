@@ -17,7 +17,7 @@ When appropriate, it is highly recommended that the referring HDU also contains 
 
 As an example, the header of a referring HDU might contain the following entries:
 
-```
+```none
 EXTNAME = 'He_I ' / Referring HDU extension name
 VAR_KEYS= 'VAR-EXT-1;KEYWD_1,KEYWD_2[He_I_He_II],VAR-EXT-2;KEYWD_3'/ Variable keywords
 KEYWD_1 = 5.2 / Representative value (average) for KEYWD_1
@@ -27,7 +27,7 @@ KEYWD_3 = 5 / Representative value (minimum) for KEYWD_3
 
 This means that the values of the variable keywords `KEYWD_1` and `KEYWD_2` are stored in two separate columns in the `VAR-EXT-1` binary table extension, in columns named `'KEYWD_1'` and `'KEYWD_2[He_I_He_II]'`, respectively. Also, the `KEYWD_3` values are stored in the `VAR-EXT-2` binary table extension in a column named '`KEYWD_3`'. The “tag” `[He_I_He_II]` carries no intrinsic meaning, it is simply a text used to distinguish between columns in the `VAR-EXT-1` extension storing `KEYWD_2` values for different referring HDUs, e.g., `'[He_I_He_II]'` versus `'[O_V]'`. The `VAR-EXT-1` binary table header might contain the following entries (header examples from binary tables are shown in grey in this appendix):
 
-```
+```none
 EXTNAME = 'VAR-EXT-1' / Variable keyword binary table extension name
 :
 TTYPE5 = 'KEYWD_1' / Column 5: values for KEYWD_1
@@ -39,7 +39,7 @@ The `TTYPE7` entry is included only to illustrate the need for the `[He_I_He_II]
 
 The `VAR-EXT-2` binary table extension might contain the following entries:
 
-```
+```none
 EXTNAME = 'VAR-EXT-2' / Variable keyword binary table extension name
 TTYPE1 = 'KEYWD_3' / Column 1 contains variable KEYWD_3 values
 ```
@@ -50,7 +50,7 @@ The mechanism described here may also be used to store a set of values that do _
 
 In all the examples below, the referring HDU is an image sequence with coordinates and dimensions `[x,y,t]=[HPLN-TAN, HPLT-TAN, UTC]=[512,512,60]`, with a header containing the following entries relevant to the examples in this appendix (note the formatting of `VAR_KEYS` for readability – spaces are ignored in the interpretation of the keyword):
 
-```
+```none
 DATEREF = '2023-02-01T00:00:00' / Time coord. zero point (time reference, mandatory)
 CTYPE1 = 'HPLN-TAN' / Coord. 1 is ”solar x”
 CTYPE2 = 'HPLT-TAN' / Coord. 2 is ”solar y”
@@ -85,7 +85,7 @@ For each exposure in the observation series, there is a single value of `ATMOS_R
 
 The header of the corresponding binary table extension `MEASUREMENTS` might contain the following entries:
 
-```
+```none
 EXTNAME = 'MEASUREMENTS' / Extension containing measured auxiliary values
 DATEREF = '2018-01-01T12:00:00' / Time coord. zero point (time reference, mandatory)
 TTYPE5 = 'ATMOS_R0' / Column 5 contains values for ATMOS_R0
@@ -124,7 +124,7 @@ In order to signal such an exact pixel-to-pixel association, the `WCSNn` keyword
 
 If the `ATMOS_R0` values from Example 1 in [Appendix I-a](#appendix-ia) had been recorded in sync with the 60 images, i.e., a single `ATMOS_R0` value is recorded for each image, the binary table extension might instead contain the following entries:
 
-```
+```none
 EXTNAME = 'MEASUREMENTS' / Extension name of binary table extension
 WCSN5 = 'PIXEL-TO-PIXEL' / Column 5 uses pixel-to-pixel association
 TTYPE5 = 'ATMOS_R0' / Column 5 contains values for ATMOS_R0

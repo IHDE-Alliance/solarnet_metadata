@@ -29,7 +29,7 @@ The `EXTNAME` of pixel lists may carry a meaning within the SOLARNET framework (
 
 As an example, in order to refer to all types of pixel lists mentioned in Section 5.6.2, the _referring HDU_'s `PIXLISTS` could contain the following:
 
-```
+```none
 PIXLISTS= 'LOSTPIXLIST;, MASKPIXLIST;, &' / Lost and masked pixels
 CONTINUE 'SATPIXLIST [He_I];ORIGINAL, &' / He_I saturated pixels w/original values
 CONTINUE 'SPIKEPIXLIST [He_I];ORIGINAL,CONFIDENCE, &' / Spike pixels for He_I
@@ -42,13 +42,13 @@ The pixel list name `SUNSPOTS` used above is arbitrarily chosen as an example, i
 
 The header of an Obs-HDU with dimensions `[lambda,x,y] = [20,100,100]` might contain the following entry:
 
-```
+```none
 PIXLISTS= 'SPIKEPIXLIST;ORIGINAL,CONFIDENCE' / List of spike pixels
 ```
 
 This means that `SPIKEPIXLIST` is a pixel list with two attribute columns, `ORIGINAL` and `CONFIDENCE`. The header of this binary table extension might include the following entries:
 
-```
+```none
 EXTNAME = 'SPIKEPIXLIST' / Extension name
 TTYPE1 = 'DIMENSION1' / Col.1 is index into data cube dimension 1
 TTYPE2 = 'DIMENSION2' / Col.2 is index into data cube dimension 2
@@ -78,7 +78,7 @@ Thus, if we want to flag 3 pixels in the referring HDU data cube, and store the 
 
 We could list pixels that were lost during acquisition but were later filled in with estimated values. In this case, there is no original value, thus there are no attributes to associate with the pixels. An Obs-HDU might then contain:
 
-```
+```none
 PIXLISTS= 'LOSTPIXLIST[He_I];' / EXTNAME of Binary table specifying lost pixels
 ```
 
@@ -115,7 +115,7 @@ As in Example 3, we use a zero value as a wildcard for dimension 2, representing
 
 The header of the pixel list binary table extension pixel list describing the approximated pixel range would contain the values listed below (among others):
 
-```
+```none
 EXTNAME = 'APRXPIXLIST[Full LW 4:1 Focal Lossy]' / Extension name
 
     ------------------------------

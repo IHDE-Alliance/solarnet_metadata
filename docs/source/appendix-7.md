@@ -4,7 +4,7 @@
 
 In SOLARNET FITS files, in keywords that have no special function within the official FITS/WCS framework, references to other extensions may be in the form of _external extension references_, e.g.:
 
-```
+```none
 VAR_KEYS= '../auxiliary/s35837r001-aux.fits;VAR_KEY_DATA;TEMPERATURE[He_I]'
 ```
 
