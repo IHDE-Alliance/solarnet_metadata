@@ -25,21 +25,34 @@ Until the advent of the SOLARNET recommendations, metadata descriptions of Solar
 
 .. [#footnote] Full list per July 2021: Solar Orbiter SPICE, SST CHROMIS/CRISP (SSTRED), AISAS/Lomnicky Stit COMP-S/SCD, SAMNET, Gregor HiFI/GFPI, ROB USET, Alma pipeline for Solar data (SOAP), INAF IBIS-A (IBIS data Archive), PADRE/MeDDEA
 
-Table of Contents
------------------
-
+Part A. Description of FITS Keywords
+------------------------------------
 .. toctree::
    :maxdepth: 3
    
    generated/parta.md
-   generated/partb
-   generated/partc
    appendix.rst
+
+Part B. Lists of Mandatory and Optional FITS Keywords with Example Values
+-------------------------------------------------------------------------
+.. toctree::
+   :maxdepth: 3
+
+   generated/partb
+
+Part C. Part C. Alphabetical listings of FITS keywords with section references
+------------------------------------------------------------------------------
+.. toctree::
+   :maxdepth: 3
+
+   generated/partc
+
+References
+----------
+.. toctree::
+   :maxdepth: 3
+
    references
-
-
-Indices and tables
-==================
 
 * :ref:`genindex`
 * :ref:`search`

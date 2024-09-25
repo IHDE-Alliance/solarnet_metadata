@@ -1,6 +1,4 @@
-# Part C Alphabetical listing of all new SOLARNET keywords with section references
-
-## 19 Alphabetical listing of all new SOLARNET keywords with section references
+# 19 Alphabetical listing of all new SOLARNET keywords with section references
 Below is an alphabetical listing of all SOLARNET keywords that are not part of the FITS standard or any widely accepted FITS convention, keywords that have been used in the past that do not have widely accepted definitions, or previously defined keywords that need to take special values in SOLARNET files:
 
 ```{csv-table} Solarnet keywords
@@ -10,7 +8,7 @@ Below is an alphabetical listing of all SOLARNET keywords that are not part of t
 :file: ../solarnet_keyword_list.csv
 ```
 
-## 20 Alphabetical listing of all keywords with section references
+# 20 Alphabetical listing of all keywords with section references
 
 Below is an alphabetical listing of all keywords used in this document, both the SOLARNET keywords listed in Section 19 and FITS standard/widely accepted FITS convention keywords, the latter identified with a one-character trailing code:
 

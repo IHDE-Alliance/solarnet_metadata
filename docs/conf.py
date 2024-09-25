@@ -66,7 +66,7 @@ latex_elements = {
     'pointsize': '12pt',
     # Additional stuff for the LaTeX preamble.
     #
-    # 'preamble': '',
+    'preamble': '\setcounter{secnumdepth}{-1}',
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',

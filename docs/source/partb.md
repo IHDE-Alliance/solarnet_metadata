@@ -1,6 +1,4 @@
-# Part B. Lists of mandatory and optional FITS keywords with example values
-
-## 12 Mandatory keyword for all HDUs (Section 2.1)
+# 12 Mandatory keyword for all HDUs (Section 2.1)
 
 In addition to all keywords required by the FITS Standard, all HDUs (including the primary HDU) in SOLARNET FITS files must contain the keyword `EXTNAME`, with a value that is unique within the file.
 
@@ -8,7 +6,7 @@ In addition to all keywords required by the FITS Standard, all HDUs (including t
 EXTNAME= 'He_I ' / Name of HDU
 ```
 
-## 13 Mandatory keywords for all Obs-HDUs (Section 2.2)
+# 13 Mandatory keywords for all Obs-HDUs (Section 2.2)
 
 ```none
 SOLARNET= 0.5 / Fully SOLARNET-compliant=1.0, partially=0.5
@@ -16,17 +14,17 @@ OBS_HDU = 1 / This HDU contains observational data
 DATE-BEG= '2020-12-24T17:12:00.5' / Date of start of observation
 ```
 
-## 14 Mandatory WCS keyword for all HDUs with a UTC (time) coordinate (Section 4.1)
+# 14 Mandatory WCS keyword for all HDUs with a UTC (time) coordinate (Section 4.1)
 
 ```none
 DATEREF = '2020-12-24T00:00:00' / Time coordinate zero point
 ```
 
-## 15 Mandatory keywords for fully SOLARNET-compliant Obs-HDUs
+# 15 Mandatory keywords for fully SOLARNET-compliant Obs-HDUs
 
 The keywords listed in this section are mandatory for fully SOLARNET-compliant Obs-HDUs. However, most keywords are only “conditionally mandatory”, depending on the data content, which mechanisms have been used, instrument type, etc.
 
-### 15.1 Mandatory general keywords (Sections 8, 9, and [Appendix V-a](#appendix-va))
+## 15.1 Mandatory general keywords (Sections 8, 9, and [Appendix V-a](#appendix-va))
 
 ```none
 FILENAME= 'sleep_a_zen_l2_20201224_170000.1_balanced.fits'
@@ -36,7 +34,7 @@ DATE = '2020-12-31T23:59:59' / Date of FITS file creation
 ORIGIN = 'University of Oslo' / Location where FITS file has been created
 ```
 
-### 15.2 Fundamental WCS coordinate keywords (Section 3.1)
+## 15.2 Fundamental WCS coordinate keywords (Section 3.1)
 
 Obs-HDUs must contain all WCS coordinate specifications that are required to _adequately describe the observations_ for their normal use. This includes e.g., the use of extra coordinates for singular dimensions when necessary (i.e., `WCSAXES` may be greater than `NAXIS`), or the use of alternate WCS coordinate systems (with WCS keywords ending in a letter `A-Z`). Normally, WCS keywords that must be included are `CRVALi`, `CDELTi`, `CRPIXj`, `CUNITi`, `CTYPEi`, and when necessary, also e.g., `WCSAXES`, `PCi_j` (or `CDi_j`), `CRDERi`, and `CSYERi`.
 
@@ -52,9 +50,9 @@ CRDER3 = 0.03 / [s] Large random clock error (sample-to-sample)
 CSYER3 = 5 / [s] Large systematic error, clock may be off by 5s
 ```
 
-### 15.3 Mandatory WCS positional keywords (Section 3.2)
+## 15.3 Mandatory WCS positional keywords (Section 3.2)
 
-#### 15.3.1 Mandatory for ground-based observatories (Section 3.2)
+## 15.3.1 Mandatory for ground-based observatories (Section 3.2)
 
 ```none
 OBSGEO-X= 5327395.9638 / [m] Observer's fixed geographic X coordinate
@@ -62,7 +60,7 @@ OBSGEO-Y= -1719170.4876 / [m] Observer's fixed geographic Y coordinate
 OBSGEO-Z= 3051490.766 / [m] Observer's fixed geographic Z coordinate
 ```
 
-#### 15.3.2 Mandatory for Earth orbiting satellites (Section 3.2)
+## 15.3.2 Mandatory for Earth orbiting satellites (Section 3.2)
 
 ```none
 GEOX_OBS= 1380295.0032 / [m] Observer's non-fixed geographic X coordinate
@@ -70,7 +68,7 @@ GEOY_OBS= 57345.1262 / [m] Observer's non-fixed geographic Y coordinate
 GEOZ_OBS= 9887953.9454 / [m] Observer's non-fixed geographic Z coordinate
 ```
 
-#### 15.3.3 Mandatory for deep space missions (not Earth orbiting satellites) (Section 3.2)
+## 15.3.3 Mandatory for deep space missions (not Earth orbiting satellites) (Section 3.2)
 
 ```none
 HGLN_OBS= -0.0572950 / Observer's Stonyhurst heliographic longitude
@@ -78,7 +76,7 @@ HGLT_OBS= 5.09932 / Observer's Stonyhurst heliographic latitude
 DSUN_OBS= 88981577950.3 / [m] Distance from instrument to Sun centre
 ```
 
-### 15.4 Mandatory data description keywords (Sections 5.1, 5.2 and 5.6.2)
+## 15.4 Mandatory data description keywords (Sections 5.1, 5.2 and 5.6.2)
 
 The `BTYPE` keyword should contain either a UCD description of the data contents, or a more human readable description[^footnote-16]:
 
@@ -122,7 +120,7 @@ Missing or blank pixels in floating-point-valued HDUs should be set to _NaN_, bu
 BLANK = -100 / Value of missing pixels (integer HDU)
 ```
 
-### 15.5 Mandatory keywords identifying the origin of the observations (Section 6)
+## 15.5 Mandatory keywords identifying the origin of the observations (Section 6)
 
 A _subset_ of the following keywords is mandatory in the sense that the subset must be sufficient to uniquely identify the origin of the observations, and they should be present to the extent that they make sense for the given observations (e.g., `MISSION` might not make sense for ground-based observations, or there might be no sensible value for `PROJECT`).
 
@@ -157,7 +155,7 @@ DATATAGS= '"ESA", "NASA", "ESA/NASA"'/ Additional information
 
 Note that e.g., `DETECTOR`, `GRATING`, and `FILTER` this might seem unnecessary for instruments with an _a priori_ single fixed value, but for ground-based observatories, upgrades of an instrument might include a change of e.g., filters.
 
-### 15.6 Mandatory keywords for spectrographs and filter instruments (Sections 3.2 and 5.4)
+## 15.6 Mandatory keywords for spectrographs and filter instruments (Sections 3.2 and 5.4)
 
 ```none
 WAVEUNIT= -10 / Wavelength related kwds have unit: 10^(WAVEUNIT) m
@@ -179,26 +177,26 @@ SPECSYS = 'TOPOCENT' / Coordinate reference frame = observer
 VELOSYS = 0.0 / [m s-1] No velocity correction applied to WAVE coord.
 ```
 
-### 15.7 Mandatory keyword for spectrographs (Section 5.4)
+## 15.7 Mandatory keyword for spectrographs (Section 5.4)
 
 ```none
 SLIT_WID= 0.5 / [arcsec] Slit width
 ```
 
-### 15.8 Mandatory keywords for polarimetric data (Section 5.4.1)
+## 15.8 Mandatory keywords for polarimetric data (Section 5.4.1)
 
 ```none
 POLCCONV= '(+HPLT,-HPLN,+HPRZ)' / Reference system for Stokes vectors
 POLCANGL= 45.5 / [deg] Counter-clockwise rotation around +HPRZ axis
 ```
 
-### 15.9 Mandatory keyword for grouping (Sections 7 and [Appendix V-b](#appendix-vb) )
+## 15.9 Mandatory keyword for grouping (Sections 7 and [Appendix V-b](#appendix-vb) )
 
 ```none
 POINT_ID= '20201224_165812_200'/ Unique (re-)pointing ID
 ```
 
-## 16 Mandatory keyword for SOLARNET HDUs that contain keywords with a definition in conflict with the specifications in this document (Section 2.2)
+# 16 Mandatory keyword for SOLARNET HDUs that contain keywords with a definition in conflict with the specifications in this document (Section 2.2)
 
 If a SOLARNET HDU contains SOLARNET keywords with definitions that are in conflict with the definitions in this document, those keywords _must_ be listed as a comma-separated list in the keyword `SOLNETEX`, e.g.:
 
@@ -210,7 +208,7 @@ Note that _none_ of the keywords that are mandatory for a given HDU may have con
 
 [^footnote-17]: If some existing utility requires a different definition of a mandatory keyword, we recommend that the value for the non-SOLARNET definition be given in a new keyword, and that the software be modified.
 
-## 17 Mandatory keywords for all HDUs that uses any of the variable-keyword, pixel list or meta-observation mechanism (Sections 2.1, 2.2, 2.3, [Appendix I](#appendix-i), [Appendix II](#appendix-ii), and [Appendix III](#appendix-iii))
+# 17 Mandatory keywords for all HDUs that uses any of the variable-keyword, pixel list or meta-observation mechanism (Sections 2.1, 2.2, 2.3, [Appendix I](#appendix-i), [Appendix II](#appendix-ii), and [Appendix III](#appendix-iii))
 
 Any HDU using one of these mechanisms must have `SOLARNET` set to a non-zero value, even non-Obs-HDUs (which should use a value of -1). In addition, `EXTNAME` must be set according to the guidelines in Section 2. Finally, the respective `VAR_KEYS`, `PIXLISTS` or `METADIM`/`METAFILS` must be set – see [Appendix I](#appendix-i), [Appendix I-d](#appendix-id) and [Appendix III](#appendix-iii) for details.
 
@@ -227,7 +225,7 @@ CONTINUE 'sleep_a_zun_l2_20201224_170112.8_balanced.fits, &'
 CONTINUE '' / All files in Meta-obs
 ```
 
-### 17.1 Mandatory keyword for binary table extension value columns that use pixel-to-pixel association ([Appendix I-b](#appendix-ib))
+## 17.1 Mandatory keyword for binary table extension value columns that use pixel-to-pixel association ([Appendix I-b](#appendix-ib))
 
 The value of `WCSNn` must start with `“PIXEL-TO-PIXEL”` to signal that a direct pixel-to-pixel association applies:
 
@@ -235,7 +233,7 @@ The value of `WCSNn` must start with `“PIXEL-TO-PIXEL”` to signal that a dir
 WCSN5 = 'PIXEL-TO-PIXEL' / Column 5 uses pixel-to-pixel association
 ```
 
-### 17.2 Mandatory keywords for binary table extensions that use the SOLARNET pixel lists mechanism for flagging pixels ([Appendix I-d](#appendix-id))
+## 17.2 Mandatory keywords for binary table extensions that use the SOLARNET pixel lists mechanism for flagging pixels ([Appendix I-d](#appendix-id))
 
 Binary table columns storing pixel indices must have `TCTYPn` equal to `'PIXEL'` and `TTYPEn` equal to `'DIMENSIONk'`, where k is the dimension number in the referring HDU’s data cube. The column storing pixel types must have `TTYPEn` equal to `'PIXTYPE'`. Any attribute columns must have `TTYPEn` equal to the name of the attached attribute contained in that column. E.g.:
 
@@ -250,11 +248,11 @@ TCTYP2 = 'PIXEL ' / Indicates that col. 2 is a pixel index
 TCTYP3 = 'PIXEL ' / Indicates that col. 3 is a pixel index
 ```
 
-## 18 Optional keywords for all Obs-HDUs
+# 18 Optional keywords for all Obs-HDUs
 
 The keywords in this section are optional for both fully and partially SOLARNET-compliant Obs-HDUs.
 
-### 18.1 Optional keyword for deep space missions (not Earth orbiting satellites) (Section 3.2)
+## 18.1 Optional keyword for deep space missions (not Earth orbiting satellites) (Section 3.2)
 
 In addition to the mandatory keyword DSUN_OBS the optional keyword `DSUN_AU` may be used to give the instrument-Sun centre distance in astronomical units:
 
@@ -262,7 +260,7 @@ In addition to the mandatory keyword DSUN_OBS the optional keyword `DSUN_AU` may
 DSUN_AU = 0.594805136980 / [AU] Distance from instrument to Sun centre
 ```
 
-### 18.2 Optional date and time keywords (Section 4)
+## 18.2 Optional date and time keywords (Section 4)
 
 ```none
 DATE-END= '2020-12-24T17:00:02.5' / Date of end of observation
@@ -270,7 +268,7 @@ DATE-AVG= '2020-12-24T17:00:01.3' / Average date of observation
 TIMESYS = 'UTC ' / Time scale of the time-related keywords.
 ```
 
-### 18.3 Optional keywords describing cadence (Section 5.3)
+## 18.3 Optional keywords describing cadence (Section 5.3)
 
 ```none
 CADENCE = 2.5 / [s] Planned cadence
@@ -280,7 +278,7 @@ CADMAX = 2.69162 / [s] Maximum actual frame-to-frame spacing
 CADVAR = 0.0118546 / [s] Variance of frame-to-frame spacing
 ```
 
-### 18.4 Optional keyword for spectrographs (Section 5.4)
+## 18.4 Optional keyword for spectrographs (Section 5.4)
 
 ```none
 WAVECOV = '70.351919-70.839504, 76.749034-77.236619, 77.743708-78.231293, 78.3&' 
@@ -288,14 +286,14 @@ CONTINUE '67817-78.991925, 97.496379-97.842807, 102.2309-102.82752, 102.99111&'
 CONTINUE '-103.31829, 103.4049-104.00153&' / [nm] All WAVEMIN-WAVEMAX
 ```
 
-### 18.5 Optional data description keywords (Section 5.1)
+## 18.5 Optional data description keywords (Section 5.1)
 
 ```none
 BNAME = 'Spectral Radiance' / Description of what the data array represents
 UCD = 'phot.radiance;em.UV' / Unified Content Descriptors v1.23
 ```
 
-### 18.6 Optional keywords characterizing the instrument/data (Sections, 5.4 and 5.5)
+## 18.6 Optional keywords characterizing the instrument/data (Sections, 5.4 and 5.5)
 
 ```none
 WAVEBAND= 'He I 584.58 A' / Strongest emission line in data
@@ -327,7 +325,7 @@ _or_
 RESPAPPL= 0.52 / Mean of applied response function
 ```
 
-### 18.7 Optional quality aspects keywords (Sections 3.1 and 5.5)
+## 18.7 Optional quality aspects keywords (Sections 3.1 and 5.5)
 
 ```none
 ATMOS_R0= 15 / [cm] Atmospheric coherence length
@@ -338,7 +336,7 @@ COMPQUAL= 0.75 / Quality of data after lossy compression
 COMP_ALG= 'jpeg2000' / Name of lossy compression algorithm
 ```
 
-### 18.8 Optional data statistics keywords (Section 5.6)
+## 18.8 Optional data statistics keywords (Section 5.6)
 
 ```none
 DATAMIN = -23 / [DN] Minimum of data
@@ -364,7 +362,7 @@ DATAKURT= 24.8832 / Kurtosis of data
 DATASKEW= 4.84719 / Skewness of data
 ```
 
-### 18.9 Optional keywords for missing and saturated pixels (Section 5.6.1)
+## 18.9 Optional keywords for missing and saturated pixels (Section 5.6.1)
 
 ```none
 NTOTPIX = 262144 / Expected number of data pixels
@@ -382,7 +380,7 @@ PCT_APRX= 0.02441406 / NAPRXPIX/NTOTPIX*100
 PCT_DATA= 99.7734070 / NDATAPIX/NTOTPIX*100
 ```
 
-### 18.10 Optional pipeline processing keywords (Sections 8, 8.1 and 8.2)
+## 18.10 Optional pipeline processing keywords (Sections 8, 8.1 and 8.2)
 
 ```none
 LEVEL = '3 ' / Data level of fits file
@@ -414,7 +412,7 @@ CONTINUE 'dl_libs/astron/coyote' / Software library containing PRPROC1
 PRVER1B = 59549 / Modified Julian date of last mirroring of PRLIB1B
 ```
 
-### 18.11 Optional keyword for administrative information (Section 9)
+## 18.11 Optional keyword for administrative information (Section 9)
 
 ```none
 INFO_URL= '<http://sleep.esa.int/zun/info.html>' / Data set resource web page
@@ -422,7 +420,7 @@ RELEASE = '2022-08-25T00:00' / Public release date of data
 RELEASEC= '<embargo@zun.no>,<zunteam@esa.int>' / Data release administrators
 ```
 
-### 18.12 Optional keywords for grouping (Section 7)
+## 18.12 Optional keywords for grouping (Section 7)
 
 ```none
 SVO_SEP1= 'POINT_ID,INSTRUME,DETECTOR,FILTER,NBIN' / Most fine grained separation
@@ -433,7 +431,7 @@ SVO_GRP = 'R_SMALL_HRES_MCAD_Polar-Observations' / SVO group
 MOSAICID= '10023b_2' / Mosaic ID
 ```
 
-### 18.13 Optional keyword for binary table extensions using the variable-keyword, pixel list or meta-observation mechanism ([Appendix I](#appendix-i), [Appendix I-d](#appendix-id) and [Appendix III](#appendix-iii))
+## 18.13 Optional keyword for binary table extensions using the variable-keyword, pixel list or meta-observation mechanism ([Appendix I](#appendix-i), [Appendix I-d](#appendix-id) and [Appendix III](#appendix-iii))
 
 `TDESCn` may be used to give a description of the contents of the binary table column.
 
