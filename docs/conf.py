@@ -62,17 +62,15 @@ html_static_path = ['_static']
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    #
     'papersize': 'letterpaper',
     # The font size ('10pt', '11pt' or '12pt').
-    #
     'pointsize': '12pt',
     # Additional stuff for the LaTeX preamble.
-    #
-    'preamble': '\setcounter{secnumdepth}{-1}',
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
+    'preamble': '''
+\setcounter{secnumdepth}{-1}
+''',
+    # Custom Margins to fit long code blocks
+    'sphinxsetup': 'hmargin={0.5in,0.5in}, vmargin={1in,1in}, marginpar=1in',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
