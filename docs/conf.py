@@ -14,6 +14,9 @@ import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+from docutils import nodes
+from sphinx.util.texescape import escape
+from sphinx import addnodes
 
 # -- Project information -----------------------------------------------------
 
@@ -113,7 +116,7 @@ for file in files_to_annotate:
             # Function to replace keywords outside of code blocks
             def replace_keywords(text):
                 for this_key in solarnet_keywords:
-                    text = re.sub(rf"`\b{this_key}\b`", f"<code>{{index}}`{this_key}`</code>", text)
+                    text = re.sub(rf"`\b{this_key}\b`", f"{{codeindex}}`{this_key}`", text)
                 return text
 
             # Define a regex pattern to match code blocks
@@ -128,3 +131,17 @@ for file in files_to_annotate:
             # Rejoin the parts and write to the output file
             output_file.write("".join(parts))
 
+def code_index_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+    index_node = addnodes.index(entries=[('single', text, text, '', None)])
+    code_node = nodes.literal(text, text)
+    
+    # Return both the index and code node
+    return [index_node, code_node], []
+
+def setup(app):
+    """
+    This function is called when Sphinx initializes the extension.
+    We register our custom parser for indexing.
+    """
+
+    app.add_role('codeindex', code_index_role)
