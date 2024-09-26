@@ -29,9 +29,7 @@ All `DWia` records for a given coordinate correction should be given as contiguo
 
 Since record-valued keywords can only have numeric values, we must assign numbers to the coordinate stages in order to refer to them. We specify the stage numbers using a more detailed version of the normal FITS coordinate calculation flowchart, with the stage numbers given in the rightmost column:
 
-<p align="center">
-    <img src="../_static/fits_coordinate_calculation_flowchart.svg">
-</p>
+![Coordinate Calculation Flowchart](../_static/fits_coordinate_calculation_flowchart.png)
 
 The association of coordinates between the data cube and the distortion array may happen at any of the calculation stages 1-6 for the data cube. The distortion found by interpolation in the distortion array may then be applied to the data cube coordinates at the same stage or any of the later stages. I.e., `DWia•APPLY >= DWia•ASSOCIATE`.
 
