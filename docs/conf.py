@@ -90,8 +90,6 @@ with open('solarnet_keyword_list.csv', newline='') as csvfile:
         kywd = row[0].rstrip()
         solarnet_keywords.append(kywd)
 
-# add index entries to parta
-# Process the input file
 files_to_annotate = [
     "parta.md",
     "partb.md",
