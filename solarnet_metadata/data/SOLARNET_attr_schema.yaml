@@ -1,0 +1,1430 @@
+# =============================================================================
+# SOLARNET_variable_fits_attr_schema.yaml
+
+# This file contains the schema for the FITS attribute metadata that is used to
+# describe the variables in the FITS files. The schema is used to validate the
+# FITS attribute metadata that is provided by the user.
+
+# The schema is a dictionary with the following keys:
+# - attribute_key: A dictionary containing the schema for each attribute.
+# - conditional_requirements: A list of dictionaries containing conditional 
+#   requirements for the attribute metadata.
+
+# =============================================================================
+attribute_key:
+  ANA_NCMP:
+    data_type: int
+    default: null
+    description: Number of components in the analysis used for parameterized "Type P" data
+    human_readable: Number of components
+    required: false # Required for Type P data
+  AO_LOCK:
+    data_type: float # 0 or 1, floating averages may also be specified as appropriate
+    default: null
+    description: should be used to indicate the status of any adaptive optics. When specified for individual exposures, the value should be either 0 or 1, but as mentioned above, averages may also be specified as appropriate.
+    human_readable: Adaptive optics status, 0.0=no lock, 1.0=lock
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  AO_NMODE:
+    data_type: int
+    default: null
+    description: should be used to indicate the number of adaptive optics modes corrected. As mentioned above, averages may also be specified as appropriate. The type of the modes (e.g., Zernike, Karhunen-Loeve, etc.) should be given in the keyword comment.
+    human_readable: Number of AO modes
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  ATMOS_R0:
+    data_type: float
+    default: null
+    description: atmospheric coherence length r0. If available, the value of r0 should be stored in the keyword ATMOS_R0. Since there are multiple ways of measuring this value, its only use should be to reflect the quality of the observing conditions whenever the measurements are performed in the same (or similar enough) way.
+    human_readable: Atmospheric coherence length
+    required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  AUTHOR:
+    data_type: str
+    default: null
+    description: Who designed the observation
+    human_readable: Author
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  BLANK:
+    data_type: int
+    default: null
+    description: Value marking undefined pixels before the application of BSCALE, BZERO. Missing or blank pixels in floating-point-valued HDUs should be set to NaN, but missing or blank pixels in integer-valued HDUs must be given the value of BLANK
+    human_readable: Value of missing pixels (floating HDU)
+    required: true # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+  BNAME:
+    data_type: str
+    default: null
+    description: may be used to provide a human readable explanation of the data contents. This keyword is not mentioned in any FITS standard document, but it is a natural analogy to the CNAMEi keywords used to provide additional description of the WCS coordinate.
+    human_readable: Data description
+    required: false # Optional data description keywords (sections 18, 5.1)
+  BNDCTR:
+    data_type: float
+    default: null
+    description: For radio observations, BNDCTR may be used instead of WAVELNTH to specify a corresponding frequency in Hz.
+    human_readable: Band center
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  BTYPE:
+    data_type: str
+    default: null
+    description: Description of what the data array represents
+    human_readable: Data label
+    required: true # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+  BSCALE:
+    data_type: float
+    default: 1.0
+    description: The value of the pixel in the FITS file is given by BZERO + BSCALE * pixel value
+    human_readable: Linear scaling factor
+    required: true
+  BUNIT:
+    data_type: str
+    default: null
+    description: Units of data array
+    human_readable: Units
+    required: true # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+  BZERO:
+    data_type: float
+    default: 0.0
+    description: The value of the pixel in the FITS file is given by BZERO + BSCALE * pixel value
+    human_readable: Scale Base
+    required: true
+  CADAVG:
+    data_type: float
+    default: null
+    description: '[s] Average (actual) measurement cadence (frame to frame spacing)'
+    human_readable: Average actual measurement cadence
+    required: false # Optional keywords describing cadence (sections 18, 5.3)
+  CADENCE:
+    data_type: float
+    default: null
+    description: '[s] Planned/commanded cadence (frame to frame spacing)'
+    human_readable: Planned measurement cadence
+    required: false # Optional keywords describing cadence (sections 18, 5.3)
+  CADMAX:
+    data_type: float
+    default: null
+    description: '[s] Maximum frame-to-frame spacing'
+    human_readable: Maximum measurement cadence
+    required: false # Optional keywords describing cadence (sections 18, 5.3)
+  CADMIN:
+    data_type: float
+    default: null
+    description: '[s] Minimum frame-to-frame spacing'
+    human_readable: Minimum measurement cadence
+    required: false # Optional keywords describing cadence (sections 18, 5.3)
+  CADVAR:
+    data_type: float
+    default: null
+    description: '[s] Variability of the frame-to-frame spacing'
+    human_readable: Measurement cadence variability
+    required: false # Optional keywords describing cadence (sections 18, 5.3)
+  CAMERA: 
+    data_type: str
+    default: null
+    description: Camera name (CAM-xxxx is recommended for other camera keywords).
+    human_readable: Name of the camera
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  CAMPAIGN:
+    data_type: str
+    default: null
+    description:  Coordinated campaign name/number, including instance number, when applicable
+    human_readable: Observation campaign
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  CAR_ROT:
+    data_type: float
+    default: null
+    description: Carrington rotation number for the reference pixel pointed to by CRPIXj values
+    human_readable: Carrington rotation
+    required: false
+  CCURRENT:
+    data_type: str
+    default: null
+    description: When an Obs-HDU (partially) overlaps in time and space with one or more HDUs stored in other files, CCURRENT (concurrent) may be set to a comma-separated list of its own file name plus the names of all files containing concurrent Obs-HDUs. CCURRENT serves as a pointer to other concurrent (and probably relevant) observations, but it also serves a purpose in grouping search results
+    human_readable: Concurrent files
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  CDELTia:
+    data_type: float
+    default: null
+    description: The increment in the coordinate value along axis i in units of the coordinate value
+    human_readable: Coordinate scale increment
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  CDi_ja:
+    data_type: float
+    default: null
+    description: Linear-transformation matrix element in the ith row and jth column of the CD matrix
+    human_readable: Linear-transformation matrix element
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  CHECKSUM:
+    data_type: str
+    default: null
+    description: Checksum of the data array
+    human_readable: Checksum
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  CMPDESn:
+    data_type: str
+    default: null
+    description: Description of component n
+    human_readable: Component description
+    required: false # Optional for Type P data
+  CMPINCn:
+    data_type: int
+    default: 1
+    description: Indicates whether component n is included (CMPINCn=1) or excluded (CMPINCn=0) in the fit. This allows specification of components that would normally be included but for some reason (e.g., poor S/N ratio) has been left out for this particular data set. If CMPINCn is zero, additive components have a value of zero independent of the parameter values, and multiplicative components have a value of 1. Default value is 1, i.e., the component is included in the fit. The parameters in the data cube should be set to the initial values that would have been used if the component was included. If this is not feasible, the parameters should be set such that the component value would be zero if it had in fact been included.
+    human_readable: Component inclusion
+    required: false # Optional for Type P data
+  CMPMULn:
+    data_type: int
+    default: 0
+    description: Indicates whether component n is multiplicative (CMPMULn=1), in which case it is to be applied to the result of all previous components n-1, n-2, etc. This can be used for e.g., extinction functions. Default value is 0.
+    human_readable: Component type
+    required: false # Optional for Type P data
+  CMPNAMn:
+    data_type: str
+    default: null
+    description: Name of component n, typically used to identify/label the emission line fitted
+    human_readable: Component name
+    required: false # Optional for Type P data
+  CMPSTRn:
+    data_type: str
+    default: null
+    description: Used by SSW's cfit routines for the string to be included in composite function names. E.g., the function string for a Gaussian is 'g', and 'p1' for a first-order polynomial. An automatically generated composite function of the two would be called 'cf_g_p1_'.
+    human_readable: Component string
+    required: false # Optional for Type P data
+  CMPTYPn:
+    data_type: str
+    default: null
+    description: > 
+      Component type, e.g.,
+      - 'Polynomial', a polynomial of order CMP_NPn - 1.
+      - 'Gaussian', a Gaussian
+      - 'SSW comp_bgauss', a broadened Gaussian, see SSW routine comp_bgauss
+      - 'SSW comp_voigt', a Voigt profile, see SSW routine comp_voigt
+      - ... etc. If you need additional component types, contact prits-group@astro.uio.no.
+    human_readable: Component type
+    required: false # Required for Type P data
+  CMP_NPn:
+    data_type: int
+    default: null
+    description: Number of parameters for component n
+    human_readable: Number of parameters
+    required: false # Required for Type P data
+  CNAMEia:
+    data_type: str
+    default: null
+    description: Name of the coordinate axis i
+    human_readable: Coordinate axis name
+    required: true
+  COMMENT:
+    data_type: str
+    default: null
+    description: May be used to include the relevant parts of the OBS_LOG, and any other relevant comments about the HDU that may be useful for the interpretation of the data.
+    human_readable: Comment
+    required: false
+  COMPQUAL:
+    data_type: float
+    default: null
+    description: set to a number between 0.0 and 1.0, where 1.0 indicates lossless compression (if any) and 0.0 indicates "all information is lost". In practice, however, the actual value is not crucial, as long as a higher value corresponds to a higher data quality. If there is a choice between different compression algorithms for this instrument, the name of the algorithm should be given in COMP_ALG - starting with either 'Lossy' or 'Lossless', then typically a concatenation of all instrument-specific compression-related keywords, separated with slashes.
+    human_readable: Quality of data after lossy compression
+    required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  COMP_ALG:
+    data_type: str
+    default: null
+    description: Name of the compression algorithm used
+    human_readable: Name of lossy compression algorithm
+    required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  CONSTEXT:
+    data_type: int # ?
+    default: null
+    description: constant mask ([x,y,t,p]) - if the constant mask value (x,y,t,p)=1, parameter p has been kept constant/frozen at the stored value during the fitting process for point (x,y,t). When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless PCONSna=1.
+    human_readable: Constant mask
+    required: false
+  CONTINUE:
+    data_type: str
+    default: null
+    description: May be used to continue a keyword value that is too long to fit in a single 80-character record
+    human_readable: Continue
+    required: false
+  CPDISia:
+    data_type: str
+    default: null
+    description: Prior distortion function type. Distortion correction for axis i.
+    human_readable: Distortion correction
+    required: true
+  CPERRia:
+    data_type: float
+    default: null
+    description: Maximum value of prior distortion correction for axis i
+    human_readable: Maximum value of prior distortion correction for axis i
+    required: true
+  CQDISia:
+    data_type: str
+    default: null
+    description: Posterior distortion function type. Distortion correction for axis i.
+    human_readable: Distortion correction
+    required: true
+  CQERRia:
+    data_type: float
+    default: null
+    description: Maximum value of posterior distortion correction for axis i
+    human_readable: Maximum value of posterior distortion correction for axis i
+    required: true
+  CRDERia:
+    data_type: float
+    default: 0.0
+    description:  Random error in Coordinate i, which must be non-negative.
+    human_readable: Random error
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  CREATOR:
+    data_type: str
+    default: null
+    description: Name of software pipeline that produced the FITS file
+    human_readable: File Creator
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  CROTia:
+    data_type: float
+    default: 0.0
+    description: The amount of rotation from the standard coordinate system to a different coordinate system. Further use of this of this keyword is deprecated, in favor of the newer formalisms that use the CDi_j or PCi_j keywords to define the rotation.
+    human_readable: Coordinate rotation
+    required: true
+  CRPIXja:
+    data_type: float
+    default: 0.0
+    description: Location of the reference point in the image for Axis j corresponding to rj. Note that the reference point may lie outside the image and that the first pixel in the image has pixel coordinates (1.0, 1.0, . . .)
+    human_readable: Reference pixel
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  CRVALia:
+    data_type: float
+    default: 0.0
+    description: Worldcoordinate value at the reference point of Axis i.
+    human_readable: Reference value
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  CSYERia:
+    data_type: float
+    default: 0.0
+    description: Systematic error in Coordinate i, which must be non-negative.
+    human_readable: Systematic error
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  CTYPEia:
+    data_type: str
+    default: null
+    description: Type of coordinate i
+    human_readable: Coordinate type
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  CUNITia:
+    data_type: str
+    default: null
+    description: Physical units of CRVAL and CDELT for Axis i. Note that units should always be specified. Units for celestial coordinate systems defined in this Standard must be degrees.
+    human_readable: Coordinate units
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  CWDISia: # NOTE: Not well defined in SOLARNET Recommendations
+    data_type: str
+    default: null
+    description: Weighted distortion function type. Distortion correction for axis i.
+    human_readable: Distortion correction
+    required: true
+  CWERRia: # NOTE: Not well defined in SOLARNET Recommendations
+    data_type: float
+    default: null
+    description: Maximum value of weighted distortion correction for axis i
+    human_readable: Maximum value of weighted distortion correction for axis i
+    required: true
+  DATAEXT:
+    data_type: str
+    default: null
+    description: the original data/Obs-HDU ([x,y,lambda,t])
+    human_readable: Data extension
+    required: false
+  DATAKURT:
+    data_type: float
+    default: null
+    description: Kurtosis of the data array
+    human_readable: Kurtosis
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATAMAD:
+    data_type: float
+    default: null
+    description: Median absolute deviation of the data array
+    human_readable: Median absolute deviation
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATAMAX:
+    data_type: float
+    default: null
+    description: Maximum value of the data array
+    human_readable: Maximum of data
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATAMEAN:
+    data_type: float
+    default: null
+    description: Mean of the data array
+    human_readable: Mean of data
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATAMEDN:
+    data_type: float
+    default: null
+    description: Median of the data array
+    human_readable: Median of data
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATAMIN:
+    data_type: float
+    default: null
+    description: Minimum value of the data array
+    human_readable: Minimum of data
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATANMAD:
+    data_type: float
+    default: null
+    description: Normalized median absolute deviation of the data array
+    human_readable: Normalized median absolute deviation
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATANPnn:
+    data_type: float
+    default: null
+    description: Normalized Percentiles from DATAPnn, of the nn percentile (where nn is e.g., 01, 02, 05, 10, 25, 50, 75, 90, 95, 98, and 99).
+    human_readable: Normalized Percentiles
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATANRMS:
+    data_type: float
+    default: null
+    description: Normalized root mean square of the data array
+    human_readable: Normalized root mean square
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATAPnn:
+    data_type: float
+    default: null
+    description: Percentiles of the data array, of the nn percentile (where nn is e.g., 01, 02, 05, 10, 25, 50, 75, 90, 95, 98, and 99).
+    human_readable: Percentiles
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATARMS:
+    data_type: float
+    default: null
+    description: Root mean square of the data array
+    human_readable: Root mean square
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATASKEW:
+    data_type: float
+    default: null
+    description: Skewness of the data array
+    human_readable: Skewness
+    required: false # Optional data statistics keywords (sections 18, 5.6)
+  DATASUM:
+    data_type: float
+    default: null
+    description: Sum of the data array, for checksum purposes
+    human_readable: Sum of data
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  DATATAGS:
+    data_type: str
+    default: null
+    description: Used for any additional search terms that do not fit in any of the other keywords.
+    human_readable: Data Tags
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  DATE:
+    data_type: date
+    default: null
+    description: FITS file creation date in UTC
+    human_readable: File Creation Date
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  DATE-AVG:
+    data_type: date
+    default: null
+    description: used to give the average date of the observation. However, there is no unambiguous definition of the average when applied to observations with varying cadence or varying exposure times
+    human_readable: Average date of observation
+    required: false # Optional date and time keywords (sections 18, 4)
+  DATE-BEG:
+    data_type: date
+    default: null
+    description:  referring to the start time of the data acquisition in the time system specified by the TIMESYS keyword, which has the default of 'UTC'.
+    human_readable: Aquisition start time
+    required: true
+  DATE-END:
+    data_type: date
+    default: null
+    description: End time of the data aquisition
+    human_readable: Date of end of observation
+    required: false # Optional date and time keywords (sections 18, 4)
+  DATEREF:
+    data_type: date
+    default: null
+    description:  Time coord. zero point (time reference, mandatory) set to the zero point of the WCS time coordinate. I.e., for pixels that have the CTYPEi='UTC' coordinate equal to zero, the time is the value given in DATEREF. In most cases the values of DATEREF and DATE-BEG will be identical, but note that according to the FITS standard, DATE-BEG is not a default value for DATEREF, thus DATEREF may not be omitted. 
+    human_readable: Reference date
+    required: true
+  DETECTOR:
+    data_type: str
+    default: null
+    description: Name of detector
+    human_readable: detector
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  DPja: # NOTE: Equivalent to CPDISia?
+    data_type: str
+    default: null
+    description: Primary Distorion parameter for axis j
+    human_readable: Primary distortion parameter
+    required: true
+  DQia: # NOTE: Equivalent to CQDISia?
+    data_type: str
+    default: null
+    description: Posterioir distortion parameter for axis i
+    human_readable: Posterior distortion parameter
+    required: true
+  DSUN_AU:
+    data_type: float
+    default: null
+    description: Distance to Sun (in Astronomical Units)
+    human_readable: Distance to Sun
+    required: false # Optional for deep space missions (sections 18, 3.2)
+  DSUN_OBS:
+    data_type: float
+    default: null
+    description: Distance to Sun (in meters)
+    human_readable: Distance to Sun
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for deep-space observatories
+  DWia: # NOTE Equivalent to CDDISia?
+    data_type: str
+    default: null
+    description: Weighted distortion function type. Distortion correction for axis i. The DWia records describe the association of coordinates between the distortion array and the data cube whose coordinates are to be corrected. 
+    human_readable: Distortion correction
+    required: true
+  ELEV_ANG:
+    data_type: float
+    default: null
+    description: This keyword should be used to quote the telescope's elevation angle at the time of data acquisition, in degrees.
+    human_readable: Elevation angle
+    required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  EXTNAME:
+    data_type: str
+    default: null
+    description: All HDUs - including the primary HDU - in SOLARNET FITS files must contain the string-valued keyword EXTNAME, and each EXTNAME value must be unique within the file. EXTNAME must not contain the characters comma or semicolon except as prescribed for the variable-keyword mechanism, the pixel list mechanism and the meta-observation mechanism. In addition, EXTNAME must not start with a space, but any trailing spaces are ignored. Finally, the CONTINUE Long String Keyword Convention must not be used with EXTNAME, since this is a reserved keyword defined in the FITS standard.
+    human_readable: Extension name
+    required: true
+  FILENAME:
+    data_type: str
+    default: null
+    description: FITS filename
+    human_readable: Filename
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  FILEVERP:
+    data_type: str
+    default: null
+    description: File Version Pattern. The keyword FILEVERP (file version pattern) should be specified to highlight a version identifier included in the file name. E.g., a file named solo_SPICE_sit-V01-2395.fits and the subsequent version solo_SPICE_sit-V02-2395.fits should both have FILEVERP='solo_SPICE_sit-V*-2395.fits', where the asterisk identifies where the file version occurs in the file name. Using an asterisk means that the file version should be interpreted lexically, whereas a percentage sign should be used when the version number is not a fixed number of decimals. E.g., with file names file_V2.fits and file_V12.fits, using FILEVERP='file_V%.fits' would ensure that the second file recognized as having a higher version number (thus superseding the first file).
+    human_readable: File Version Pattern
+    required: true
+  FILTER:
+    data_type: str
+    default: null
+    description: Name(s) of the filter(s) used during the observation.
+    human_readable: Filters
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  FT_LOCK:
+    data_type: float
+    default: null
+    description: The keyword FT_LOCK is used to indicate the status of any feature tracking FT_LOCK=0 (no feature tracking lock) or FT_LOCK=1 (feature tracking lock) for individual exposures, with appropriate averages as mentioned above.
+    human_readable: Feature tracking status
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  GEOX_OBS:
+    data_type: float
+    default: null
+    description: '[m] Observer''s non-fixed geographic X coordinate'
+    human_readable: Observer X Position
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for earth-orbiting observatories
+  GEOY_OBS:
+    data_type: float
+    default: null
+    description: '[m] Observer''s non-fixed geographic Y coordinate'
+    human_readable: Observer Y Position
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for earth-orbiting observatories
+  GEOZ_OBS:
+    data_type: float
+    default: null
+    description: '[m] Observer''s non-fixed geographic Z coordinate'
+    human_readable: Observer Z Position
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for earth-orbiting observatories
+  GRATING:
+    data_type: str
+    default: null
+    description: Name of the grating used during the observation
+    human_readable: Grating
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  HASH_SW:
+    data_type: str
+    default: null
+    description: Commit hash of software applied
+    human_readable: Software Hash
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  HGLN_OBS:
+    data_type: float
+    default: null
+    description: Observer's heliographic longitude
+    human_readable: Observer Heliographic Longitude
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for deep-space observatories
+  HGLT_OBS:
+    data_type: float
+    default: null
+    description: Observer's heliographic latitude
+    human_readable: Observer Heliographic Latitude
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for deep-space observatories
+  INCLEXT:
+    data_type: str
+    default: null
+    description: component inclusion mask ([x,y,t,n]) - if (x,y,t,n)=0, component n has not been included for point (x,y,t). When not present, it is assumed that all components have been included at all times.
+    human_readable: Component inclusion mask
+    required: false
+  INFO_URL:
+    data_type: str
+    default: null
+    description:  should point to a human-readable web page describing "everything" about the data set - what it is, how to use it, links to e.g., user guides, instrument/site/telescope descriptions, descriptions of caveats, information about data rights, preferred acknowledgements, whom to contact if you have questions, and repositories of observing/engineering logs.
+    human_readable: Info url
+    required: false # Optional keyword for administrative information (sections 18, 9)
+  INSTRUME:
+    data_type: str
+    default: null
+    description: Instrument name
+    human_readable: Instrument
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  INST_TYP:
+    data_type: str
+    default: null
+    description: Instrument type (e.g., imager, spectrograph)
+    human_readable: Instrument type
+    required: true # NOT a SOLARNET recommendation, but required for conditional requirements
+    valid_values: 
+    - Imager
+    - Spectrograph
+  LEVEL:
+    data_type: float
+    default: null
+    description: Data level of fits file
+    human_readable: Data level of fits file
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  METADIM:
+    data_type: str
+    default: null
+    description: Dimension that has been splot for constituent HDUs.  E.g., when splitting an array [x,y,t] into time chunks, METADIM=3. Note than an accompanying auxiliary HDU with e.g., dimensions [t,z] would set METADIM=1. Auxiliary HDUs whose data array dimensions does not contain the split dimension (e.g., flatfields) do not need to contain the METADIM keyword. It is allowed to have METADIM > NAXIS to account for lost trailing singular dimensions. E.g., if constituent HDUs have dimensions [x,y,lambda] and METADIM=5, the resulting stitched HDU will have five dimensions e.g., [x,y,lambda,1,t]. 
+    human_readable: Metadata dimension splits
+    required: false
+  METADIMn:
+    data_type: int
+    default: null
+    description: Indicate which dimensions have been split. . It is then possible to construct Meta-HDUs resulting from aggregating Constituent HDUs along one or more dimensions. I.e., if an original HDU with dimensions [1000, 2000, 3000] has been split into 100 files/HDUs with dimensions [100,2000,300], the Constituent HDUs would have METADIM1=1 and METADIM2=3.
+    human_readable: Metadata dimension splits
+    required: false
+  METAFILS:
+    data_type: str
+    default: null
+    description: List of filenames of constituent HDUs. The filenames should be separated by commas, and the list should be ordered in the same way as the HDUs are ordered in the Meta-HDU.
+    human_readable: Metadata filenames
+    required: false
+  MISSION:
+    data_type: str
+    default: null
+    description: Mission name
+    human_readable: Mission
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  MOSAICID:
+    data_type: str
+    default: null
+    description: For mosaic observations, the keyword MOSAICID can be used to tie individual observations together.
+    human_readable: Mosaic ID
+    required: false # Optional keywords for grouping (sections 18, 7)
+  NAPRXPIX:
+    data_type: float
+    default: null
+    description: the number of pixels with approximated values (used by e.g., SolO/SPICE)
+    human_readable: Number of approximated pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  NAXIS:
+    data_type: int
+    default: null
+    description: Number of data axes
+    human_readable: Number of axes
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  NASIXn:
+    data_type: int
+    default: null
+    description: The NAXISn keywords must be present for all values n = 1,... , NAXIS, in increasing order of n, and for no other values of n. The value field of this indexed keyword shall contain a non-negative integer representing the number of elements along Axis n of a data array. A value of zero for any of the NAXISn signifies that no data follow the header in the HDU (however, the random-groups structure described in Sect. 6 has NAXIS1 = 0, but will have data following the header if the other NAXISn keywords are non-zero). If NAXIS is equal to 0, there shall not be any NAXISn keywords.
+    human_readable: Number of elements along axis
+    required: true
+  NBIN:
+    data_type: float
+    default: null
+    description: In order to provide a simple way to determine the combined binning factor (for archive searches), the keyword NBIN should be set to the product of all specified NBINj keywords.
+    human_readable: Combined binning factor (Product of all NBINj)
+    required: false # Required for binned data
+  NBINj:
+    data_type: int
+    default: null
+    description: Binning should be specified by the keywords NBINj, where j is the dimension number (analogous to the NAXISj keywords). E.g., for an observational data cube with dimensions (x,y,lambda,t) where 2x2 binning has been performed in the y and lambda directions (as is sometimes done with slit spectrometers), NBIN2 and NBIN3 should be set to 2. The default value for NBINj is 1, so NBIN1 and NBIN4 may be left unspecified.
+    human_readable: Number of pixels binned together
+    overwrite: false 
+    required: false # Required for binned data
+  NDATAPIX:
+    data_type: int
+    default: null
+    description: the number of usable pixels NTOTPIX - NLOSTPIX - NSATPIX - NSPIKPIX
+    human_readable: Number of usable pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  NLOSTPIX:
+    data_type: int
+    default: null
+    description: the number of lost pixels due to telemetry/acquisition glitches
+    human_readable: Number of lost pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  NMASKPIX:
+    data_type: int
+    default: null
+    description: the number of dust-affected/hot/cold/padded pixels etc.
+    human_readable: Number of masked pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  NSATPIX:
+    data_type: int
+    default: null
+    description: the number of saturated pixels
+    human_readable: Number of saturated pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  NSPIKPIX:
+    data_type: int
+    default: null
+    description: the number of identified spike pixels 
+    human_readable: Number of spike pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  NSUMEXP:
+    data_type: int
+    default: null
+    description:  the number of summed exposures 
+    human_readable: Number of exposures
+    required: true # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+  NTOTPIX:
+    data_type: int
+    default: null
+    description: the number of potentially usable pixels. the number of data cube pixels minus NMASKPIX
+    human_readable: Total number of pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  NXDIM:
+    data_type: int
+    default: null
+    description: the number of dimensions absorbed by the fitting process
+    human_readable: number of absorbed dimensions
+    required: false
+  OBSERVER:
+    data_type: str
+    default: null
+    description: Who acquired the data
+    human_readable: Observer
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBSGEO-X:
+    data_type: float
+    default: null
+    description: "[m] Observer's fixed geographic X coordinate"
+    human_readable: Observer X Position
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for ground-based observatories
+  OBSGEO-Y:
+    data_type: float
+    default: null
+    description: "[m] Observer's fixed geographic Y coordinate"
+    human_readable: Observer Y Position
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for ground-based observatories
+  OBSGEO-Z:
+    data_type: float
+    default: null
+    description: "[m] Observer's fixed geographic Z coordinate"
+    human_readable: Observer Z Position
+    required: false # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for ground-based observatories
+  OBSRVTRY:
+    data_type: str
+    default: null
+    description:  Name of the observatory
+    human_readable: Observatory
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBSTITLE:
+    data_type: str
+    default: null
+    description: Title of observation. A more generic/higher-level description, e.g., "Flare sit-and-stare", "High cadence large raster"), which often corresponds to OBS_MODE, though not necessarily as a oneto-one relationship. Used by IRIS and SPICE, corresponds to Hinode OBS_DEC. Should be identical to OBS_DESC or OBS_MODE when no more suitable value is available.
+    human_readable: Observation title
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBS_DESC:
+    data_type: str
+    default: null
+    description: Description of observation. A string describing the observation, e.g., "Sit and stare on AR10333". Should be identical to OBSTITLE when no more suitable value is available.
+    human_readable: Observation description
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBS_HDU:
+    data_type: int
+    default: null
+    description: Whether the HDU is an observational HDU (1) or not (0). 
+    human_readable: Contains observational data
+    required: true
+    valid_values:
+    - 0
+    - 1
+  OBS_LOG:
+    data_type: str
+    default: null
+    description: Location of the log file that is relevant to this observation, if available, given as a URL.
+    human_readable: URL of observation log
+    required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  OBS_MODE:
+    data_type: str
+    default: null
+    description: Name of predefined settings used during observation. A string (from a limited/discrete list) uniquely identifying the mode of operation.
+    human_readable: Observation mode
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  OBS_TYPE:
+    data_type: str
+    default: null
+    description: Type of observatory. A string (from a limited/discrete list) uniquely identifying the type of observatory.
+    human_readable: Observatory Type
+    required: true # NOT a SOLARNET recommendation, but required for conditional requirements
+    valid_values:
+    - ground-based
+    - earth-orbiting
+    - deep-space
+  OBS_VR:
+    data_type: float
+    default: null
+    description: "[km/s] Observer's outward velocity w.r.t. Sun"
+    human_readable: Observer velocity
+    required: false # Mandatory keywords for spectrographs and filter instruments (sections 15, 3.2, 5.4)
+  ORIGIN:
+    data_type: str
+    default: null
+    description:  set to a character string identifying the organization or institution responsible for creating the FITS file. 
+    human_readable: File originator
+    required: true # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+  PCONSna:
+    data_type: int
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. Set to 1 if pa has been kept constant during fitting.
+    human_readable: Parameter constant
+    required: false
+  PCT_APRX:
+    data_type: float
+    default: null
+    description: the percentage of pixels with approximated values (used by e.g., SolO/SPICE) (NAPRXPIX/NTOTPIX*100)
+    human_readable: Percentage of approximated pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  PCT_DATA:
+    data_type: float
+    default: null
+    description: the percentage of usable pixels (NDATAPIX/NTOTPIX*100)
+    human_readable: Percentage of usable pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  PCT_LOST:
+    data_type: float
+    default: null
+    description: the percentage of lost pixels due to telemetry/acquisition glitches (NLOSTPIX/NTOTPIX*100)
+    human_readable: Percentage of lost pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  PCT_MASK:
+    data_type: float
+    default: null
+    description: the percentage of dust-affected/hot/cold/padded pixels etc. (NMASKPIX/NTOTPIX*100)
+    human_readable: Percentage of masked pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  PCT_SATP:
+    data_type: float
+    default: null
+    description: the percentage of saturated pixels (NSATPIX/NTOTPIX*100)
+    human_readable: Percentage of saturated pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  PCT_SPIK:
+    data_type: float
+    default: null
+    description: the percentage of identified spike pixels (NSPIKPIX/NTOTPIX*100)
+    human_readable: Percentage of spike pixels
+    required: false # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
+  PCi_ja:
+    data_type: float
+    default: null
+    description: a linear transformation matrix between data cube dimension j and coordinate axis i, which can be used to specify rotations, shear, transpositions and reflections.
+    human_readable: linear transformation matrix element
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  PDESCna:
+    data_type: str
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. Parameter desciption
+    human_readable: Parameter Desscription
+    required: false
+  PGEXTNAM:
+    data_type: str
+    default: null
+    description: the name of the extension in the progenitor file that contains the original data
+    human_readable: Progenitor extension name
+    required: false
+  PGFILENA:
+    data_type: str
+    default: null
+    description: the name of the progenitor file
+    human_readable: Progenitor file name
+    required: false
+  PINITna:
+    data_type: float
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. Initial value of parameter
+    human_readable: Initial value
+    required: false
+  PIXLISTS:
+    data_type: str
+    default: null
+    description: PIXLISTS must declare the EXTNAME of the extension containing the pixel list, followed by a semicolon, then a comma-separated list of any pixel attribute names. When multiple pixel lists are used, this is signalled by adding a comma, the EXTNAME of the next pixel list extension followed by a semicolon, etc. Note that even when a pixel list does not contain any attributes, a comma is needed before the EXTNAME of any subsequent pixel list.
+    human_readable: Pixel lists
+    required: false
+  PIXTYPE:
+    data_type: str
+    default: null
+    description: Pixel Type
+    human_readable: Pixel Type
+    required: false
+  PLANNER:
+    data_type: str
+    default: null
+    description: Observation planner
+    human_readable: Planner
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  PMAXna:
+    data_type: float
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. Maximum value of parameter
+    human_readable: Maximum value
+    required: false
+  PMINna:
+    data_type: float
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. Minimum value of parameter
+    human_readable: Minimum value
+    required: false
+  PNAMEna:
+    data_type: str
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. Parameter name
+    human_readable: Parameter name
+    required: false
+  POINT_ID:
+    data_type: str
+    default: null
+    description: Pointing ID serves to separate otherwise identical observations into groups in a logical way. 
+    human_readable: Pointing ID
+    required: true # Mandatory keyword for grouping (sections 15, 7, Appendix V-b)
+  POLCANGL:
+    data_type: float
+    default: null
+    description: If the polarimetric reference frame is not aligned with any set of WCS coordinate names, a rotation of the reference frame given in POLCCONV can be specified in POLCANGL. The rotation, specified in degrees, should be applied to the POLCCONV-specified system around its third axis. The rotation is counter-clockwise as seen from a point with a positive third-axis coordinate value, taking the sign from POLCCONV into account. I.e., specifying a positive angle with POLCCONV='(..., ..., +HPRZ) ' specifies a counter-clockwise rotation as seen from Earth, whereas zwith POLCCONV='(..., ..., -HPRZ) ' would specify a clockwise rotation as seen from Earth.
+    human_readable: Polarimetric angle
+    required: true # Mandatory keywords for polarimetric data (sections 15, 5.4.1)
+  POLCCONV:
+    data_type: str
+    default: null
+    description: The axes must be explicitly specified by the keyword POLCCONV in the form '(+/-x, +/-y, +/-z)' where x, y, and z are valid WCS coordinate names. E.g., POLCCONV='(+HPLT,-HPLN,+HPRZ)' means that the reference system's x axis is parallel to the HPLT axis (Solar North), and y is antiparallel to the HPLN axis, with z pointing towards the observer.
+    human_readable: Polarimetric conversion
+    required: true # Mandatory keywords for polarimetric data (sections 15, 5.4.1)
+  PRBRAna:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. Branch name of code use in processing step n
+    human_readable: Branch name
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRENVn:
+    data_type: str
+    default: null
+    description: specify the operating environment of the pipeline such as the hardware (CPU type) and the operating system type/version, compiler/interpreter versions, compiler options, etc.6 The default value of a PRENVn keyword is the value of PRENVn in the previous processing step, so for a pipeline that has been run from beginning to end in a single environment, only PRENV1 will have to be specified.
+    human_readable: Processing environment
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRHSHna:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. Convenience keyword to easily find the exact git commit for a library that has been used. Note that it does not replace PRVERna, because PRHSHna is not a number that increases with the maturity of the libraries (but such a number can be constructed, see above)
+    human_readable: Processing code hash
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRLIBna:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. Library name used in processing step n
+    human_readable: Library name
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRLOGna:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. used to include a processing log in case messages/warnings from the processing may be of importance.
+    human_readable: Processing Log
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRMODEna:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. Meant for pipelines that may be run with different trade-offs between e.g., signal to noise ratio versus spatial resolution or contrast. This should already be apparent from the other keywords, but PRMODEn provides a much simpler way of identifying data processed in a particular way (e.g., "BALANCED" or "HIGH CONTRAST"). Note that a single observation may be registered multiple times in an SVO with different values of PRMODEn - but then a PRMODEnspecific identifier in the file name is necessary in order to ensure uniqueness.
+    human_readable: Processing mode
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PROJECT:
+    data_type: str
+    default: null
+    description: Name(s) of the project(s) affiliated with the data
+    human_readable: Project
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  PRPARAn:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. The PRPARAn keyword can be used in different ways 1. As a plain comma-separated listing of parameters and their values, signalled by the first character matching the regular expression '[A-Za-z_$]' 2. As a JSON string, signalled by the first character being an opening curly bracket 3. As an XML specification, signalled by the first character being a '<' 4. As the EXTNAME of an ASCII table, signalled by the first character being a '['
+    human_readable: Processing parameters
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRPROCn:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. Name of Processing Procedure used in processing step n
+    human_readable: Processing Procedure used for Step n
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRPVERn:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. Version of processing pipeline used in processing step n
+    human_readable: Processing code version for Step n
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRREFn:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. Reference to the processing step n
+    human_readable: Factors influencing PRSTEP1
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRSTEPn:
+    data_type: str
+    default: null
+    description: should specify the nature of the processing steps, if any, that has been applied to the data. Each PRSTEPn may contain a comma separated list if multiple processing steps are inseparable. The number n specifies the step number and should reflect the order in which the steps have been performed
+    human_readable: Processing step
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PRVERna:
+    data_type: str
+    default: null
+    description: Optional pipeline processing keyword. Version of code used in processing step n for library a
+    human_readable: Processing code version for library a in step n
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  PTRAna:
+    data_type: float
+    default: 1.0
+    description: Optional functional keyword for parameters in parameterized components.  Linear transformation coefficient A. 
+    human_readable: Linear transformation coefficient A
+    required: false
+  PTRBna:
+    data_type: float
+    default: 0.0
+    description: Optional functional keyword for parameters in parameterized components.  Linear transformation constant B. 
+    human_readable: Linear transformation constant B
+    required: false
+  PUNITna:
+    data_type: str
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. The units for parameter a of component n, specified according to the FITS Standard Section 4.3, e.g., 'nm' or 'km/s'.
+    human_readable: Parameter unit
+    required: false
+  RELEASE:
+    data_type: date
+    default: null
+    description: Public release date of data. Proprietary data should be marked by setting the keyword RELEASE to the date at which the data can be freely distributed.
+    human_readable: Release date
+    required: false # Optional keyword for administrative information (sections 18, 9)
+  RELEASEC:
+    data_type: str
+    default: null
+    description: Email address of data release administrator.  The keyword RELEASEC may be used to give contact information for one or more people (name/email addresses, comma separated) administering the release details.
+    human_readable: Release administrator
+    required: false # Optional keyword for administrative information (sections 18, 9)
+  REQUESTR:
+    data_type: str
+    default: null
+    description: Who requested this particular observation.
+    human_readable: Requester
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  RESEXT:
+    data_type: str
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. the HDU containing the analysis results ([x,y,t,p]).
+    human_readable: Result extension
+    required: false
+  RESIDEXT:
+    data_type: str
+    default: null
+    description: Optional functional keyword for parameters in parameterized components. Residuals from the fitting process ([x,y,lambda,t]) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting
+    human_readable: Residual extension
+    required: false
+  RESOLVPW:
+    data_type: float
+    default: null
+    description: Resolving power for spectrometric data
+    human_readable: Resolving power
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  RESPAPPL:
+    data_type: str
+    default: null
+    description: Response function applied
+    human_readable: Applid response function
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  RESPONSE:
+    data_type: str
+    default: null
+    description: Response function used
+    human_readable: Response function
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  ROT_COMP:
+    data_type: int
+    default: null
+    description: set to 1 if automated solar rotation compensation was in effect during the observation, and to 0 if not. 
+    human_readable: Solar rotation compensation on (1)/off (0)
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  ROT_FORM:
+    data_type: str
+    default: null
+    description: The formula specified is meant to be human-readable, not machine readable, thus e.g., ' A sin(...)', using parameter names that are common within your community. An explanation in the comments may be useful. The units should be degrees per day. More important, though is that the coordinate variation is reflected in the WCS description of the data, using cross terms between the time coordinate and spatial coordinates in the PCi_j matrix or by tabulating the coordinates.
+    human_readable: Rotation formula
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  ROT_MODL:
+    data_type: str
+    default: null
+    description: The keyword ROT_MODL should be set to specify the rotation model used for rotation compensation4. It can refer to specific, predefined models such as ALLEN (Allen, Astrophys. Quantities, 1979), HOWARD (Howard et al.), SIDEREAL, SYNODIC, CARRINGTON, SNODGRASS or aaa.a - arcseconds per hour (units [arcsec/h]). See also the SolarSoft routine diff_rot.pro. If other models have been used, please contact prits-group@astro.uio.no, or set ROT_MODL to FORMULA, and specify the formula in the keyword ROT_FORM.
+    human_readable: Model used for rotation compensation
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5), required if ROT_COMP=1
+  RSUN_ARC: 
+    data_type: float
+    default: null
+    description: '[arcsec] apparent photospheric solar radius in arc seconds'
+    human_readable: Solar angular radius
+    required: true
+  RSUN_REF:
+    data_type: float
+    default: null
+    description: '[m] Reference solar radius in meters. For observations (instruments) where the plate scale/pointing is derived from measurements of the apparent solar radius versus the physical size, the keywords RSUN_REF should be used to report the reference value for the physical radius used in the calculations (see Thompson 2010, Section 8).'
+    human_readable: Solar radius. [m] Solar rad. used for calc. px scale
+    required: false # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  SETTINGS:
+    data_type: str
+    default: null
+    description: Additional instrument/acquisition settings
+    human_readable: Settings
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  SLIT_WID:
+    data_type: float
+    default: null
+    description: '[arcsec] Slit width'
+    human_readable: Slit width
+    required: true # Mandatory keywords for spectrographs (sections 15, 5.4)
+  SOLARNET:
+    data_type: float
+    default: null
+    description: Fully SOLARNET-compliant=1.0, partially=0.5
+    human_readable: Solarnet compatibility
+    required: true
+    valid_values:
+    - 1.0
+    - 0.5
+    - 0
+  SOLAR_B0:
+    data_type: float
+    default: null
+    description: '[deg] Heliographic latitude of the observer. Note that the Solar B angle is identical to HGLT_OBS, and although it is a duplication of information, it may be reported also in SOLAR_B0 for convenience.'
+    human_readable: Observer latitude
+    required: false
+  SOLAR_EP:
+    data_type: float
+    default: null
+    description: apparent angle from observer location between celestial north and ecliptic north
+    human_readable: Ecliptic angle
+    required: false
+  SOLAR_P0:
+    data_type: float
+    default: null
+    description: apparent angle from observer location between celestial north and solar north
+    human_readable: Solar angle
+    required: false
+  SOLNETEX:
+    data_type: str
+    default: null
+    description: List of keywords that are used in conflict with SOLARNET-defined meanings. This mechanism may sometimes be necessary to ensure backwards compatibility with existing utilities. Keywords listed in SOLNETEX will be ignored by SOLARNET-aware utilities. The SOLNETEX mechanism must not be applied to FITS standard keywords.
+    human_readable: SOLARNET exceptions
+    required: false # Required for any non-compliant keywords
+  SPECSYS:
+    data_type: str
+    default: null
+    description: Spectral reference frame
+    human_readable: Spectral reference frame
+    required: false # Mandatory keywords for spectrographs and filter instruments (sections 15, 3.2, 5.4)
+    valid_values:
+    - TOPOCENT  # Topocentric
+    - GEOCENTR  # Geocentric
+    - BARYCENT  # Barycentric
+    - HELIOCEN  # Heliocentric
+    - LSRK      # Local standard of rest (kinematic)
+    - LSRD      # Local standard of rest (dynamic)
+    - GALACTOC  # Galactocentric
+    - LOCALGRP  # Local Group
+    - CMBDIPOL  # Cosmic-microwave-background dipole
+    - SOURCE    # Source rest frame
+  SVO_GRP:
+    data_type: str
+    default: null
+    description: SVO_GRP may be used to achieve the opposite, to tie observations together even if they have different POINT_IDs and/or have other differing characteristics. Heuristically, a shared value for SVO_GRP signals that if you are interested in this observation, you are probably interested in all of these observations (with the same SVO_GRP value). 
+    human_readable: SVO Group
+    required: false # Optional keywords for grouping (sections 18, 7)
+  SVO_SEPn:
+    data_type: str
+    default: null
+    description: To guide archive designers in the process of presenting grouped observations, we introduce the keywords SVO_SEPn, with n spanning from 1 to 5. SVO_SEP1 should have a comma-separated list of keywords giving the most fine grained grouping, and SVO_SEP5 should have a commaseparated list of keywords giving the coarsest sensible grouping. Normally, the first keyword should be POINT_ID, and it may be the only keyword. Not all SVO_SEPn keywords need to be defined, but they should be populated starting with SVO_SEP1.
+    human_readable: Separation keywords
+    required: false # Optional keywords for grouping (sections 18, 7)
+  TCTYPn:
+    data_type: str
+    default: null
+    description: Binary table columns storing pixel indices must have TCTYPn equal to 'PIXEL' and TTYPEn equal to 'DIMENSIONk', where k is the dimension number in the referring HDU's data cube. The column storing pixel types must have TTYPEn equal to 'PIXTYPE'. Any attribute columns must have TTYPEn equal to the name of the attached attribute contained in that column.
+    human_readable: Table column type
+    required: false
+  TDESCn:
+    data_type: str
+    default: null
+    description: TDESCn may be used to give a description of the contents of the binary table column.
+    human_readable: Table column description
+    required: false # Optional keyword for binary table extensions using the variable-keyword, pixel list or meta-observation mechanism (sections 18, Appendix 1)
+  TDIMn:
+    data_type: str
+    default: null
+    description: TDIMn may be used to give the dimensions of the binary table column.
+    human_readable: Table column dimensions
+    required: false
+  TELCONFG:
+    data_type: str
+    default: null
+    description: Telescope configuration
+    human_readable: Telescope configuration
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  TELESCOP:
+    data_type: str
+    default: null
+    description: Telescope/Sensor name
+    human_readable: Telescope
+    required: true # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+  TEXPOSURE:
+    data_type: float
+    default: null
+    description: The integration time for a single exposure
+    human_readable: Single exposure time
+    required: true # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+  TFORMn:
+    data_type: str
+    default: null
+    description: TFORMn may be used to give the format of the binary table column.
+    human_readable: Table column format
+    required: false # required for binary tables
+  TIMESYS: # There is conflict about this attribute. It is listed as optional in the SOLARNET paper, but seems intended to be required based on the FITS standard V4.0. 
+    valid_values:
+    - UTC
+    data_type: str
+    default: UTC
+    description: Time scale of the time-related keywords.
+    human_readable: Time system
+    required: false # Optional date and time keywords (sections 18, 4)
+  TKEYSn:
+    data_type: str
+    default: null
+    description: The naming conventions for column-specific keywords (starting with T and allowing for 3-digit column numbers) leaves only 4 letters to carry meaning, which easily leads to the creation of very awkward column-specific keyword names. To alleviate this problem for keywords that must have different values for different columns, the column-specific keyword TKEYSn is introduced, listing pairs of keyword names and values inside a string. The CONTINUE Long String Keyword Convention may of course be used to improve readability and add comments.
+    human_readable: Table keywords
+    required: false
+  TPCn_na:
+    data_type: str
+    default: null
+    description: Optional keyword for pixel list mechanism for flagging pixels. 
+    human_readable: Pixel list flag
+    required: false
+  TPXLSn:
+    data_type: str
+    default: null
+    description: Optional keyword for pixel list mechanism for flagging pixels. TPXLSn replaces PIXLISTS
+    human_readable: Pixel lists
+    required: false
+  TTYPEn:
+    data_type: str
+    default: null
+    description: TTYPEn may be used to give the name of the binary table column.
+    human_readable: Table column name
+    required: false
+  TVARKn:
+    data_type: str
+    default: null
+    description: Optional keyword for pixel list mechanism for flagging pixels. TVARKn replaces VAR_KEYS
+    human_readable: Var keys
+    required: false
+  TZEROn:
+    data_type: float
+    default: null
+    description: This indexed keyword shall be used, along with the TSCALn keyword, to linearly scale the values in the table Field n to transform them into the physical values that they represent using Eq. 7. The value field shall contain a floating-point number representing the physical value corresponding to an array value of zero. The default value for this keyword is 0.0. This keyword must not be used for A-format fields. TZEROn replaces BZERO. 
+    human_readable: Zero point
+    required: false
+  UCD:
+    data_type: str
+    default: null
+    description: UCD (Unified Content Descriptor) is a standard for describing the content of data in a machine-readable way. It is a string that describes the physical quantity represented by the data in the column.
+    human_readable: Unified Content Descriptor
+    required: false # Optional data description keywords (sections 18, 5.1)
+  VAR_KEYS:
+    data_type: str
+    default: null
+    description: VAR_KEYS must declare the EXTNAME of the extension containing the variance keys, followed by a semicolon, then a comma-separated list of any variance key names. When multiple variance keys are used, this is signalled by adding a comma, the EXTNAME of the next variance key extension followed by a semicolon, etc. Note that even when a variance key does not contain any attributes, a comma is needed before the EXTNAME of any subsequent variance key.
+    human_readable: Variance keys
+    required: false
+  VELOSYS:
+    data_type: float
+    default: null
+    description: '[floating point; default:: none]. Relative radial velocity between the observer and the selected standard of rest in the direction of the celestial reference coordinate. Units must be m/s. The CUNITia keyword is not used for this purpose since the WCS Version a might not be expressed in velocity units.'
+    human_readable: Velocity system
+    required: false # Mandatory keywords for spectrographs and filter instruments (sections 15, 3.2, 5.4)
+  VERSION:
+    data_type: str
+    default: null
+    description: FITS file processing generation/version. VERSION should be set to the processing version of the file, an integer that should be increased whenever a reprocessing is performed in order to improve the data set (e.g., with a better flatfield, better detection of cosmic rays, more complete telemetry, etc). The version numbers in files published through an SVO may increase by more than one for each new published "generation", allowing the use of intermediate values for internal/experimental use.
+    human_readable: Processed version
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  VERS_CAL:
+    data_type: str
+    default: null
+    description: Version of calibration pack applied
+    human_readable: Calibration version
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  VERS_SW:
+    data_type: str
+    default: null
+    description: Version of software applied
+    human_readable: Software version
+    required: false # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
+  WAVEBAND:
+    data_type: str
+    default: null
+    description: Human-readable description of the waveband
+    human_readable: Waveband description
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  WAVECOV:
+    data_type: str
+    default: null
+    description: The total wavelength coverage if multiple filters (<WAVEMIN1>-<WAVEMAX1>,
+      etc.)
+    human_readable: Wavelength coverage
+    required: false # Optional keyword for spectrographs (sections 18, 5.4)
+  WAVELNTH:
+    data_type: float
+    default: null
+    description: The characteristic wavelength of the observation
+    human_readable: Characteristic wavelength
+    required: false # Optional keywords characterizing the instrument/data (sections 18, 5.4, 5.5)
+  WAVEMAX:
+    data_type: float
+    default: null
+    description: '[Angstrom] Maximum wavelength covered by filter'
+    human_readable: Maximum wavelength
+    required: false # Mandatory keywords for spectrographs and filter instruments (sections 15, 3.2, 5.4)
+  WAVEMIN:
+    data_type: float
+    default: null
+    description: '[Angstrom] Minimum wavelength covered by filter'
+    human_readable: Minimum wavelength
+    required: false # Mandatory keywords for spectrographs and filter instruments (sections 15, 3.2, 5.4)
+  WAVEREF:
+    data_type: str
+    default: null
+    description: Wavelength related kwds in vacuum
+    human_readable: Wavelength reference
+    required: false # Mandatory keywords for spectrographs and filter instruments (sections 15, 3.2, 5.4)
+    valid_values:
+    - air
+    - vacuum
+  WAVEUNIT:
+    data_type: str
+    default: null
+    description: 'Wavelength related kwds have unit: 10^(WAVEUNIT) m'
+    human_readable: Wavelength unit
+    required: false # Mandatory keywords for spectrographs and filter instruments (sections 15, 3.2, 5.4)
+  WCSAXES:
+    data_type: int
+    default: null
+    description: Number of WCS axes
+    human_readable: WCS axes
+    required: true # Fundamental WCS coordinate keywords (sections 15, 3.1)
+  WCSNAMEa:
+    data_type: str
+    default: null
+    description: WCS name for axis a
+    human_readable: WCS name
+    required: false
+  WCSNn:
+    data_type: str
+    default: null
+    description: WCS name for axis n
+    human_readable: WCS name
+    required: false
+  WGTEXT:
+    data_type: str
+    default: null
+    description: data weights w used during fitting ([x,y,lambda,t]). When not present, all data points are assumed to have equal weight.
+    human_readable: extension weights
+    required: false
+  XDIMTYm:
+    data_type: str
+    default: null
+    description:  the CTYPEi of the mth dimension absorbed by the fitting process.
+    human_readable: Dimension type
+    required: false
+  XTIMXTm:
+    data_type: str
+    default: null
+    description: The values of coordinates absorbed by the fitting process ([x,y,lambda,t]) specified by XDIMTYm, (see above) may be included in separate extensions as a convenience, although this is redundant whenever any of the arrays with all dimensions of the original data is present and contains the appropriate WCS information. Thus, XDIMXTm refers to the extension containing absorbed coordinate number m (with coordinate specification given by XDIMTYm).
+    human_readable: Dimension extension
+    required: false
+  XPOSURE:
+    data_type: float
+    default: null
+    description: '[s] Total effective exposure time'
+    human_readable: Exposure time
+    required: true # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+  iCRVLn:
+    data_type: float
+    default: null
+    description: The reference value of the coordinate axis i in the data cube, which is the value of the coordinate axis i at the reference pixel. The reference pixel is the pixel at which the WCS coordinate values are CRVALn. The reference value is the value of the coordinate axis at the reference pixel.
+    human_readable: Reference value
+    required: true
+  iCTYPn:
+    data_type: str
+    default: null
+    description: The type of the coordinate axis i in the data cube, which is the physical quantity that the coordinate axis represents. The type is specified by the keyword CTYPEi, where i is the axis number in the data cube. The type is a string that is a valid FITS keyword value, e.g., 'RA---TAN' for a tangent-plane projection in right ascension.
+    human_readable: Coordinate type
+    required: true
+  jCRPXn:
+    data_type: float
+    default: null
+    description: The reference pixel of the coordinate axis j in the data cube
+    human_readable: Reference pixel
+    required: true
+conditional_requirements:
+  # ===========================================================================
+  # Conditional requirements for Observatory Type
+  # ===========================================================================
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'ground-based'
+    required_attributes:
+      - OBSGEO-X
+      - OBSGEO-Y
+      - OBSGEO-Z
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'earth-orbiting'
+    required_attributes:
+      - GEOX_OBS
+      - GEOY_OBS
+      - GEOZ_OBS
+  - condition_type: 'attribute_value'
+    condition_key: 'OBS_TYPE'
+    condition_value: 'deep-space'
+    required_attributes:
+      - DSUN_OBS
+      - HGLN_OBS
+      - HGLT_OBS
+  # ===========================================================================
+  # Conditional requirements for Instrument Type
+  # ===========================================================================
+  - condition_type: 'attribute_value'
+    condition_key: 'INST_TYP'
+    condition_value: 'Spectrograph'
+    required_attributes:
+      - OBS_VR
+      - SPECSYS
+      - SLIT_WID
+      - VELOSYS
+      - WAVEMAX
+      - WAVEMIN
+      - WAVEREF
+      - WAVEUNIT
