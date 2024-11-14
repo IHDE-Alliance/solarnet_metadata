@@ -1,0 +1,53 @@
+exclude: '.git|.tox'
+
+repos:
+  # The warnings/errors we check for here are:
+  # E101 - mix of tabs and spaces
+  # W191 - use of tabs
+  # W291 - trailing whitespace
+  # W292 - no newline at end of file
+  # W293 - trailing whitespace
+  # W391 - blank line at end of file
+  # E111 - 4 spaces per indentation level
+  # E112 - 4 spaces per indentation level
+  # E113 - 4 spaces per indentation level
+  # E303 - too many blank lines (3)
+  # E304 - blank lines found after function decorator
+  # E305 - expected 2 blank lines after class or function definition
+  # E306 - expected 1 blank line before a nested definition
+  # E502 - the backslash is redundant between brackets
+  # E722 - do not use bare except
+  # E901 - SyntaxError or IndentationError
+  # E902 - IOError
+  # F822: undefined name in __all__
+  # F823: local variable name referenced before assignment
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: ['--count', '--select', 'E101,E11,E111,E112,E113,E121,E122,E123,E124,E125,E126,E127,E128,E129,E131,E133,E20,E211,E231,E241,E242,E251,E252,E26,E265,E266,E27,E301,E302,E303,E304,E305,E306,E401,E402,E502,E701,E711,E712,E713,E714,E722,E731,E901,E902,F822,F823,W191,W291,W292,W293,W391,W601,W602,W603,W604,W605,W690']
+
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+
+  - repo: https://github.com/rstcheck/rstcheck
+    rev: v6.2.0
+    hooks:
+    -   id: rstcheck
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.4.0
+    hooks:
+      - id: check-ast
+      - id: check-case-conflict
+      - id: trailing-whitespace
+        exclude: ".*(.fits|.fts|.fit|.txt)$"
+      - id: check-yaml
+      - id: debug-statements
+      - id: check-added-large-files
+#      - id: end-of-file-fixer uncommenting this will break the testing of the cookiecutter template
+#        exclude: ".*(.fits|.fts|.fit|.txt|tca.*)$"
+      - id: mixed-line-ending
+        exclude: ".*(.fits|.fts|.fit|.txt|tca.*)$"
