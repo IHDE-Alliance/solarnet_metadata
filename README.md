@@ -14,3 +14,14 @@ Past versions (<=2.2) before migrating to this repository can be found
 * [https://sdc.uio.no/open/solarnet/](https://sdc.uio.no/open/solarnet/)
 
 The latest rendered documentation can be found on [readthedocs](http://solarnet-metadata.rtfd.io/).
+
+## Building the Documentation Locally
+
+After cloning the repository, you can build the documentation locally by running the following commands:
+
+```bash
+cd docs
+make clean
+make html  # Generates HTML in _build/html
+make latex && cd _build/latex && make && cd ../..  # Generates PDF in _build/latex
+```
