@@ -15,6 +15,13 @@ SOLARNET Metadata Recommendations for Solar Observations
 
 This document has received funding from the European Union's Horizon 2020 and FP7 programmes under grant agreements No 824135 and 31295. Version 2.0 of this document was the final version produced under these grants, but it keeps evolving as further needs and issues arise. 
 
+This specification is licensed under the Creative Commons Attribution 4.0 International Public License.
+For more information see the `LICENSE.txt`_ in our `GitHub Repository`_ or the `Creative Commons website`_.
+
+.. _LICENSE.txt: https://github.com/IHDE-Alliance/solarnet_metadata/blob/main/LICENSE.txt
+.. _GitHub Repository: https://github.com/IHDE-Alliance/solarnet_metadata
+.. _Creative Commons website: https://creativecommons.org/licenses/by/4.0/
+
 If you want to find the latest released or past version, see the releases.
 To provide comments or suggestions, please create an issue or create a pull request.
 
