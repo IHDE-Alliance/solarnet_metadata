@@ -1,0 +1,39 @@
+# This workflow will install Python dependencies, run tests, run linting, and test building docs
+name: Codestyle and Linting
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: # run for all branches
+  workflow_dispatch: # For on demand runs
+  schedule:
+    - cron: 0 0 * * * # Scheduled run every day at midnight
+jobs:
+  build:
+
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest]
+        python-version: ['3.13']
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip install pip setuptools wheel --upgrade
+        python -m pip install -e '.[style]'
+    - name: Lint with Black
+      run: |
+        black --check --diff solarnet_metadata
+    - name: flake8
+      run: |
+        flake8 --count solarnet_metadata
+
