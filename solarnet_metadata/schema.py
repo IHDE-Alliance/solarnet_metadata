@@ -4,7 +4,6 @@ This module provides schema metadata templates an information.
 """
 
 from pathlib import Path
-from collections import OrderedDict
 from typing import Optional
 import yaml
 
@@ -12,60 +11,39 @@ import solarnet_metadata
 
 __all__ = ["SOLARNETSchema"]
 
-DEFAULT_GLOBAL_ATTRS_SCHEMA_FILE = "SOLARNET_attr_schema.yaml"
-DEFAULT_VARIABLE_ATTRS_SCHEMA_FILE = "SOLARNET_attr_schema.yaml"
+DEFAULT_ATTRS_SCHEMA_FILE = "SOLARNET_attr_schema.yaml"
 
 
 class SOLARNETSchema:
     """
     Class representing a schema for SOLARNET requirements for solar observations.
 
-    There are two main components to the SOLARNET Schema, including both global and
-    variable attribute information.
-
-    Global schema information is loaded from YAML (dict-like) files in the following format:
+    The SOLARNET Keyword information is loaded from YAML (dict-like) files in the following format:
 
     .. code-block:: yaml
-        attribute_key: 
-            attribute_name:
-                data_type: <string> # The data type of the attribute
-                default: <string> # A default value for the attribute if needed/desired
-                description: >
-                    Include a meaningful description of the attribute and context needed to understand
-                    its values.
-                human_readable: <string> # A human-readable version of the attribute name
-                required: <bool> # Whether the attribute is required
-        conditional_requirements:
-            - ...
-
-    Variable schema information is loaded from YAML (dict-like) files in the following format:
-
-    .. code-block:: yaml
-
         attribute_key:
             attribute_name:
-                data_type: <string> # The data type of the attribute
-                default: <string> # A default value for the attribute if needed/desired
+                data_type: <string> # A string representing the data type of the attribute
+                default: <Any> | null # A default value for the attribute of the given data type
                 description: >
-                    Include a meaningful description of the attribute and context needed to understand
-                    its values.
+                    Include a meaningful description of the attribute and context needed to understand its values.
                 human_readable: <string> # A human-readable version of the attribute name
                 required: <bool> # Whether the attribute is required
+                valid_values: optional[list] # A list of valid values for the attribute in the given data type
         conditional_requirements:
-            - ...
+            - condition_type: <string> # The type of condition that must be met.
+              condition_key: <string> # The keyword that the condition requirement is based on
+              condition_value: optional[string] # The value that the condition requirement is based on.
+              required_attributes: <list> # A list of keyword names that are required if the condition is met.
 
     Parameters
     ----------
-    global_schema_layers :  `Optional[list[Path]]`
-        Absolute file paths to global attribute schema files. These schema files are layered
-        on top of one another in a latest-priority ordering. That is, the latest file that modifies
-        a common schema attribute will take precedence over earlier values for a given attribute.
-    variable_schema_layers :  `Optional[list[Path]]`
-        Absolute file paths to variable attribute schema files. These schema files are layered
+    schema_layers :  `Optional[list[Path]]`
+        Absolute file paths to attribute schema files. These schema files are layered
         on top of one another in a latest-priority ordering. That is, the latest file that modifies
         a common schema attribute will take precedence over earlier values for a given attribute.
     use_defaults: `Optional[bool]`
-        Whether or not to load the default global and variable attribute schema files. These
+        Whether or not to load the default attribute schema files. These
         default schema files contain only the requirements for SOLARNET validation.
 
     Examples
@@ -73,112 +51,64 @@ class SOLARNETSchema:
     >>> from solarnet_metadata.schema import SOLARNETSchema
     >>> schema = SOLARNETSchema(use_defaults=True)
     >>> # Get Information about the AUTHOR Attriube
-    >>> my_info = schema.measurement_attribute_info(attribute_name="AUTHOR")
-    >>> # Get the template for required global attributes
-    >>> global_template = schema.global_attribute_template()
+    >>> my_info = schema.attribute_info(attribute_name="AUTHOR")
+    >>> # Get the template for required attributes
+    >>> attribute_template = schema.attribute_template()
     """
 
     def __init__(
         self,
-        global_schema_layers: Optional[list[Path]] = None,
-        variable_schema_layers: Optional[list[Path]] = None,
+        schema_layers: Optional[list[Path]] = None,
         use_defaults: Optional[bool] = True,
     ):
         super().__init__()
 
         # Input Validation
-        if not use_defaults and (
-            global_schema_layers is None
-            or variable_schema_layers is None
-            or len(global_schema_layers) == 0
-            or len(variable_schema_layers) == 0
-        ):
+        if not use_defaults and (schema_layers is None or len(schema_layers) == 0):
             raise ValueError(
-                "Not enough information to create schema. You must either use the defaults or provide alternative layers for both global and variable attribute schemas."
+                "Not enough information to create schema. You must either use the defaults or provide alternative layers for attribute schemas."
             )
 
-        # Construct the Global Attribute Schema
-        _global_attr_schema = {}
+        # Construct the Attribute Schema
+        _attr_schema = {}
         if use_defaults:
-            _def_global_attr_schema = self._load_default_global_attr_schema()
-            _global_attr_schema = self._merge(
-                base_layer=_global_attr_schema, new_layer=_def_global_attr_schema
+            _def_attr_schema = self._load_default_attr_schema()
+            _attr_schema = self._merge(
+                base_layer=_attr_schema, new_layer=_def_attr_schema
             )
-        if global_schema_layers is not None:
-            for schema_layer_path in global_schema_layers:
-                _global_attr_layer = self._load_yaml_data(
-                    yaml_file_path=schema_layer_path
-                )
-                _global_attr_schema = self._merge(
-                    base_layer=_global_attr_schema, new_layer=_global_attr_layer
+        if schema_layers is not None:
+            for schema_layer_path in schema_layers:
+                attr_layer = self._load_yaml_data(yaml_file_path=schema_layer_path)
+                _attr_schema = self._merge(
+                    base_layer=_attr_schema, new_layer=attr_layer
                 )
         # Set Final Member
-        self._global_attr_schema = _global_attr_schema
+        self._attr_schema = _attr_schema
 
-        # Data Validation and Compliance for Variable Data
-        _variable_attr_schema = {}
-        if use_defaults:
-            _def_variable_attr_schema = self._load_default_variable_attr_schema()
-            _variable_attr_schema = self._merge(
-                base_layer=_variable_attr_schema, new_layer=_def_variable_attr_schema
-            )
-        if variable_schema_layers is not None:
-            for schema_layer_path in variable_schema_layers:
-                _variable_attr_layer = self._load_yaml_data(
-                    yaml_file_path=schema_layer_path
-                )
-                _variable_attr_schema = self._merge(
-                    base_layer=_variable_attr_schema, new_layer=_variable_attr_layer
-                )
-        # Set the Final Member
-        self._variable_attr_schema = _variable_attr_schema
-
-        # Load Default Global Attributes
-        self._default_global_attributes = self._load_default_attributes(
-            schema=self._global_attr_schema
-        )
-
-        # Load Default Variable Attributes
-        self._deffault_variable_attributes = self._load_default_attributes(
-            schema=self._variable_attr_schema
+        # Load Default Attributes
+        self._default_attributes = self._load_default_attributes(
+            schema=self._attr_schema
         )
 
     @property
-    def global_attribute_schema(self):
-        """(`dict`) Schema for variable attributes of the file."""
-        return self._global_attr_schema
+    def attribute_schema(self):
+        """(`dict`) Schema for attributes of the file."""
+        return self._attr_schema
 
     @property
-    def variable_attribute_schema(self):
-        """(`dict`) Schema for variable attributes of the file."""
-        return self._variable_attr_schema
+    def default_attributes(self):
+        """(`dict`) Default Attributes applied for all Data Files"""
+        return self._default_attributes
 
-    @property
-    def default_global_attributes(self):
-        """(`dict`) Default Global Attributes applied for all SWxSOC Data Files"""
-        return self._default_global_attributes
-
-    def _load_default_global_attr_schema(self) -> dict:
+    def _load_default_attr_schema(self) -> dict:
         # The Default Schema file is contained in the `solarnet_metadata/data` directory
         default_schema_path = str(
-            Path(solarnet_metadata.__file__).parent
-            / "data"
-            / DEFAULT_GLOBAL_ATTRS_SCHEMA_FILE
+            Path(solarnet_metadata.__file__).parent / "data" / DEFAULT_ATTRS_SCHEMA_FILE
         )
         # Load the Schema
         return self._load_yaml_data(yaml_file_path=default_schema_path)
 
-    def _load_default_variable_attr_schema(self) -> dict:
-        # The Default Schema file is contained in the `solarnet_metadata/data` directory
-        default_schema_path = str(
-            Path(solarnet_metadata.__file__).parent
-            / "data"
-            / DEFAULT_VARIABLE_ATTRS_SCHEMA_FILE
-        )
-        # Load the Schema
-        return self._load_yaml_data(yaml_file_path=default_schema_path)
-
-    def _load_default_attributes(self, schema) -> dict:
+    def _load_default_attributes(self, schema: dict) -> dict:
         return {
             attr_name: info["default"]
             for attr_name, info in schema["attribute_key"].items()
@@ -202,13 +132,13 @@ class SOLARNETSchema:
             yaml_data = yaml.safe_load(f)
         return yaml_data
 
-    def global_attribute_template(
+    def attribute_template(
         self,
         observatory_type: Optional[str] = None,
         instrument_type: Optional[str] = None,
-    ) -> OrderedDict:
+    ) -> dict:
         """
-        Function to generate a template of required global attributes
+        Function to generate a template of required attributes
         that must be set for a valid data file.
 
         Parameters
@@ -224,83 +154,52 @@ class SOLARNETSchema:
 
         Returns
         -------
-        template : `OrderedDict`
-            A template for required global attributes that must be provided.
+        template : `dict`
+            A template for required attributes that must be provided.
         """
-        template = OrderedDict()
-        for attr_name, attr_schema in self.global_attribute_schema[
-            "attribute_key"
-        ].items():
-            if (
-                attr_schema["required"]
-                and attr_name not in self.default_global_attributes
-            ):
+        template = {}
+        for attr_name, attr_schema in self.attribute_schema["attribute_key"].items():
+            if attr_schema["required"] and attr_name not in self.default_attributes:
                 template[attr_name] = None
 
         # Get required attributes for the conditional requirements based on observatory
         if (
             observatory_type
             and observatory_type
-            in self.global_attribute_schema["attribute_key"]["OBS_TYPE"]["valid_values"]
+            in self.attribute_schema["attribute_key"]["OBS_TYPE"]["valid_values"]
         ):
-            conditional_requirements = [
+            applicable_conditional_requirements: list[list[str]] = [
                 requirement["required_attributes"]
-                for requirement in self.global_attribute_schema[
-                    "conditional_requirements"
-                ]
+                for requirement in self.attribute_schema["conditional_requirements"]
                 if requirement["condition_key"] == "OBS_TYPE"
                 and requirement["condition_value"] == observatory_type
             ]
-            if len(conditional_requirements) > 0:
-                for required_attribute in conditional_requirements[0]:
+            for conditional_requirement in applicable_conditional_requirements:
+                for required_attribute in conditional_requirement:
                     template[required_attribute] = None
 
         # Get required attributes for the conditional requirements based on instrument
         if (
             instrument_type
             and instrument_type
-            in self.global_attribute_schema["attribute_key"]["INST_TYP"]["valid_values"]
+            in self.attribute_schema["attribute_key"]["INST_TYP"]["valid_values"]
         ):
-            conditional_requirements = [
+            applicable_conditional_requirements: list[list[str]] = [
                 requirement["required_attributes"]
-                for requirement in self.global_attribute_schema[
-                    "conditional_requirements"
-                ]
+                for requirement in self.attribute_schema["conditional_requirements"]
                 if requirement["condition_key"] == "INST_TYP"
                 and requirement["condition_value"] == instrument_type
             ]
-            if len(conditional_requirements) > 0:
-                for required_attribute in conditional_requirements[0]:
+            for conditional_requirement in applicable_conditional_requirements:
+                for required_attribute in conditional_requirement:
                     template[required_attribute] = None
 
         return template
 
-    def measurement_attribute_template(self) -> OrderedDict:
+    def attribute_info(self, attribute_name: Optional[str] = None):
         """
-        Function to generate a template of required measurement attributes
-        that must be set for a valid data file.
-
-        Returns
-        -------
-        template: `OrderedDict`
-            A template for required variable attributes that must be provided.
-        """
-        template = OrderedDict()
-
-        # Get required attributes from the attribute key
-        for attr_name, attr_schema in self.variable_attribute_schema[
-            "attribute_key"
-        ].items():
-            if attr_schema["required"] and not attr_schema["default"]:
-                template[attr_name] = None
-
-        return template
-
-    def global_attribute_info(self, attribute_name: Optional[str] = None):
-        """
-        Function to generate a `pd.DataFrame` of information about each global
-        metadata attribute. The `pd.DataFrame` contains all information in the SWxSOC
-        global attribute schema including:
+        Function to generate a `pd.DataFrame` of information about each
+        metadata attribute. The `pd.DataFrame` contains all information in the SOLARNET attribute schema including:
 
         - description: (`str`) A brief description of the attribute
         - default: (`str`) The default value used if none is provided
@@ -315,24 +214,24 @@ class SOLARNETSchema:
         Returns
         -------
         info: `pd.DataFrame`
-            A table of information about global metadata.
+            A table of information about the SOLARNET keywords
 
         Raises
         ------
-        KeyError: If attribute_name is not a recognized global attribute.
+        KeyError: If attribute_name is not a recognized attribute.
         """
         import pandas as pd
 
-        global_attribute_key = self.global_attribute_schema["attribute_key"]
+        attribute_key = self.attribute_schema["attribute_key"]
 
         # Strip the Description of New Lines
-        for attr_name in global_attribute_key.keys():
-            global_attribute_key[attr_name]["description"] = global_attribute_key[
-                attr_name
-            ]["description"].strip()
+        for attr_name in attribute_key.keys():
+            attribute_key[attr_name]["description"] = attribute_key[attr_name][
+                "description"
+            ].strip()
 
         # Create the Info Table
-        info = pd.DataFrame.from_dict(global_attribute_key, orient="index")
+        info = pd.DataFrame.from_dict(attribute_key, orient="index")
         # Reset the Index, add Attribute as new column
         info.reset_index(names="Attribute", inplace=True)
 
@@ -340,68 +239,28 @@ class SOLARNETSchema:
         if attribute_name and attribute_name in info["Attribute"].values:
             info = info[info["Attribute"] == attribute_name]
         elif attribute_name and attribute_name not in info["Attribute"].values:
-            raise KeyError(
-                f"Cannot find Global Metadata for attribute name: {attribute_name}"
-            )
+            raise KeyError(f"Cannot find attribute name: {attribute_name}")
 
         return info
 
-    def measurement_attribute_info(self, attribute_name: Optional[str] = None):
+    def _merge(self, base_layer: dict, new_layer: dict, path: list = None) -> None:
         """
-        Function to generate a `pd.DataFrame` of information about each variable
-        metadata attribute. The `pd.DataFrame` contains all information in the SWxSOC
-        variable attribute schema including:
-
-        - description: (`str`) A brief description of the attribute
-        - required: (`bool`) Whether the attribute is required by SWxSOC standards
-        - valid_values: (`str`) List of allowed values the attribute can take for SWxSOC products,
-            if applicable
-        - alternate: (`str`) An additional attribute name that can be treated as an alternative
-            of the given attribute. Not all attributes have an alternative and only one of a given
-            attribute or its alternate are required.
-        - var_types: (`str`) A list of the variable types that require the given
-            attribute to be present.
+        Function to do in-place merging and updating of two dictionaries.
+        This is an improvemnent over the built-in dict.update() method, as it allows for nested dictionaries and lists.
 
         Parameters
         ----------
-        attribute_name : `str`, optional, default None
-            The name of the attribute to get specific information for.
+        base_layer : `dict`
+            The base dictionary to merge into.
+        new_layer : `dict`
+            The new dictionary to merge into the base.
+        path : `list`
+            The path to the current dictionary being merged. Used for recursion.
 
         Returns
         -------
-        info: `pd.DataFrame`
-            A table of information about variable metadata.
-
-        Raises
-        ------
-        KeyError: If attribute_name is not a recognized variable attribute.
+        None - operation is done in-place.
         """
-        import pandas as pd
-
-        measurement_attribute_key = self.variable_attribute_schema["attribute_key"]
-
-        # Strip the Description of New Lines
-        for attr_name in measurement_attribute_key.keys():
-            measurement_attribute_key[attr_name]["description"] = (
-                measurement_attribute_key[attr_name]["description"].strip()
-            )
-
-        # Create the Info Table
-        info = pd.DataFrame.from_dict(measurement_attribute_key, orient="index")
-        # Reset the Index, add Attribute as new column
-        info.reset_index(names="Attribute", inplace=True)
-
-        # Limit the Info to the requested Attribute
-        if attribute_name and attribute_name in info["Attribute"].values:
-            info = info[info["Attribute"] == attribute_name]
-        elif attribute_name and attribute_name not in info["Attribute"].values:
-            raise KeyError(
-                f"Cannot find Variable Metadata for attribute name: {attribute_name}"
-            )
-
-        return info
-
-    def _merge(self, base_layer: dict, new_layer: dict, path: list = None):
         # If we are at the top of the recursion, and we don't have a path, create a new one
         if not path:
             path = []
@@ -416,7 +275,7 @@ class SOLARNETSchema:
                     # Merge the two nested dictionaries together
                     self._merge(base_layer[key], new_layer[key], path + [str(key)])
                 # If both are lists
-                if isinstance(base_layer[key], list) and isinstance(
+                elif isinstance(base_layer[key], list) and isinstance(
                     new_layer[key], list
                 ):
                     # Extend the list of the base layer by the new layer
