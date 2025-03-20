@@ -4,10 +4,14 @@ This module provides schema metadata templates an information.
 """
 
 from pathlib import Path
-from typing import Optional
+from typing import Dict, List, Optional, Tuple
 import yaml
 
 import solarnet_metadata
+from solarnet_metadata.validation import (
+    validate_fits_keyword_value_comment,
+    validate_fits_keyword_data_type,
+)
 
 __all__ = ["SOLARNETSchema"]
 
@@ -288,3 +292,76 @@ class SOLARNETSchema:
             else:
                 base_layer[key] = new_layer[key]
         return base_layer
+
+    def validate(
+        self,
+        header: Dict[str, Tuple[str, str]],
+        warn_no_comment: bool = False,
+        warn_data_type: bool = False,
+    ) -> List[str]:
+        """
+        Function to validate the header of a data file against the SOLARNET schema.
+
+        Parameters
+        ----------
+        header : `Dict[str, Tuple[str, str]]`
+            The header of the data file to be validated. The header should be a dictionary
+            with the keys as the attribute names and the values as a tuple of (value, comment).
+        warn_no_comment : `bool`, optional, default False
+            Whether to warn about missing comments in the header.
+        warn_data_type : `bool`, optional, default False
+            Whether to warn about incorrect data types in the header.
+
+        Returns
+        -------
+        validation_findings : `List[str]`
+            A list of validation findings.
+        """
+        validation_findings = []
+
+        # Get subset of Required Attributes
+        required_attributes = {
+            keyword: info
+            for keyword, info in self.attribute_schema["attribute_key"].items()
+            if info["required"]
+        }
+
+        # Verify that all Required Attributes are present
+        for keyword, info in required_attributes.items():
+            if keyword not in header:
+                validation_findings.append(f"Missing Required Attribute: {keyword}")
+
+        # Validate each keyword, value, comment set
+        for keyword, (value, comment) in header.items():
+            findings = validate_fits_keyword_value_comment(keyword, value, comment)
+            validation_findings.extend(findings)
+
+            # Optional: Warn if comment is empty
+            if warn_no_comment and (not comment or comment.strip() == ""):
+                validation_findings.append(f"Keyword '{keyword}' has no comment.")
+
+            # Placeholder for data type validation (extensible)
+            if warn_data_type:
+                # Make sure we have the keyword in the schema
+                keyword_info = self.attribute_schema["attribute_key"].get(keyword, None)
+                if not keyword_info:
+                    validation_findings.append(
+                        f"Keyword '{keyword}' not found in the schema. Cannot Validate Data Type."
+                    )
+                    continue
+                # Make sure we have a data type for the keyword
+                keyword_data_type = keyword_info.get("data_type", None)
+                if not keyword_data_type:
+                    validation_findings.append(
+                        f"Keyword '{keyword}' has no data type. Cannot Validate Data Type."
+                    )
+                else:
+                    # check the data type of the keyword
+                    findings = validate_fits_keyword_data_type(
+                        keyword=keyword,
+                        value=value,
+                        data_type=keyword_data_type,
+                    )
+                    validation_findings.extend(findings)
+
+        return validation_findings

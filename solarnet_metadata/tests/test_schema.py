@@ -6,6 +6,23 @@ import pandas as pd
 
 from solarnet_metadata.schema import SOLARNETSchema
 
+# Mock schema for testing
+MOCK_SCHEMA = {
+    "attribute_key": {
+        "NAXIS": {"required": True, "data_type": "int"},
+        "COMMENT": {"required": False},
+        "AUTHOR": {"required": True, "data_type": "str"},
+    },
+    "conditional_requirements": [],
+}
+
+
+# Helper function to create a SOLARNETSchema instance with mock schema
+def create_mock_schema():
+    schema = SOLARNETSchema()
+    schema._attr_schema = MOCK_SCHEMA
+    return schema
+
 
 def test_schema_default():
     """Test Creating a Schema with Default Parameters"""
@@ -102,3 +119,96 @@ def test_load_yaml_data():
         # Load from an non-existant file
         with pytest.raises(yaml.YAMLError):
             _ = SOLARNETSchema()._load_yaml_data(tmpdirname + "test.yaml")
+
+
+# Parameterized test cases for the validate method
+@pytest.mark.parametrize(
+    "header, warn_no_comment, warn_data_type, expected_findings",
+    [
+        # Test 1: Missing required attribute
+        (
+            {"NAXIS": ("3", "Number of axes")},
+            False,
+            False,
+            ["Missing Required Attribute: AUTHOR"],
+        ),
+        # Test 2: Invalid keyword
+        (
+            {"NAXIS": ("3", "Number of axes"), "INVALID_KEY!": ("value", "comment")},
+            False,
+            False,
+            [
+                "Missing Required Attribute: AUTHOR",
+                "Invalid keyword 'INVALID_KEY!': Must be 1-8 characters, containing only A-Z, 0-9, -, _.",
+            ],
+        ),
+        # Test 3: Warn about missing comments
+        (
+            {"NAXIS": ("3", ""), "AUTHOR": ("John Doe", "")},
+            True,
+            False,
+            [
+                "Keyword 'NAXIS' has no comment.",
+                "Keyword 'AUTHOR' has no comment.",
+            ],
+        ),
+        # Test 4: Data type validation with correct types
+        (
+            {"NAXIS": ("3", "Number of axes"), "AUTHOR": ("John Doe", "Author name")},
+            False,
+            True,
+            [],
+        ),
+        # Test 5: Data type validation with incorrect type
+        (
+            {
+                "NAXIS": ("three", "Number of axes"),
+                "AUTHOR": ("John Doe", "Author name"),
+            },
+            False,
+            True,
+            [
+                "Value for 'NAXIS' cannot be cast to data type 'int': invalid literal for int() with base 10: 'three'",
+            ],
+        ),
+        # Test 6: Keyword not in schema for data type validation
+        (
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "AUTHOR": ("John Doe", "Author name"),
+                "EXTRAKEY": ("value", "comment"),
+            },
+            False,
+            True,
+            [
+                "Keyword 'EXTRAKEY' not found in the schema. Cannot Validate Data Type.",
+            ],
+        ),
+        # Test 7: Keyword in schema but without data_type
+        (
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "AUTHOR": ("John Doe", "Author name"),
+                "COMMENT": ("Test comment", "Comment description"),
+            },
+            False,
+            True,
+            [
+                "Keyword 'COMMENT' has no data type. Cannot Validate Data Type.",
+            ],
+        ),
+    ],
+    ids=[
+        "missing_required_attribute",
+        "invalid_keyword",
+        "warn_no_comment",
+        "warn_data_type_correct",
+        "warn_data_type_incorrect",
+        "keyword_not_in_schema",
+        "keyword_without_data_type",
+    ],
+)
+def test_validate(header, warn_no_comment, warn_data_type, expected_findings):
+    schema = create_mock_schema()
+    findings = schema.validate(header, warn_no_comment, warn_data_type)
+    assert findings == expected_findings
