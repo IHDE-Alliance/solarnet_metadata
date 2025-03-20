@@ -1,5 +1,5 @@
 import re
-from typing import Any, List
+from typing import Any, List, Optional
 from datetime import datetime
 
 DATA_TYPE_MAP = {
@@ -12,7 +12,7 @@ DATA_TYPE_MAP = {
 
 
 def validate_fits_keyword_value_comment(
-    keyword: str, value: Any, comment: str | None
+    keyword: str, value: Any, comment: Optional[str] = None
 ) -> List[str]:
     """
     Validates a FITS keyword, value, and comment set according to FITS standard requirements.
@@ -23,7 +23,7 @@ def validate_fits_keyword_value_comment(
         The FITS keyword to validate.
     value : Any
         The value associated with the keyword
-    comment : str | None
+    comment : Optional[str], default None
         The comment associated with the keyword.
 
     Returns
