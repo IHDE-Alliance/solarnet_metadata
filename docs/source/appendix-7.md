@@ -21,4 +21,7 @@ When looking up the file to locate the referenced extension, software should all
 
 **Placeholder extensions**
 
-Of course, the end user may not have the file containing the external extension available. To partially amend this situation, it is possible to have a placeholder extension in the same file as the referring extension, containing the full header of the referenced extension but having only a degenerate data cube (i.e., `NAXISn``=1`). The `EXTNAME` of the placeholder extension must be identical to the `EXTNAME` of the true external extension (i.e., `'VAR_KEY_DATA'` in the example above). The data dimensions of the true external extension should then be given in `XDIMNAn``=NAXISn` of the true external extension.
+Of course, the end user may not have the file containing the external extension available. To partially amend this situation, it is strongly recommended to have a placeholder extension in the same file as the referring extension, containing the full header of the referenced extension but having only a degenerate data cube (i.e., `NAXIS=0`). The `EXTNAME` of the placeholder extension must be identical to the `EXTNAME` of the true external extension (i.e., `'VAR_KEY_DATA'` in the example above). For such placeholder extensions, include the keywords:
+```
+XDIMNAn = x / The value of NAXISn from the true external extension.
+````
