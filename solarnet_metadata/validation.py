@@ -1,11 +1,14 @@
 from datetime import datetime
 from enum import Enum
+import logging
 import re
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Tuple
 
 from astropy.io import fits
 
 from solarnet_metadata.schema import SOLARNETSchema
+
+logger = logging.getLogger(__name__)
 
 DATA_TYPE_MAP = {
     "bool": bool,
@@ -37,19 +40,20 @@ def validate_header(
     header: fits.Header,
     is_primary: bool = False,
     is_obs: bool = False,
+    warn_empty_keyword: bool = False,
     warn_no_comment: bool = False,
     warn_data_type: bool = False,
     schema: Optional[SOLARNETSchema] = None,
 ) -> List[str]:
     """
     Validates a FITS header against the SOLARNET schema requirements.
-    
+
     This function performs multiple validation checks:
     1. Verifies all required keywords are present based on HDU type
     2. Checks for pattern-based keywords when specified in the schema
     3. Validates each keyword, value, and comment according to FITS standards
     4. Optionally validates data types against the schema specifications
-    
+
     Parameters
     ----------
     header : fits.Header
@@ -64,7 +68,7 @@ def validate_header(
         Whether to validate and report warnings about incorrect data types.
     schema : Optional[SOLARNETSchema], default None
         The schema to validate against. If None, the default SOLARNET schema is used.
-    
+
     Returns
     -------
     validation_findings : List[str]
@@ -75,7 +79,12 @@ def validate_header(
         # Use the default schema
         schema = SOLARNETSchema()
 
+    # Initialize Empty List for Validation Findings
     validation_findings = []
+
+    # Check Special Keyword for `OBS_HDU` which is an int, 0 or 1
+    is_obs, obs_findings = check_obs_hdu(header, is_obs)
+    validation_findings.extend(obs_findings)
 
     # Get subset of Required Attributes
     required_attributes = {
@@ -114,15 +123,20 @@ def validate_header(
 
         # Validate each keyword, value, comment set
         findings = validate_fits_keyword_value_comment(
-            keyword, value, comment, warn_no_comment=warn_no_comment
+            keyword, value, comment, warn_empty_keyword=warn_empty_keyword, warn_no_comment=warn_no_comment
         )
         validation_findings.extend(findings)
 
         # Placeholder for data type validation (extensible)
         if warn_data_type:
-            # Make sure we have the keyword in the schema
-            keyword_info = schema.attribute_schema["attribute_key"].get(keyword, None)
-            if not keyword_info:
+            
+            # Check for Empty Keyword
+            if not keyword or keyword.strip() == "":
+                if warn_empty_keyword:
+                    findings.append("Keyword is empty. Cannot Validate Data Type")
+                continue
+            # Check if the keyword is in the schema
+            elif not (keyword_info := schema.attribute_schema["attribute_key"].get(keyword, None)):
                 validation_findings.append(
                     f"Keyword '{keyword}' not found in the schema. Cannot Validate Data Type."
                 )
@@ -145,6 +159,60 @@ def validate_header(
     return validation_findings
 
 
+def check_obs_hdu(header: fits.Header, is_obs: bool = False) -> Tuple[bool, List[str]]:
+    """
+    Check and validate the OBS_HDU keyword in a FITS header.
+    
+    This function validates whether a header contains a properly formatted OBS_HDU
+    keyword (with value 0 or 1) and reconciles any discrepancies between the header
+    value and the provided is_obs parameter.
+    
+    Parameters
+    ----------
+    header : fits.Header
+        The FITS header to check for OBS_HDU keyword.
+    is_obs : bool, default False
+        Initial assumption about whether this is an observation HDU.
+        
+    Returns
+    -------
+    is_obs : bool
+        The resolved observation HDU status, potentially modified based on the
+        header's OBS_HDU value.
+    validation_findings : List[str]
+        A list of validation issues found; empty if OBS_HDU is valid.
+        
+    Notes
+    -----
+    If there are discrepancies between the provided is_obs parameter and the
+    header's OBS_HDU value, this function will override is_obs to match the
+    header and log appropriate warnings.
+    """
+    validation_findings = []
+    if "OBS_HDU" in header:
+        if header["OBS_HDU"] not in [0, 1]:
+            validation_findings.append(
+                f"Invalid OBS_HDU value: {header['OBS_HDU']}. Must be 0 or 1."
+            )
+            is_obs = False
+        if header["OBS_HDU"] == 1 and not is_obs:
+            logger.warning(
+                f"Keyword `OBS_HDU` is set to 1, but `is_obs` given as False. Overriding `is_obs` to True. If this is not the desired behavior, please check the header `OBS_HDU`."
+            )
+            is_obs = True
+        elif header["OBS_HDU"] == 0 and is_obs:
+            logger.warning(
+                f"Keyword `OBS_HDU` is set to 0, but `is_obs` given as True. Overriding `is_obs` to False. If this is not the desired behavior, please check the header `OBS_HDU`."
+            )
+            is_obs = False
+    elif "OBS_HDU" not in header and is_obs:
+        logger.warning(
+            f"Keyword `OBS_HDU` is not present in the header, but `is_obs` given as True. Overriding `is_obs` to False. If this is not the desired behavior, please check the header `OBS_HDU`."
+        )
+        is_obs = False
+    return is_obs, validation_findings
+
+
 def validate_fits_keyword_value_comment(
     keyword: str,
     value: Any,
@@ -154,13 +222,13 @@ def validate_fits_keyword_value_comment(
 ) -> List[str]:
     """
     Validates a FITS keyword, value, and comment set according to FITS standard requirements.
-    
+
     This function checks:
     - Keyword format (1-8 characters, A-Z, 0-9, -, _)
     - Value string representation
     - Comment format
     - Total FITS card length (must be ≤80 characters)
-    
+
     Special handling is applied for COMMENT and HISTORY keywords.
 
     Parameters
@@ -233,7 +301,8 @@ def validate_fits_keyword_value_comment(
 
 
 def validate_fits_keyword_data_type(
-    keyword: str, value: Any, data_type: str
+    keyword: str, value: Any, data_type: str, warn_empty_keyword: bool = False,
+
 ) -> List[str]:
     """
     Validates the data type of a FITS keyword value.

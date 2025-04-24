@@ -57,7 +57,7 @@ attribute_key:
     default: null
     description: Who designed the observation
     human_readable: Author
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   BLANK:
     data_type: int
     default: null
@@ -81,7 +81,7 @@ attribute_key:
     default: null
     description: Description of what the data array represents
     human_readable: Data label
-    required: all # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+    required: obs # Mandatory data description keywords (sections 15.4, 5.1, 5.2, 5.6.2)
   BSCALE:
     data_type: float
     default: 1.0
@@ -93,7 +93,7 @@ attribute_key:
     default: null
     description: Units of data array
     human_readable: Units
-    required: all # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+    required: obs # Mandatory data description keywords (sections 15.4, 5.1, 5.2, 5.6.2)
   BZERO:
     data_type: float
     default: 0.0
@@ -135,13 +135,13 @@ attribute_key:
     default: null
     description: Camera name (CAM-xxxx is recommended for other camera keywords).
     human_readable: Name of the camera
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   CAMPAIGN:
     data_type: str
     default: null
     description:  Coordinated campaign name/number, including instance number, when applicable
     human_readable: Observation campaign
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   CAR_ROT:
     data_type: float
     default: null
@@ -153,7 +153,7 @@ attribute_key:
     default: null
     description: When an Obs-HDU (partially) overlaps in time and space with one or more HDUs stored in other files, CCURRENT (concurrent) may be set to a comma-separated list of its own file name plus the names of all files containing concurrent Obs-HDUs. CCURRENT serves as a pointer to other concurrent (and probably relevant) observations, but it also serves a purpose in grouping search results
     human_readable: Concurrent files
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   CDELTia:
     pattern: CDELT(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: float
@@ -172,7 +172,7 @@ attribute_key:
     default: null
     description: Checksum of the data array
     human_readable: Checksum
-    required: all # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+    required: obs # Mandatory general keywords (sections 15.1, 8, 9, Appendix V-a)
   CMPDESn:
     data_type: str
     default: null
@@ -227,7 +227,7 @@ attribute_key:
     default: null
     description: Name of the coordinate axis i
     human_readable: Coordinate axis name
-    required: all
+    required: obs # Section 5.1
   COMMENT:
     data_type: str
     default: null
@@ -429,19 +429,19 @@ attribute_key:
     default: null
     description: Sum of the data array, for checksum purposes
     human_readable: Sum of data
-    required: all # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+    required: obs # Mandatory general keywords (sections 15.1, 8, 9, Appendix V-a)
   DATATAGS:
     data_type: str
     default: null
     description: Used for any additional search terms that do not fit in any of the other keywords.
     human_readable: Data Tags
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   DATE:
     data_type: date
     default: null
     description: FITS file creation date in UTC
     human_readable: File Creation Date
-    required: all # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+    required: obs # Mandatory general keywords (sections 15.1, 8, 9, Appendix V-a)
   DATE-AVG:
     data_type: date
     default: null
@@ -453,7 +453,7 @@ attribute_key:
     default: null
     description:  referring to the start time of the data acquisition in the time system specified by the TIMESYS keyword, which has the default of 'UTC'.
     human_readable: Aquisition start time
-    required: all
+    required: obs # Section 13 Mandatory keywords for all Obs-HDUs (Section 2.2)
   DATE-END:
     data_type: date
     default: null
@@ -465,13 +465,13 @@ attribute_key:
     default: null
     description:  Time coord. zero point (time reference, mandatory) set to the zero point of the WCS time coordinate. I.e., for pixels that have the CTYPEi='UTC' coordinate equal to zero, the time is the value given in DATEREF. In most cases the values of DATEREF and DATE-BEG will be identical, but note that according to the FITS standard, DATE-BEG is not a default value for DATEREF, thus DATEREF may not be omitted. 
     human_readable: Reference date
-    required: all
+    required: obs # Section 14 Mandatory WCS keyword for all HDUs with a UTC (time) coordinate (Section 4.1)
   DETECTOR:
     data_type: str
     default: null
     description: Name of detector
     human_readable: detector
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   DPja: # NOTE: Equivalent to CPDISia?
     data_type: str
     default: null
@@ -519,7 +519,7 @@ attribute_key:
     default: null
     description: FITS filename
     human_readable: Filename
-    required: all # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+    required: obs # Mandatory general keywords (sections 15.1, 8, 9, Appendix V-a)
   FILEVERP:
     data_type: str
     default: null
@@ -531,7 +531,7 @@ attribute_key:
     default: null
     description: Name(s) of the filter(s) used during the observation.
     human_readable: Filters
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   FT_LOCK:
     data_type: float
     default: null
@@ -561,7 +561,7 @@ attribute_key:
     default: null
     description: Name of the grating used during the observation
     human_readable: Grating
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   HASH_SW:
     data_type: str
     default: null
@@ -597,7 +597,7 @@ attribute_key:
     default: null
     description: Instrument name
     human_readable: Instrument
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   INST_TYP:
     data_type: str
     default: null
@@ -608,7 +608,7 @@ attribute_key:
     - Imager
     - Spectrograph
   LEVEL:
-    data_type: float
+    data_type: str
     default: null
     description: Data level of fits file
     human_readable: Data level of fits file
@@ -636,7 +636,7 @@ attribute_key:
     default: null
     description: Mission name
     human_readable: Mission
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   MOSAICID:
     data_type: str
     default: null
@@ -728,7 +728,7 @@ attribute_key:
     default: null
     description: Who acquired the data
     human_readable: Observer
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   OBSGEO-X:
     data_type: float
     default: null
@@ -752,25 +752,25 @@ attribute_key:
     default: null
     description:  Name of the observatory
     human_readable: Observatory
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   OBSTITLE:
     data_type: str
     default: null
     description: Title of observation. A more generic/higher-level description, e.g., "Flare sit-and-stare", "High cadence large raster"), which often corresponds to OBS_MODE, though not necessarily as a oneto-one relationship. Used by IRIS and SPICE, corresponds to Hinode OBS_DEC. Should be identical to OBS_DESC or OBS_MODE when no more suitable value is available.
     human_readable: Observation title
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   OBS_DESC:
     data_type: str
     default: null
     description: Description of observation. A string describing the observation, e.g., "Sit and stare on AR10333". Should be identical to OBSTITLE when no more suitable value is available.
     human_readable: Observation description
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   OBS_HDU:
     data_type: int
     default: null
     description: Whether the HDU is an observational HDU (1) or not (0). 
     human_readable: Contains observational data
-    required: all
+    required: obs # Section 13 Mandatory keywords for all Obs-HDUs (Section 2.2)
     valid_values:
     - 0
     - 1
@@ -785,13 +785,13 @@ attribute_key:
     default: null
     description: Name of predefined settings used during observation. A string (from a limited/discrete list) uniquely identifying the mode of operation.
     human_readable: Observation mode
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   OBS_TYPE:
     data_type: str
     default: null
     description: Type of observatory. A string (from a limited/discrete list) uniquely identifying the type of observatory.
     human_readable: Observatory Type
-    required: all # NOT a SOLARNET recommendation, but required for conditional requirements
+    required: optional # NOT a SOLARNET recommendation, but required for conditional requirements
     valid_values:
     - ground-based
     - earth-orbiting
@@ -807,7 +807,7 @@ attribute_key:
     default: null
     description:  set to a character string identifying the organization or institution responsible for creating the FITS file. 
     human_readable: File originator
-    required: all # Mandatory general keywords (sections 15, 8, 9, Appendix V-a)
+    required: obs # Mandatory general keywords (sections 15.1, 8, 9, Appendix V-a)
   PCONSna:
     data_type: int
     default: null
@@ -897,7 +897,7 @@ attribute_key:
     default: null
     description: Observation planner
     human_readable: Planner
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   PMAXna:
     data_type: float
     default: null
@@ -921,7 +921,7 @@ attribute_key:
     default: null
     description: Pointing ID serves to separate otherwise identical observations into groups in a logical way. 
     human_readable: Pointing ID
-    required: all # Mandatory keyword for grouping (sections 15, 7, Appendix V-b)
+    required: optional # Mandatory keyword for grouping (sections 15.9, 7, Appendix V-b)
   POLCANGL:
     data_type: float
     default: null
@@ -975,7 +975,7 @@ attribute_key:
     default: null
     description: Name(s) of the project(s) affiliated with the data
     human_readable: Project
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   PRPARAn:
     data_type: str
     default: null
@@ -1047,7 +1047,7 @@ attribute_key:
     default: null
     description: Who requested this particular observation.
     human_readable: Requester
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   RESEXT:
     data_type: str
     default: null
@@ -1101,31 +1101,31 @@ attribute_key:
     default: null
     description: '[arcsec] apparent photospheric solar radius in arc seconds'
     human_readable: Solar angular radius
-    required: all
+    required: optional # Section 3.2
   RSUN_REF:
     data_type: float
     default: null
     description: '[m] Reference solar radius in meters. For observations (instruments) where the plate scale/pointing is derived from measurements of the apparent solar radius versus the physical size, the keywords RSUN_REF should be used to report the reference value for the physical radius used in the calculations (see Thompson 2010, Section 8).'
     human_readable: Solar radius. [m] Solar rad. used for calc. px scale
-    required: optional # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+    required: optional # Optional quality aspects keywords (sections 18.7, 3.1, 5.5)
   SETTINGS:
     data_type: str
     default: null
     description: Additional instrument/acquisition settings
     human_readable: Settings
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   SLIT_WID:
     data_type: float
     default: null
     description: '[arcsec] Slit width'
     human_readable: Slit width
-    required: all # Mandatory keywords for spectrographs (sections 15, 5.4)
+    required: optional # Mandatory keywords for spectrographs (sections 15.7, 5.4)
   SOLARNET:
     data_type: float
     default: null
     description: Fully SOLARNET-compliant=1.0, partially=0.5
     human_readable: Solarnet compatibility
-    required: all
+    required: obs # Section 13 Mandatory keywords for all Obs-HDUs (Section 2.2)
     valid_values:
     - 1.0
     - 0.5
@@ -1206,13 +1206,13 @@ attribute_key:
     default: null
     description: Telescope configuration
     human_readable: Telescope configuration
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   TELESCOP:
     data_type: str
     default: null
     description: Telescope/Sensor name
     human_readable: Telescope
-    required: primary # Mandatory keywords identifying the origin of the observations (sections 15, 6)
+    required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   TEXPOSURE:
     data_type: float
     default: null
@@ -1392,7 +1392,7 @@ attribute_key:
     default: null
     description: '[s] Total effective exposure time'
     human_readable: Exposure time
-    required: all # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
+    required: obs # Mandatory data description keywords (sections 15.4, 5.1, 5.2, 5.6.2)
   iCRVLn:
     data_type: float
     default: null
