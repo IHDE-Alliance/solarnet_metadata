@@ -452,7 +452,17 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 
 `ORIGIN` should be set to a character string identifying the organization or institution responsible for creating the FITS file. DATE should be set to the date of creation of the FITS file.
 
-In addition to the `LEVEL`, `VERSION` and `ORIGIN` keywords, we recommend that some additional keywords are used in order to indicate the processing steps that has been applied to the data. The four keywords described in Section 8.1 may be used instead of or in addition to the more complex set of keywords described in Section 8.2.
+`PARENTXT` (parent extension) should be used to reference the extension(s) from which the current extension has been created. It will typically be a comma-separated list of external extension references, i.e., a list of relative paths, filenames and extension names such as:
+
+```
+PARENTXT = '../level1/obs1_level1.fits;Window A,../aux/2020/01/calib.fits;Calibration'
+```
+
+When concatenating a series of many files (e.g., converting repeated rasters to a movie) with a common filename marker, the wildcard sytax may be useful (see [Appendix VII](#appendix-vii)).
+
+For Level P data, which have `OBS_HDU=2`, the extensions referenced in `PARENTXT` should also be used as an additional source of metadata, as if the `PARENTXT` extension was the primary HDU and the `INHERIT` convenstion was in use [FITS Header Inheritance Convention](https://fits.gsfc.nasa.gov/registry/inherit/fits_inheritance.txt) (see [References](#reference_list)).
+
+In addition to the `LEVEL`, `VERSION`, `PARENTXT` and `ORIGIN` keywords, we recommend that some additional keywords are used in order to indicate the processing steps that has been applied to the data. The four keywords described in Section 8.1 may be used instead of or in addition to the more complex set of keywords described in Section 8.2.
 
 (8.1)=
 ## 8.1 Basic description of processing software
