@@ -458,8 +458,7 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 PARENTXT = '../level1/obs1_level1.fits;Window A,../aux/2020/01/calib.fits;Calibration'
 ```
 
-When concatenating a series of many files (e.g., converting repeated rasters to a movie) with a common filename marker, the wildcard sytax may be useful (see [Appendix VII](#appendix-vii)).
-
+When concatenating a series of many files (e.g., converting repeated rasters to a movie) with a common filename marker, the wildcard syntax may be useful (see [Appendix VII](#appendix-vii)).
 For Level P data, which have `OBS_HDU``=2`, the extensions referenced in `PARENTXT` should also be used as an additional source of metadata, as if the `PARENTXT` extension was the primary HDU and the `INHERIT` convenstion was in use [FITS Header Inheritance Convention](https://fits.gsfc.nasa.gov/registry/inherit/fits_inheritance.txt) (see [References](#reference_list)).
 
 In addition to the `LEVEL`, `VERSION`, `PARENTXT` and `ORIGIN` keywords, we recommend that some additional keywords are used in order to indicate the processing steps that has been applied to the data. The four keywords described in Section 8.1 may be used instead of or in addition to the more complex set of keywords described in Section 8.2.
