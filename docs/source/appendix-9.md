@@ -1,5 +1,10 @@
 (appendix-ix)=
 # Appendix IX. Higher-level data: parameterized components
+<style>
+  .new {
+    background-color:rgb(252, 252, 147)
+  }
+</style>
 
 One common type of higher-level data are results from analysing lower-level data by fitting of parameterized components (e.g., emission line profiles) to spectroscopic data by means of {math}`\chi^2` minimization, but so far there has been no standard mechanism for how to store such results in FITS files.
 
@@ -55,7 +60,7 @@ To ensure that the result of the analysis can be interpreted correctly, the full
 
 `SOLARNET` must be set to either `0.5` or `1`, and `OBS_HDU``=2` _(not `1`!)_ signals that the HDU contains SOLARNET Type P data.
 
-In order to make the Type P format as broadly useful as possible by generic software in as many domains as possible, _HDUs containing Type P data (i.e., `OBS_HDU``=2`) are exempt from most SOLARNET metadata requirements_. Although it is recommended to propagate SOLARNET keywords from the parent/progenitor extension(s), it is also possible to attach the metadata through the `PARENTXT` keyword. For HDUs with `OBS_HDU``=2`, parent extensions specified by `PARENTXT` are to be treated as if they are primary HDUs, with the `INHERIT` convention in use for the referring HDU. Notice that the external extension mechanism allows for a placeholder HDU in the referencing file, as long as the `EXTNAME` matches that of the real parent HDU. 
+<span class=new>In order to make the Type P format as broadly useful as possible by generic software in as many domains as possible, _HDUs containing Type P data (i.e., `OBS_HDU``=2`) are exempt from most SOLARNET metadata requirements_. Although it is recommended to propagate SOLARNET keywords from the parent/progenitor extension(s), it is also possible to attach the metadata through the `PARENTXT` keyword. For HDUs with `OBS_HDU``=2`, parent extensions specified by `PARENTXT` are to be treated as if they are primary HDUs, with the `INHERIT` convention in use for the referring HDU. Notice that the external extension mechanism allows for a placeholder HDU in the referencing file, as long as the `EXTNAME` matches that of the real parent HDU.</span>
 
 `ANA_NCMP` must be set to the number of components used in the analysis.
 

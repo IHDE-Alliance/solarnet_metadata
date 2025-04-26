@@ -1,6 +1,12 @@
 (1.0)=
 # 1. About file formats
 
+<style>
+  .new {
+    background-color:rgb(252, 252, 147)
+  }
+</style>
+
 The most common practice in the solar remote sensing community is currently to use the FITS Standard file format for disseminating solar remote sensing observations. For this reason, this document describes how to include the metadata content through keywords inside FITS files, but _that does not preclude the use of other file formats_. In many ways, this document simply uses FITS notation as a language to express the underlying metadata requirements.
 
 For a discussion about file names and how to group observational data between or inside different files, see [Appendix V: Other recommendations](#appendix-v).
@@ -452,14 +458,15 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 
 `ORIGIN` should be set to a character string identifying the organization or institution responsible for creating the FITS file. DATE should be set to the date of creation of the FITS file.
 
-`PARENTXT` (parent extension) should be used to reference the extension(s) from which the current extension has been created. It will typically be a comma-separated list of external extension references, i.e., a list of relative paths, filenames and extension names such as:
+<span class=new>`PARENTXT` (parent extension) should be used to reference the extension(s) from which the current extension has been created. It will typically be a comma-separated list of external extension references, i.e., a list of relative paths, filenames and extension names such as:</span>
 
-```
+```none
 PARENTXT = '../level1/obs1_level1.fits;Window A,../aux/2020/01/calib.fits;Calibration'
 ```
 
-When concatenating a series of many files (e.g., converting repeated rasters to a movie) with a common filename marker, the wildcard syntax may be useful (see [Appendix VII](#appendix-vii)).
-For Level P data, which have `OBS_HDU``=2`, the extensions referenced in `PARENTXT` should also be used as an additional source of metadata, as if the `PARENTXT` extension was the primary HDU and the `INHERIT` convention was in use [FITS Header Inheritance Convention](https://fits.gsfc.nasa.gov/registry/inherit/fits_inheritance.txt) (see [References](#reference_list)).
+<span class=new>When concatenating a series of many files (e.g., converting repeated rasters to a movie) with a common filename marker, the wildcard syntax may be useful (see [Appendix VII](#appendix-vii)).
+For Level P data, which have `OBS_HDU``=2`, the extensions referenced in `PARENTXT` should also be used as an additional source of metadata, as if the `PARENTXT` extension was the primary HDU and the `INHERIT` convention was in use [FITS Header Inheritance Convention](https://fits.gsfc.nasa.gov/registry/inherit/fits_inheritance.txt) (see [References](#reference_list)).</span>
+
 In addition to the `LEVEL`, `VERSION`, `PARENTXT` and `ORIGIN` keywords, we recommend that some additional keywords are used in order to indicate the processing steps that has been applied to the data. The four keywords described in Section 8.1 may be used instead of or in addition to the more complex set of keywords described in Section 8.2.
 
 (8.1)=
