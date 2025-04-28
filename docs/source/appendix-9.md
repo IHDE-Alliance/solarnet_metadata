@@ -1,5 +1,6 @@
 (appendix-ix)=
 # Appendix IX. Higher-level data: parameterized components
+
 <style>
   .new {
     background-color:rgb(252, 252, 147)
@@ -58,9 +59,9 @@ To ensure that the result of the analysis can be interpreted correctly, the full
 
 **Mandatory general keywords for HDUs with SOLARNET Type P data**
 
-`SOLARNET` must be set to either `0.5` or `1`, and `OBS_HDU``=2` _(not `1`!)_ signals that the HDU contains SOLARNET Type P data.
+`SOLARNET` must be set to either `0.5` or `1`, and `OBS_HDU``=2` _(not `1`!)_ signals that the HDU contains SOLARNET Type P data
 
-<span class=new>In order to make the Type P format as broadly useful as possible by generic software in as many domains as possible, _HDUs containing Type P data (i.e., `OBS_HDU``=2`) are exempt from most SOLARNET metadata requirements_. Although it is recommended to propagate SOLARNET keywords from the parent/progenitor extension(s), it is also possible to attach the metadata through the `PARENTXT` keyword. For HDUs with `OBS_HDU``=2`, parent extensions specified by `PARENTXT` are to be treated as if they are primary HDUs, with the `INHERIT` convention in use for the referring HDU. Notice that the external extension mechanism allows for a placeholder HDU in the referencing file, as long as the `EXTNAME` matches that of the real parent HDU.</span>
+<span class=new>In order to make the Type P format as broadly useful as possible by generic software in as many domains as possible, _HDUs containing Type P data (i.e., `OBS_HDU``=2`) are exempt from most SOLARNET metadata requirements_. Although it is recommended to propagate SOLARNET keywords from the parent extension(s), it is also possible to attach the metadata through the `PARENTXT` keyword. For HDUs with `OBS_HDU``=2`, parent extensions specified by `PARENTXT` are to be treated as if they are primary HDUs, with the `INHERIT` convention in use for the referring HDU. In most cases, `PARENTXT` will be an external extension reference, but it is highly recommended to include a placeholder extension. A `PARENTXT` is essential for reconstructing a data cube with the original coordinate system if none of the auxiliary extensions with the same size as the original data cube are included. If for some reason it is not possible to include the full header of the parent extension in a placeholder extension, it is permissible to use a virtual external extension, see [Appendix VII](#appendix-7).</span>
 
 `ANA_NCMP` must be set to the number of components used in the analysis.
 
@@ -134,15 +135,9 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 **Optional functional keywords for the analysis as a whole**
 
-`PGFILENA`: the name of the (progenitor) file containing the original data
+<span class=new>`PARENTXT`: A reference to the parent extension containing the original data. This will often be identical to `DATAEXT` (below), but the original data may have been modified prior to the analysis, e.g., by applying e.g., cosmic ray removal, flatfielding etc. `PARENTXT`/`DATAEXT` will often be external extensions (see [Appendix VII](#appendix-7)). Even though it is not mandatory, it is strongly recommended to include it, as it allows e.g., reconstruction of all coordinates and dimensions of the original data in the absence of any other full-size extension.</span> 
 
-`PGEXTNAM`: the name of the extension in the progenitor file that contains the original data
-
-`NXDIM`: the number of dimensions absorbed by the fitting process
-
-`XDIMTYm`: the `CTYPEi` of the m<sup>th</sup> dimension absorbed by the fitting process.
-
-To allow full manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify the dimensionalities that would result from the example discussed above.
+To allow full manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
 - `RESEXT`: the HDU containing the analysis results (`[x,y,t,p]`). Note `OBS_HDU``=2`
 - `DATAEXT`: the original data/Obs-HDU (`[x,y,lambda,t]`)
@@ -150,7 +145,6 @@ To allow full manual inspection, verification, and modification of the analysis 
 - `RESIDEXT`: residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting
 - `CONSTEXT`: constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen at the stored value during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless `PCONSn``a=1`.
 - `INCLEXT`: component inclusion mask (`[x,y,t,n]`) – if `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. When not present, it is assumed that all components have been included at all times.
-- `XDIMXTm`: The values of coordinates absorbed by the fitting process (`[x,y,lambda,t]`) specified by `XDIMTYm`, (see above) may be included in separate extensions as a convenience, although this is redundant whenever any of the arrays with all dimensions of the original data is present and contains the appropriate WCS information. Thus, `XDIMXTm` refers to the extension containing absorbed coordinate number `m` (with coordinate specification given by `XDIMTYm`).
 
 In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Type P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU``=2` as these are also “type P” data). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
 

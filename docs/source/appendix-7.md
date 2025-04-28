@@ -29,8 +29,8 @@ When looking up the file to locate the referenced extension, software should all
 
 ## Placeholder extensions
 
-Of course, the end user may not have the file containing the external extension available. To partially amend this situation, it is <span class=new>strongly recommended to have a placeholder extension in the same file as the referring extension, containing the full header of the referenced extension but having only a degenerate data cube (i.e., `NAXIS``=0`)</span>. The `EXTNAME` of the placeholder extension must be identical to the `EXTNAME` of the true external extension (i.e., `'VAR_KEY_DATA'` in the example above). For such placeholder extensions, include the keywords:
+Of course, the end user may not have the file containing the external extension available. To partially amend this situation, it is <span class=new>strongly recommended to have a placeholder extension in the same file as the referring extension, containing the full header of the referenced extension but having only a degenerate data cube, i.e., `NAXIS``=0` and no `NAXISn` keywords. Their original values should be given in `XNAXIS` and `XNAXISn`. The `EXTNAME` of the placeholder extension must be identical to the `EXTNAME` of the true external extension (i.e., `'VAR_KEY_DATA'` in the `VAR_KEYS` example above).</span>
 
-```none
-XDIMNAn = x / The value of NAXISn from the true external extension.
-````
+## <span class=new>Virtual external extensions</span>
+
+<span class=new>It is also possible to have "virtual external extensions" which do not point to any actual file (it may not even ever have existed). The main purpose of virtual external extensions is to allow e.g., specifications of its "theoretical" characteristics such as dimensionality and coordinate values using WCS keywords and `XNAXIS` etc., or other kinds of metadata. For virtual external extensions, the path and filename should be simply `./`, such that the reference becomes `./;<extension name>`.</span>
