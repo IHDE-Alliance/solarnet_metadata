@@ -461,7 +461,7 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 <span class=new>`PARENTXT` (parent extension) should be used to reference the extension(s) from which the current extension has been created. It will typically be a comma-separated list of external extension references, i.e., a list of relative paths, filenames and extension names such as:</span>
 
 ```none
-PARENTXT = '../level1/obs1_level1.fits;Window A,../aux/2020/01/calib.fits;Calibration'
+PARENTXT = '../level1/obs1_level1.fits;Window A'
 ```
 
 <span class=new>When concatenating a series of many files (e.g., converting repeated rasters to a movie) with a common filename marker, the wildcard syntax may be useful (see [Appendix VII](#appendix-vii)).
