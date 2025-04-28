@@ -25,11 +25,11 @@ DATAEXT='../../../../level2/2025/03/30/<L2 filename>;<extname>`
 
 When looking up the file to locate the referenced extension, software should allow for any file name variations due to compression (e.g., endings like .gz and .zip). Also, if no file matches the relative path, an attempt should be made to locate the file in the same directory as the referencing file.
 
-<span class='new'>As mentioned in [Appendix IX](#appendix-ix) wildcards may be used also for directories, e.g., `PARENTXT``='../../../*/*/*/*9934.fits;MgIX'`, which would be useful in case e.g., data from a series of files spanning multiple days are concatenated into a single file, in a yyyy/mm/dd directory structure.</span>
+<span class='new'>As mentioned in [Appendix VIII](#appendix-viii) wildcards may be used also for directories, e.g., `PARENTXT``='../../../*/*/*/*9934.fits;MgIX'`, which would be useful in case e.g., data from a series of files spanning multiple days are concatenated into a single file, in a yyyy/mm/dd directory structure.</span>
 
 ## Placeholder extensions
 
-Of course, the end user may not have the file containing the external extension available. To partially amend this situation, it is <span class=new>strongly recommended to have a placeholder extension in the same file as the referring extension, containing the full header of the referenced extension but having only a degenerate data cube, i.e., `NAXIS``=0` and no `NAXISn` keywords. Their original values should be given in `XNAXIS` and `XNAXISn`. The `EXTNAME` of the placeholder extension must be identical to the `EXTNAME` of the true external extension (i.e., `'VAR_KEY_DATA'` in the `VAR_KEYS` example above).</span>
+Of course, the end user may not have the file containing the external extension available. To partially amend this situation, it is <span class=new>_strongly recommended to have a placeholder extension in the same file as the referring extension_, containing the full header of the referenced extension but no data cube, i.e., `NAXIS``=0` and no `NAXISn` keywords. Their original values should be given in `XNAXIS` and `XNAXISn`. The `EXTNAME` of the placeholder extension must be identical to the `EXTNAME` of the true external extension (i.e., `'VAR_KEY_DATA'` in the `VAR_KEYS` example above), _or equal to the full reference_, e.g., `../auxiliary/s35837r001-aux.fits;VAR_KEY_DATA` (which may be necessary to avoid extension name conflicts). When using wildcards to refer to multiple external extensions, a "representative" placeholder can be given using the path including the wildcards, e.g., with `EXTNAME``='../../../*/*/*/*9934.fits;MgIX'`.</span>
 
 ## <span class=new>Virtual external extensions</span>
 
