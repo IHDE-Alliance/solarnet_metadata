@@ -7,7 +7,7 @@
   }
 </style>
 
-In SOLARNET FITS files, in keywords that have no special function within the official FITS/WCS framework, references to other extensions may be in the form of _external extension references_, e.g.:
+In SOLARNET FITS files, for keywords that have no special function within the official FITS/WCS framework, references to other extensions may be in the form of _external extension references_, e.g.:
 
 ```none
 VAR_KEYS= '../auxiliary/s35837r001-aux.fits;VAR_KEY_DATA;TEMPERATURE[He_I]'
@@ -33,4 +33,4 @@ Of course, the end user may not have the file containing the external extension 
 
 ## <span class=new>Virtual external extensions</span>
 
-<span class=new>It is also possible to have "virtual external extensions" which do not point to any actual file (it may not even ever have existed). The main purpose of virtual external extensions is to allow e.g., specifications of its "theoretical" characteristics such as dimensionality and coordinate values using WCS keywords and `XNAXIS` etc., or other kinds of metadata. For virtual external extensions, the path and filename should be simply `./`, such that the reference becomes `./;<extension name>`.</span>
+<span class=new>It is also possible to have "virtual external extensions" which do not point to any actual file (it may not even ever have existed). The main purpose of virtual external extensions is to allow e.g., specifications of its "theoretical" characteristics such as dimensionality and coordinate values using WCS keywords, `XNAXIS`, `XNAXISn` etc., or other kinds of metadata. For virtual external extensions, the path and filename should be simply `./`, such that the reference becomes `./;<extension name>`.</span>
