@@ -56,7 +56,9 @@ html_theme = "alabaster"
 
 html_theme_options = {
     # Toc options
-    'sticky_navigation': True
+    'sticky_navigation': True,
+    'body_max_width' : 'none',
+    'page_width': 'auto',
 } 
 
 # Add any paths that contain custom static files (such as style sheets) here,
