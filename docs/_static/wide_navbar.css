@@ -1,3 +1,9 @@
 .toctree-wrapper {
     max-width: 1200px !important;
 }
+.sphinxsidebar-wrapper {
+    max-width: 1200px !important;
+}
+.sphinxsidebar {
+    max-width: 1200px !important;
+}
