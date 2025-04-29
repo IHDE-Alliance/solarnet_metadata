@@ -58,7 +58,7 @@ html_theme_options = {
     # Toc options
     'sticky_navigation': True,
     'body_max_width' : 'none',
-    'page_width': 'auto',
+    'page_width': '90%',
 } 
 
 # Add any paths that contain custom static files (such as style sheets) here,
