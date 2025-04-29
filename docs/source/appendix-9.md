@@ -137,17 +137,19 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
-`DATAEXT`: the original data/Obs-HDU (`[x,y,lambda,t]`). <span class=new>`DATAEXT` will often be an external extension (see [Appendix VII](#appendix-vii)). In this case, although not mandatory, it is _strongly recommended to include a placeholder extension_, as this allows e.g., reconstruction of all coordinates and dimensions of the original data. If necessary, it may be a minimal extension with little metadata other than to specify coordinates and data dimensions through `XNAXIS`, `XNAXISn` and the WCS keywords.</span>
+`RESEXT`: The HDU containing the analysis results ([x,y,t,p]). Note OBS_HDU=2
 
-`PARENTXT`: <span class=new>a reference (external or local) to the parent extension containing the original data. This will often be identical to `DATAEXT`, but not necessarily: the original data may have been modified prior to the analysis, e.g., by applying e.g., cosmic ray removal, flatfielding etc.</span> 
+`DATAEXT`: The original data/Obs-HDU (`[x,y,lambda,t]`). <span class=new>`DATAEXT` will often be an external extension (see [Appendix VII](#appendix-vii)). In this case, although not mandatory, it is _strongly recommended to include a placeholder extension_, as this allows e.g., reconstruction of all coordinates and dimensions of the original data. If necessary, it may be a minimal extension with little metadata other than to specify coordinates and data dimensions through `XNAXIS`, `XNAXISn` and the WCS keywords.</span>
 
-`WGTEXT`: data weights  used during fitting (`[x,y,lambda,t]`). When not present, all data points are assumed to have equal weight.
+`PARENTXT`: <span class=new>A reference (external or local) to the parent extension containing the original data. The value of this keyword will often be identical to `DATAEXT`, but not necessarily: the original data may have been modified prior to the analysis, e.g., by applying e.g., cosmic ray removal, flatfielding etc.</span>
 
-`RESIDEXT`: residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting
+`WGTEXT`: Data weights used during fitting (`[x,y,lambda,t]`). When not present, all data points are assumed to have equal weight.
 
-`CONSTEXT`: constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen at the stored value during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless `PCONSn``a=1`.
+`RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting
 
-`INCLEXT`: component inclusion mask (`[x,y,t,n]`) – if `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. When not present, it is assumed that all components have been included at all times.
+`CONSTEXT`: Constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen at the stored value during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless ` PCONSn``a=1 `.
+
+`INCLEXT`: Component inclusion mask (`[x,y,t,n]`) – if `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. When not present, it is assumed that all components have been included at all times.
 
 In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Type P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU``=2` as these are also “type P” data). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
 
