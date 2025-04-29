@@ -135,6 +135,8 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 **Optional functional keywords for the analysis as a whole**
 
+`XDIMTYm`: The CTYPEi of the mth dimension absorbed by the fitting process. This keyword is here for convenience, this value can also be retrieved by comparing the CTYPES of RESEXT with the CTYPES of DATAEXT. The value missing in RESEXT is the value of this keyword.
+
 To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
 `RESEXT`: The HDU containing the analysis results ([x,y,t,p]). Note OBS_HDU=2
