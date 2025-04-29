@@ -56,7 +56,8 @@ html_theme = "alabaster"
 
 html_theme_options = {
     # Toc options
-    'sticky_navigation': True,
+    'fixed_sidebar': True,
+    'sidebar_width': '320px',
     'body_max_width' : 'none',
     'page_width': '90%',
 } 
