@@ -2,9 +2,13 @@ div.sphinxsidebarwrapper ul li.toctree-l1 {
     padding-left: 15px;
     text-indent: -15px;
 }
+
+div.sphinxsidebarwrapper ul li.toctree-l1 ul{
+    margin-left: 10px;
+}
 div.sphinxsidebarwrapper ul li.toctree-l1 ul li.toctree-l2 {
-    padding-left: 5px;
-    text-indent: -5px;
+    padding-left: 10px;
+    text-indent: -10px;
     margin-left: 0px;
     list-style:none;
 }
