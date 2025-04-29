@@ -1,9 +1,4 @@
-.toctree-wrapper {
-    max-width: 1200px !important;
-}
-.sphinxsidebar-wrapper {
-    max-width: 1200px !important;
-}
-.sphinxsidebar {
-    max-width: 1200px !important;
+.toctree-l1 {
+    padding-left: 4em;
+    text-indent: -4em;
 }
