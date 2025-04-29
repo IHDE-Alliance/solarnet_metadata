@@ -57,9 +57,9 @@ html_theme = "alabaster"
 html_theme_options = {
     # Toc options
     'fixed_sidebar': True,
-    'sidebar_width': '320px',
+    'sidebar_width': '350px',
     'body_max_width' : 'none',
-    'page_width': '90%',
+    'page_width': '95%',
 } 
 
 # Add any paths that contain custom static files (such as style sheets) here,
