@@ -135,7 +135,9 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 **Optional functional keywords for the analysis as a whole**
 
-`XDIMTYm`: The CTYPEi of the mth dimension absorbed by the fitting process. This keyword is here for convenience, this value can also be retrieved by comparing the CTYPES of RESEXT with the CTYPES of DATAEXT. The value missing in RESEXT is the value of this keyword.
+`XTYPEm`: <span class=new>The `CTYPE` of the m<sup>th</sup> coordinate(s) that was absorbed/removed during the fitting process (typically `XTYPE1``='WAVE'` for a disappearing {math}`\lambda` coordinate).</span>
+
+`XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of dimensions that was absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
 
 To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
@@ -147,7 +149,7 @@ To allow manual inspection, verification, and modification of the analysis resul
 
 `WGTEXT`: Data weights used during fitting (`[x,y,lambda,t]`). When not present, all data points are assumed to have equal weight.
 
-`RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting. This extension is normally not included, since it can be calculated from the original data and the fit parameters.
+`RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting. This extention is normally not included, since it can be calculated from the original data and the fit paramters.
 
 `CONSTEXT`: Constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen at the stored value during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless ` PCONSn``a=1 `.
 
