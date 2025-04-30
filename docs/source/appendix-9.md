@@ -147,7 +147,7 @@ To allow manual inspection, verification, and modification of the analysis resul
 
 `WGTEXT`: Data weights used during fitting (`[x,y,lambda,t]`). When not present, all data points are assumed to have equal weight.
 
-`RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting. This extention is normally not included, since it can be calculated from the original data and the fit paramters.
+`RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting. This extension is normally not included, since it can be calculated from the original data and the fit parameters.
 
 `CONSTEXT`: Constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen at the stored value during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless ` PCONSn``a=1 `.
 
