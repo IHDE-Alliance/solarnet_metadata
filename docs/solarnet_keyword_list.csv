@@ -124,6 +124,7 @@
 `OBS_MODE`,O,Observation mode,"[6.0](#6.0), [15.5](#15.5)"
 `OBS_VR`,N,[km/s] Observer's outward velocity w.r.t. Sun,"[3.2](#3.2), [15.6](#15.6)"
 `ORIGIN`,S,File originator,"[8.0](#8.0), [15.1](#15.1)"
+`PARENTXT`,N,"Identifies parent extension(s), path(s), file name(s), and extension name(s), likely using external extension reference syntax","[8.0](#8.0), [Appendix IV](#appendix-iv), [Appendix VII](#appendix-vii), [Appendix IX](#appendix-ix)"
 `PCONSna`,N,Parameter constant,"[5.6.1](#5.6.1), [18.9](#18.9)"
 `PCT_APRX`,N,Percentage of approximated pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
 `PCT_DATA`,N,Percentage of usable pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
