@@ -1,12 +1,6 @@
 (1.0)=
 # 1. About file formats
 
-<style>
-  .new {
-    background-color:rgb(252, 252, 147)
-  }
-</style>
-
 The most common practice in the solar remote sensing community is currently to use the FITS Standard file format for disseminating solar remote sensing observations. For this reason, this document describes how to include the metadata content through keywords inside FITS files, but _that does not preclude the use of other file formats_. In many ways, this document simply uses FITS notation as a language to express the underlying metadata requirements.
 
 For a discussion about file names and how to group observational data between or inside different files, see [Appendix V: Other recommendations](#appendix-v).

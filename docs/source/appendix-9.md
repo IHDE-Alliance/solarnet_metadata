@@ -1,12 +1,6 @@
 (appendix-ix)=
 # Appendix IX. Higher-level data: parameterized components
 
-<style>
-  .new {
-    background-color:rgb(252, 252, 147)
-  }
-</style>
-
 One common type of higher-level data are results from analysing lower-level data by fitting of parameterized components (e.g., emission line profiles) to spectroscopic data by means of {math}`\chi^2` minimization, but so far there has been no standard mechanism for how to store such results in FITS files.
 
 Below we describe a recommended scheme for storing such results, comprehensive enough to store any data resulting from fitting of additive and multiplicative parameterized components. The scheme allows for later manual inspection, verification, and (if desirable) modification of the results. We will refer to files using this scheme as “(SOLARNET) Type P”. We suggest that “P” is used as a suffix to the relevant data level number for such data. E.g., Solar Orbiter SPICE files using this scheme are referred to as SPICE Level 3P. _These files should be considered as a reference implementation of this recommendation_ and will be used as an example below. Below we use dimensions `[x,y,lambda,t]` simply as an example, since those are the dimensions used in SPICE Level 3P FITS files.
