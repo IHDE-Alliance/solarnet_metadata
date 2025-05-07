@@ -58,6 +58,12 @@ attribute_key:
     description: Who designed the observation
     human_readable: Author
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
+  BITPIX:
+    data_type: int
+    default: null
+    description: Number of bits per pixel. The value of BITPIX is the number of bits per pixel in the data array. The value of BITPIX must be one of the following; 8, 16, 32, 64, -32, -64. The negative values indicate floating point data.
+    human_readable: Bits per pixel
+    required: primary
   BLANK:
     data_type: int
     default: null
@@ -181,13 +187,13 @@ attribute_key:
     required: optional # Optional for Type P data
   CMPINCn:
     data_type: int
-    default: 1
+    default: null
     description: Indicates whether component n is included (CMPINCn=1) or excluded (CMPINCn=0) in the fit. This allows specification of components that would normally be included but for some reason (e.g., poor S/N ratio) has been left out for this particular data set. If CMPINCn is zero, additive components have a value of zero independent of the parameter values, and multiplicative components have a value of 1. Default value is 1, i.e., the component is included in the fit. The parameters in the data cube should be set to the initial values that would have been used if the component was included. If this is not feasible, the parameters should be set such that the component value would be zero if it had in fact been included.
     human_readable: Component inclusion
     required: optional # Optional for Type P data
   CMPMULn:
     data_type: int
-    default: 0
+    default: null
     description: Indicates whether component n is multiplicative (CMPMULn=1), in which case it is to be applied to the result of all previous components n-1, n-2, etc. This can be used for e.g., extinction functions. Default value is 0.
     human_readable: Component type
     required: optional # Optional for Type P data
@@ -259,32 +265,37 @@ attribute_key:
     human_readable: Continue
     required: optional
   CPDISia:
+    pattern: CPDIS(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Prior distortion function type. Distortion correction for axis i.
     human_readable: Distortion correction
     required: optional # Appendix VI. Extended mechanism for distortion corrections
   CPERRia:
+    pattern: CPER(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: float
     default: null
     description: Maximum value of prior distortion correction for axis i
     human_readable: Maximum value of prior distortion correction for axis i
     required: optional # Appendix VI. Extended mechanism for distortion corrections
   CQDISia:
+    pattern: CQDIS(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Posterior distortion function type. Distortion correction for axis i.
     human_readable: Distortion correction
     required: optional # Appendix VI. Extended mechanism for distortion corrections
   CQERRia:
+    pattern: CQERR(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: float
     default: null
     description: Maximum value of posterior distortion correction for axis i
     human_readable: Maximum value of posterior distortion correction for axis i
     required: optional # Appendix VI. Extended mechanism for distortion corrections
   CRDERia:
+    pattern: CRDER(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: float
-    default: 0.0
+    default: null
     description:  Random error in Coordinate i, which must be non-negative.
     human_readable: Random error
     required: optional # Fundamental WCS coordinate keywords (sections 15, 3.1)
@@ -295,28 +306,30 @@ attribute_key:
     human_readable: File Creator
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   CROTia:
+    pattern: CROT(?P<i>[1-9])?(?P<a>[A-Z])?
     data_type: float
-    default: 0.0
+    default: null
     description: The amount of rotation from the standard coordinate system to a different coordinate system. Further use of this of this keyword is deprecated, in favor of the newer formalisms that use the CDi_j or PCi_j keywords to define the rotation.
     human_readable: Coordinate rotation
     required: optional # Fundamental WCS coordinate keywords (sections 3)
   CRPIXja:
     pattern: CRPIX(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: float
-    default: 0.0
+    default: null
     description: Location of the reference point in the image for Axis j corresponding to rj. Note that the reference point may lie outside the image and that the first pixel in the image has pixel coordinates (1.0, 1.0, . . .)
     human_readable: Reference pixel
     required: obs # Fundamental WCS coordinate keywords (sections 15, 3.1)
   CRVALia:
     pattern: CRVAL(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: float
-    default: 0.0
+    default: null
     description: Worldcoordinate value at the reference point of Axis i.
     human_readable: Reference value
     required: obs # Fundamental WCS coordinate keywords (sections 15, 3.1)
   CSYERia:
+    pattern: CSYER(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: float
-    default: 0.0
+    default: null
     description: Systematic error in Coordinate i, which must be non-negative.
     human_readable: Systematic error
     required: optional # Fundamental WCS coordinate keywords (sections 15, 3.1)
@@ -395,6 +408,7 @@ attribute_key:
     human_readable: Normalized median absolute deviation
     required: optional # Optional data statistics keywords (sections 18, 5.6)
   DATANPnn:
+    pattern: DATANP(?P<n>[1-9][0-9]*)(?P<a>[1-9][0-9]*)
     data_type: float
     default: null
     description: Normalized Percentiles from DATAPnn, of the nn percentile (where nn is e.g., 01, 02, 05, 10, 25, 50, 75, 90, 95, 98, and 99).
@@ -407,6 +421,7 @@ attribute_key:
     human_readable: Normalized root mean square
     required: optional # Optional data statistics keywords (sections 18, 5.6)
   DATAPnn:
+    pattern: DATAP(?P<n>[0-9][0-9]*)
     data_type: float
     default: null
     description: Percentiles of the data array, of the nn percentile (where nn is e.g., 01, 02, 05, 10, 25, 50, 75, 90, 95, 98, and 99).
@@ -508,12 +523,18 @@ attribute_key:
     description: This keyword should be used to quote the telescope's elevation angle at the time of data acquisition, in degrees.
     human_readable: Elevation angle
     required: optional # Optional quality aspects keywords (sections 18, 3.1, 5.5)
+  EXTEND:
+    data_type: str
+    default: null
+    description: The EXTEND keyword is used to indicate that the file contains one or more extensions. The value of EXTEND must be set to 'T' (true) if the file contains one or more extensions, and 'F' (false) if it does not. The default value of EXTEND is 'T'.
+    human_readable: File contains extensions
+    required: primary
   EXTNAME:
     data_type: str
     default: null
     description: All HDUs - including the primary HDU - in SOLARNET FITS files must contain the string-valued keyword EXTNAME, and each EXTNAME value must be unique within the file. EXTNAME must not contain the characters comma or semicolon except as prescribed for the variable-keyword mechanism, the pixel list mechanism and the meta-observation mechanism. In addition, EXTNAME must not start with a space, but any trailing spaces are ignored. Finally, the CONTINUE Long String Keyword Convention must not be used with EXTNAME, since this is a reserved keyword defined in the FITS standard.
     human_readable: Extension name
-    required: all
+    required: obs 
   FILENAME:
     data_type: str
     default: null
@@ -580,6 +601,12 @@ attribute_key:
     description: Observer's heliographic latitude
     human_readable: Observer Heliographic Latitude
     required: optional # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for deep-space observatories
+  HISTORY:
+    data_type: str
+    default: null
+    description: History of the file, including all changes made to the file since its creation. The HISTORY keyword is a string-valued keyword that may be repeated as many times as necessary to record the history of the file. The first occurrence of the HISTORY keyword should contain a brief description of the contents of the file, and subsequent occurrences should contain a description of any changes made to the file.
+    human_readable: History
+    required: optional
   INCLEXT:
     data_type: str
     default: null
@@ -661,7 +688,7 @@ attribute_key:
     default: null
     description: The NAXISn keywords must be present for all values n = 1,... , NAXIS, in increasing order of n, and for no other values of n. The value field of this indexed keyword shall contain a non-negative integer representing the number of elements along Axis n of a data array. A value of zero for any of the NAXISn signifies that no data follow the header in the HDU (however, the random-groups structure described in Sect. 6 has NAXIS1 = 0, but will have data following the header if the other NAXISn keywords are non-zero). If NAXIS is equal to 0, there shall not be any NAXISn keywords.
     human_readable: Number of elements along axis
-    required: all
+    required: obs
   NBIN:
     data_type: float
     default: null
@@ -669,6 +696,7 @@ attribute_key:
     human_readable: Combined binning factor (Product of all NBINj)
     required: optional # Required for binned data
   NBINj:
+    pattern: NBIN(?P<j>[1-9])
     data_type: int
     default: null
     description: Binning should be specified by the keywords NBINj, where j is the dimension number (analogous to the NAXISj keywords). E.g., for an observational data cube with dimensions (x,y,lambda,t) where 2x2 binning has been performed in the y and lambda directions (as is sometimes done with slit spectrometers), NBIN2 and NBIN3 should be set to 2. The default value for NBINj is 1, so NBIN1 and NBIN4 may be left unspecified.
@@ -808,6 +836,12 @@ attribute_key:
     description:  set to a character string identifying the organization or institution responsible for creating the FITS file. 
     human_readable: File originator
     required: obs # Mandatory general keywords (sections 15.1, 8, 9, Appendix V-a)
+  PARENT:
+    data_type: str
+    default: null
+    description: The PARENT keyword is used to indicate the name of the parent file from which the current file was derived. This keyword is used in conjunction with the PROGENITOR keyword to indicate the lineage of a file.
+    human_readable: Parent file
+    required: optional
   PCONSna:
     data_type: int
     default: null
@@ -851,6 +885,7 @@ attribute_key:
     human_readable: Percentage of spike pixels
     required: optional # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
   PCi_ja:
+    pattern: PC(?P<i>[1-9][0-9]*)_(?P<j>[1-9][0-9]*)
     data_type: float
     default: null
     description: a linear transformation matrix between data cube dimension j and coordinate axis i, which can be used to specify rotations, shear, transpositions and reflections.
@@ -935,36 +970,42 @@ attribute_key:
     human_readable: Polarimetric conversion
     required: optional # Mandatory keywords for polarimetric data (sections 15, 5.4.1)
   PRBRAna:
+    pattern: PRBRA(?P<n>[1-9])(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. Branch name of code use in processing step n
     human_readable: Branch name
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRENVn:
+    pattern: PRENV(?P<n>[1-9])(?P<a>[A-Z])?
     data_type: str
     default: null
     description: specify the operating environment of the pipeline such as the hardware (CPU type) and the operating system type/version, compiler/interpreter versions, compiler options, etc.6 The default value of a PRENVn keyword is the value of PRENVn in the previous processing step, so for a pipeline that has been run from beginning to end in a single environment, only PRENV1 will have to be specified.
     human_readable: Processing environment
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRHSHna:
+    pattern: PRHSH(?P<n>[1-9])(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. Convenience keyword to easily find the exact git commit for a library that has been used. Note that it does not replace PRVERna, because PRHSHna is not a number that increases with the maturity of the libraries (but such a number can be constructed, see above)
     human_readable: Processing code hash
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRLIBna:
+    pattern: PRLIB(?P<n>[1-9][0-9]*)(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. Library name used in processing step n
     human_readable: Library name
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRLOGna:
+    pattern: PRLOG(?P<n>[1-9])(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. used to include a processing log in case messages/warnings from the processing may be of importance.
     human_readable: Processing Log
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRMODEna:
+    pattern: PRMODE(?P<n>[1-9])(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. Meant for pipelines that may be run with different trade-offs between e.g., signal to noise ratio versus spatial resolution or contrast. This should already be apparent from the other keywords, but PRMODEn provides a much simpler way of identifying data processed in a particular way (e.g., "BALANCED" or "HIGH CONTRAST"). Note that a single observation may be registered multiple times in an SVO with different values of PRMODEn - but then a PRMODEnspecific identifier in the file name is necessary in order to ensure uniqueness.
@@ -977,36 +1018,42 @@ attribute_key:
     human_readable: Project
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
   PRPARAn:
+    pattern: PRPARA(?P<n>[1-9])(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. The PRPARAn keyword can be used in different ways 1. As a plain comma-separated listing of parameters and their values, signalled by the first character matching the regular expression '[A-Za-z_$]' 2. As a JSON string, signalled by the first character being an opening curly bracket 3. As an XML specification, signalled by the first character being a '<' 4. As the EXTNAME of an ASCII table, signalled by the first character being a '['
     human_readable: Processing parameters
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRPROCn:
+    pattern: PRPROC(?P<n>[1-9][0-9]*)(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. Name of Processing Procedure used in processing step n
     human_readable: Processing Procedure used for Step n
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRPVERn:
+    pattern: PRPVER(?P<n>[1-9][0-9]*)(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. Version of processing pipeline used in processing step n
     human_readable: Processing code version for Step n
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRREFn:
+    pattern: PRREF(?P<n>[1-9][0-9]*)(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. Reference to the processing step n
     human_readable: Factors influencing PRSTEP1
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRSTEPn:
+    pattern: PRSTEP(?P<n>[1-9][0-9]*)(?P<a>[A-Z])?
     data_type: str
     default: null
     description: should specify the nature of the processing steps, if any, that has been applied to the data. Each PRSTEPn may contain a comma separated list if multiple processing steps are inseparable. The number n specifies the step number and should reflect the order in which the steps have been performed
     human_readable: Processing step
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PRVERna:
+    pattern: PRVER(?P<n>[1-9][0-9]*)(?P<a>[A-Z])?
     data_type: str
     default: null
     description: Optional pipeline processing keyword. Version of code used in processing step n for library a
@@ -1014,13 +1061,13 @@ attribute_key:
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
   PTRAna:
     data_type: float
-    default: 1.0
+    default: null
     description: Optional functional keyword for parameters in parameterized components.  Linear transformation coefficient A. 
     human_readable: Linear transformation coefficient A
     required: optional
   PTRBna:
     data_type: float
-    default: 0.0
+    default: null
     description: Optional functional keyword for parameters in parameterized components.  Linear transformation constant B. 
     human_readable: Linear transformation constant B
     required: optional
@@ -1114,6 +1161,12 @@ attribute_key:
     description: Additional instrument/acquisition settings
     human_readable: Settings
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
+  SIMPLE:
+    data_type: str
+    default: T
+    description: set to T if the file is in FITS format, and to F if not.
+    human_readable: FITS format
+    required: primary 
   SLIT_WID:
     data_type: float
     default: null
@@ -1178,24 +1231,28 @@ attribute_key:
     human_readable: SVO Group
     required: optional # Optional keywords for grouping (sections 18, 7)
   SVO_SEPn:
+    pattern: SVO_SEP(?P<n>[1-9][0-9]*)
     data_type: str
     default: null
     description: To guide archive designers in the process of presenting grouped observations, we introduce the keywords SVO_SEPn, with n spanning from 1 to 5. SVO_SEP1 should have a comma-separated list of keywords giving the most fine grained grouping, and SVO_SEP5 should have a commaseparated list of keywords giving the coarsest sensible grouping. Normally, the first keyword should be POINT_ID, and it may be the only keyword. Not all SVO_SEPn keywords need to be defined, but they should be populated starting with SVO_SEP1.
     human_readable: Separation keywords
     required: optional # Optional keywords for grouping (sections 18, 7)
   TCTYPn:
+    pattern: TCTYP(?P<n>[1-9][0-9]*)
     data_type: str
     default: null
     description: Binary table columns storing pixel indices must have TCTYPn equal to 'PIXEL' and TTYPEn equal to 'DIMENSIONk', where k is the dimension number in the referring HDU's data cube. The column storing pixel types must have TTYPEn equal to 'PIXTYPE'. Any attribute columns must have TTYPEn equal to the name of the attached attribute contained in that column.
     human_readable: Table column type
     required: optional
   TDESCn:
+    pattern: TDESC(?P<n>[1-9][0-9]*)
     data_type: str
     default: null
     description: TDESCn may be used to give a description of the contents of the binary table column.
     human_readable: Table column description
     required: optional # Optional keyword for binary table extensions using the variable-keyword, pixel list or meta-observation mechanism (sections 18, Appendix 1)
   TDIMn:
+    pattern: TDIM(?P<n>[1-9][0-9]*)
     data_type: str
     default: null
     description: TDIMn may be used to give the dimensions of the binary table column.
@@ -1220,6 +1277,7 @@ attribute_key:
     human_readable: Single exposure time
     required: optional # Mandatory data description keywords (sections 15, 5.1, 5.2, 5.6.2)
   TFORMn:
+    pattern: TFORM(?P<n>[1-9][0-9]*)
     data_type: str
     default: null
     description: TFORMn may be used to give the format of the binary table column.
@@ -1234,12 +1292,14 @@ attribute_key:
     human_readable: Time system
     required: optional # Optional date and time keywords (sections 18, 4)
   TKEYSn:
+    pattern: TKEYS(?P<n>[1-9][0-9]*)
     data_type: str
     default: null
     description: The naming conventions for column-specific keywords (starting with T and allowing for 3-digit column numbers) leaves only 4 letters to carry meaning, which easily leads to the creation of very awkward column-specific keyword names. To alleviate this problem for keywords that must have different values for different columns, the column-specific keyword TKEYSn is introduced, listing pairs of keyword names and values inside a string. The CONTINUE Long String Keyword Convention may of course be used to improve readability and add comments.
     human_readable: Table keywords
     required: optional
   TPCn_na:
+    pattern: TPC(?P<n>[1-9][0-9]*)_(?P<a>[1-9][0-9]*)
     data_type: str
     default: null
     description: Optional keyword for pixel list mechanism for flagging pixels. 
@@ -1252,18 +1312,21 @@ attribute_key:
     human_readable: Pixel lists
     required: optional
   TTYPEn:
+    pattern: TTYPE(?P<n>[1-9][0-9]*)
     data_type: str
     default: null
     description: TTYPEn may be used to give the name of the binary table column.
     human_readable: Table column name
     required: optional
   TVARKn:
+    pattern: TVARK(?P<n>[1-9][0-9]*)
     data_type: str
     default: null
     description: Optional keyword for pixel list mechanism for flagging pixels. TVARKn replaces VAR_KEYS
     human_readable: Var keys
     required: optional
   TZEROn:
+    pattern: TZERO(?P<n>[1-9][0-9]*)
     data_type: float
     default: null
     description: This indexed keyword shall be used, along with the TSCALn keyword, to linearly scale the values in the table Field n to transform them into the physical values that they represent using Eq. 7. The value field shall contain a floating-point number representing the physical value corresponding to an array value of zero. The default value for this keyword is 0.0. This keyword must not be used for A-format fields. TZEROn replaces BZERO. 
@@ -1358,6 +1421,7 @@ attribute_key:
     human_readable: WCS axes
     required: optional # Fundamental WCS coordinate keywords (sections 15, 3.1)
   WCSNAMEa:
+    pattern: WCSNAME(?P<a>[a-zA-Z])?
     data_type: str
     default: null
     description: WCS name for axis a
@@ -1393,6 +1457,16 @@ attribute_key:
     description: '[s] Total effective exposure time'
     human_readable: Exposure time
     required: obs # Mandatory data description keywords (sections 15.4, 5.1, 5.2, 5.6.2)
+  XTENSION:
+    data_type: str
+    default: null
+    description: The name of the extension containing the data. The name is a string that is a valid FITS keyword value, e.g., 'DATA' for the data extension.
+    human_readable: Extension name
+    required: optional # Fundamental WCS coordinate keywords (sections 15, 3.1)
+    valid_values:
+    - IMAGE
+    - TABLE
+    - BINTABLE
   iCRVLn:
     data_type: float
     default: null

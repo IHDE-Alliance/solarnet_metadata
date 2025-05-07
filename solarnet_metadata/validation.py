@@ -3,6 +3,7 @@ from enum import Enum
 import logging
 import re
 from typing import Any, List, Optional, Tuple
+from pathlib import Path
 
 from astropy.io import fits
 
@@ -36,6 +37,81 @@ class KeywordRequirement(Enum):
     OPTIONAL = "optional"
 
 
+def validate_file(
+    file_path: Path,
+    warn_empty_keyword: bool = False,
+    warn_no_comment: bool = False,
+    warn_data_type: bool = False,
+    schema: Optional[SOLARNETSchema] = None,
+) -> List[str]:
+    """
+    Validates a FITS file against the SOLARNET schema requirements.
+
+    This function performs multiple validation checks:
+    1. Verifies all required keywords are present based on HDU type
+    2. Checks for pattern-based keywords when specified in the schema
+    3. Validates each keyword, value, and comment according to FITS standards
+    4. Optionally validates data types against the schema specifications
+
+    Parameters
+    ----------
+    file_path : Path
+        The path to the FITS file to validate.
+    warn_empty_keyword : bool, default False
+        Whether to report warnings for empty keywords.
+    warn_no_comment : bool, default False
+        Whether to report warnings for keywords missing comments.
+    warn_data_type : bool, default False
+        Whether to validate and report warnings about incorrect data types.
+    schema : Optional[SOLARNETSchema], default None
+        The schema to validate against. If None, the default SOLARNET schema is used.
+
+    Returns
+    -------
+    validation_findings : List[str]
+        A list of validation issues found; empty if the file is valid.
+    """
+    file_findings = []
+
+    # Check if Custom Schema is provided
+    if schema is None or not isinstance(schema, SOLARNETSchema):
+        # Use the default schema
+        schema = SOLARNETSchema()
+
+    # Open the FITS file and get the header
+    with fits.open(file_path) as hdul:
+        primary_header = hdul[0].header
+
+        # Validate primary header
+        primary_findings = validate_header(
+            primary_header,
+            is_primary=True,
+            warn_empty_keyword=warn_empty_keyword,
+            warn_no_comment=warn_no_comment,
+            warn_data_type=warn_data_type,
+            schema=schema,
+        )
+        for finding in primary_findings:
+            file_findings.append(f"Primary Header: {finding}")
+
+        # Validate any additional observation headers
+        for i in range(1, len(hdul)):
+            findings = validate_header(
+                hdul[i].header,
+                is_primary=False,
+                is_obs=True,
+                warn_empty_keyword=warn_empty_keyword,
+                warn_no_comment=warn_no_comment,
+                warn_data_type=warn_data_type,
+                schema=schema,
+            )
+            for finding in findings:
+                file_findings.append(f"Observation Header {i}: {finding}")
+
+        # Combine findings from both headers
+        return file_findings
+
+
 def validate_header(
     header: fits.Header,
     is_primary: bool = False,
@@ -62,6 +138,8 @@ def validate_header(
         Whether this header belongs to a primary HDU, affecting which keywords are required.
     is_obs : bool, default False
         Whether this header belongs to an observation HDU, affecting which keywords are required.
+    warn_empty_keyword : bool, default False
+        Whether to report warnings for empty keywords.
     warn_no_comment : bool, default False
         Whether to report warnings for keywords missing comments.
     warn_data_type : bool, default False
@@ -114,7 +192,7 @@ def validate_header(
                         break
                 if not found_match:
                     validation_findings.append(
-                        f"No pattern match for {keyword} with pattern {pattern}"
+                        f"Missing Required Attribute: {keyword}. No pattern match for {keyword} with pattern {pattern}"
                     )
             else:
                 validation_findings.append(f"Missing Required Attribute: {keyword}")
@@ -123,38 +201,24 @@ def validate_header(
 
         # Validate each keyword, value, comment set
         findings = validate_fits_keyword_value_comment(
-            keyword, value, comment, warn_empty_keyword=warn_empty_keyword, warn_no_comment=warn_no_comment
+            keyword,
+            value,
+            comment,
+            warn_empty_keyword=warn_empty_keyword,
+            warn_no_comment=warn_no_comment,
         )
         validation_findings.extend(findings)
 
-        # Placeholder for data type validation (extensible)
-        if warn_data_type:
-            
-            # Check for Empty Keyword
-            if not keyword or keyword.strip() == "":
-                if warn_empty_keyword:
-                    findings.append("Keyword is empty. Cannot Validate Data Type")
-                continue
-            # Check if the keyword is in the schema
-            elif not (keyword_info := schema.attribute_schema["attribute_key"].get(keyword, None)):
-                validation_findings.append(
-                    f"Keyword '{keyword}' not found in the schema. Cannot Validate Data Type."
-                )
-                continue
-            # Make sure we have a data type for the keyword
-            keyword_data_type = keyword_info.get("data_type", None)
-            if not keyword_data_type:
-                validation_findings.append(
-                    f"Keyword '{keyword}' has no data type. Cannot Validate Data Type."
-                )
-            else:
-                # check the data type of the keyword
-                findings = validate_fits_keyword_data_type(
-                    keyword=keyword,
-                    value=value,
-                    data_type=keyword_data_type,
-                )
-                validation_findings.extend(findings)
+        # Validate Date Type
+        if warn_data_type and keyword and keyword.strip() != "":
+
+            # check the data type of the keyword
+            findings = validate_fits_keyword_data_type(
+                keyword=keyword,
+                value=value,
+                schema=schema,
+            )
+            validation_findings.extend(findings)
 
     return validation_findings
 
@@ -162,18 +226,18 @@ def validate_header(
 def check_obs_hdu(header: fits.Header, is_obs: bool = False) -> Tuple[bool, List[str]]:
     """
     Check and validate the OBS_HDU keyword in a FITS header.
-    
+
     This function validates whether a header contains a properly formatted OBS_HDU
     keyword (with value 0 or 1) and reconciles any discrepancies between the header
     value and the provided is_obs parameter.
-    
+
     Parameters
     ----------
     header : fits.Header
         The FITS header to check for OBS_HDU keyword.
     is_obs : bool, default False
         Initial assumption about whether this is an observation HDU.
-        
+
     Returns
     -------
     is_obs : bool
@@ -181,7 +245,7 @@ def check_obs_hdu(header: fits.Header, is_obs: bool = False) -> Tuple[bool, List
         header's OBS_HDU value.
     validation_findings : List[str]
         A list of validation issues found; empty if OBS_HDU is valid.
-        
+
     Notes
     -----
     If there are discrepancies between the provided is_obs parameter and the
@@ -301,8 +365,9 @@ def validate_fits_keyword_value_comment(
 
 
 def validate_fits_keyword_data_type(
-    keyword: str, value: Any, data_type: str, warn_empty_keyword: bool = False,
-
+    keyword: str,
+    value: Any,
+    schema: Optional[SOLARNETSchema] = None,
 ) -> List[str]:
     """
     Validates the data type of a FITS keyword value.
@@ -323,17 +388,42 @@ def validate_fits_keyword_data_type(
     """
     findings = []
 
-    # Check if data type is known
-    if data_type not in DATA_TYPE_MAP:
-        findings.append(f"Unknown data type '{data_type}' for keyword '{keyword}'.")
-        return findings
+    # Check if the keyword is in the schema
+    keyword_info = schema.attribute_schema["attribute_key"].get(keyword, None)
+    if not keyword_info:
+        # Search for Pattern Match in the Schema
+        found_match = False
+        for _, info in schema.attribute_schema["attribute_key"].items():
+            if pattern := info.get("pattern", None):
+                res = re.fullmatch(pattern, keyword)
+                if res:
+                    found_match = True
+                    keyword_info = info
+                    break
+        if not found_match:
+            findings.append(
+                f"Keyword '{keyword}' not found in the schema. Cannot Validate Data Type."
+            )
 
-    # Check if value can be cast to the expected data type
-    try:
-        DATA_TYPE_MAP[data_type](value)
-    except Exception as e:
-        findings.append(
-            f"Value for '{keyword}' cannot be cast to data type '{data_type}': {e}"
-        )
+    if keyword_info:
+        # Make sure we have a data type for the keyword
+        data_type = keyword_info.get("data_type", None)
+        if not data_type:
+            findings.append(
+                f"Keyword '{keyword}' has no data type. Cannot Validate Data Type."
+            )
+
+        # Check if data type is known
+        if data_type not in DATA_TYPE_MAP:
+            findings.append(f"Unknown data type '{data_type}' for keyword '{keyword}'.")
+            return findings
+
+        # Check if value can be cast to the expected data type
+        try:
+            DATA_TYPE_MAP[data_type](value)
+        except Exception as e:
+            findings.append(
+                f"Value for '{keyword}' cannot be cast to data type '{data_type}': {e}"
+            )
 
     return findings
