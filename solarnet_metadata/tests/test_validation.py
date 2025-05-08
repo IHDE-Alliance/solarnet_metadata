@@ -140,7 +140,6 @@ def test_validate_fits_keyword_value_comment(
 def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_findings):
     schema = create_mock_schema()
     findings = validate_fits_keyword_data_type(keyword, value, schema)
-    print(findings)
     assert findings == expected_findings
 
 
