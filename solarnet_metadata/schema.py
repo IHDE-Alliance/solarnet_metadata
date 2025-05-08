@@ -125,7 +125,8 @@ class SOLARNETSchema:
             Path to schema file to be used for formatting.
 
         """
-        assert Path(yaml_file_path).exists()
+        if not Path(yaml_file_path).exists():
+            raise FileNotFoundError(f"Cannot find Schema file: {yaml_file_path}")
         # Load the Yaml file to Dict
         yaml_data = {}
         with open(yaml_file_path, "r") as f:

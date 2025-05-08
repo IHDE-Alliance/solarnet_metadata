@@ -16,7 +16,7 @@ authors = [
   {name = "Andrew Robbertz", email="a.robbertz@gmail.com"},
 ]
 license = {file = "LICENSE.rst"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["solarnet_metadata", "nasa mission", "space weather"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -31,6 +31,7 @@ classifiers = [
 ]
 dependencies = [
   'pyyaml>=5.3.1',
+  'astropy==6.1.*',
 ]
 
 [project.optional-dependencies]
