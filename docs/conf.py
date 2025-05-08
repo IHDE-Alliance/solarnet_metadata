@@ -54,6 +54,14 @@ source_suffix = {
 #
 html_theme = "alabaster"
 
+html_theme_options = {
+    # Toc options
+    'fixed_sidebar': True,
+    'sidebar_width': '350px',
+    'body_max_width' : 'none',
+    'page_width': '95%',
+} 
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -149,3 +157,5 @@ def setup(app):
     """
 
     app.add_role("codeindex", code_index_role)
+    app.add_css_file('wide_navbar.css')
+    app.add_css_file('class_new_highlight.css')
