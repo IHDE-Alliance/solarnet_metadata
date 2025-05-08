@@ -318,7 +318,9 @@ def validate_fits_keyword_value_comment(
     # Check for Empty Keyword
     if not keyword or keyword.strip() == "":
         if warn_empty_keyword:
-            findings.append("Keyword is empty.")
+            findings.append(
+                f"Invalid keyword '{keyword}': Must be 1-8 characters, containing only A-Z, 0-9, -, _."
+            )
     # Check keyword format: 1-8 characters, A-Z, 0-9, -, _
     elif not isinstance(keyword, str) or not re.match(r"^[A-Z0-9_-]{1,8}$", keyword):
         findings.append(
@@ -326,7 +328,7 @@ def validate_fits_keyword_value_comment(
         )
 
     # Optional: Warn if comment is empty
-    if warn_no_comment and (not comment or comment.strip() == ""):
+    if warn_no_comment and (not comment or str(comment).strip() == ""):
         findings.append(f"Keyword '{keyword}' has no comment.")
 
     # Handle special keywords: COMMENT, HISTORY, and BLANK
@@ -386,6 +388,11 @@ def validate_fits_keyword_data_type(
     findings : List[str]
         A list of validation issues found; empty if the data type is valid.
     """
+    # Check if Custom Schema is provided
+    if schema is None or not isinstance(schema, SOLARNETSchema):
+        # Use the default schema
+        schema = SOLARNETSchema()
+
     findings = []
 
     # Check if the keyword is in the schema
@@ -412,18 +419,17 @@ def validate_fits_keyword_data_type(
             findings.append(
                 f"Keyword '{keyword}' has no data type. Cannot Validate Data Type."
             )
-
         # Check if data type is known
-        if data_type not in DATA_TYPE_MAP:
+        elif data_type not in DATA_TYPE_MAP:
             findings.append(f"Unknown data type '{data_type}' for keyword '{keyword}'.")
             return findings
-
-        # Check if value can be cast to the expected data type
-        try:
-            DATA_TYPE_MAP[data_type](value)
-        except Exception as e:
-            findings.append(
-                f"Value for '{keyword}' cannot be cast to data type '{data_type}': {e}"
-            )
+        else:
+            # Check if value can be cast to the expected data type
+            try:
+                DATA_TYPE_MAP[data_type](value)
+            except Exception as e:
+                findings.append(
+                    f"Value for '{keyword}' cannot be cast to data type '{data_type}': {e}"
+                )
 
     return findings

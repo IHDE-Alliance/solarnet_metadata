@@ -1,8 +1,36 @@
 import pytest
+from astropy.io import fits
+
 from solarnet_metadata.validation import (
+    validate_header,
     validate_fits_keyword_value_comment,
     validate_fits_keyword_data_type,
 )
+from solarnet_metadata.schema import SOLARNETSchema
+
+
+# Mock schema for testing
+MOCK_SCHEMA = {
+    "attribute_key": {
+        "NAXIS": {"required": "obs", "data_type": "int"},
+        "COMMENT": {"required": "optional"},
+        "AUTHOR": {"required": "all", "data_type": "str"},
+        "SOMEINT": {"required": "optional", "data_type": "int"},
+        "SOMEFLOAT": {"required": "optional", "data_type": "float"},
+        "SOMEDATE": {"required": "optional", "data_type": "date"},
+        "SOMESTR": {"required": "optional", "data_type": "str"},
+        "SOMEBOOL": {"required": "optional", "data_type": "bool"},
+        "SOMETYPE": {"required": "optional", "data_type": "unknown"},
+    },
+    "conditional_requirements": [],
+}
+
+
+# Helper function to create a SOLARNETSchema instance with mock schema
+def create_mock_schema():
+    schema = SOLARNETSchema()
+    schema._attr_schema = MOCK_SCHEMA
+    return schema
 
 
 # Custom class to simulate a value that cannot be cast to a string
@@ -39,7 +67,7 @@ class BadStr:
         # Comment is not a string or None
         ("SOMEKEY", "value", 123, ["Comment for 'SOMEKEY' must be a string (got <class 'int'>)."]),
         # Comment is None (should pass, though FITS card includes " / None")
-        ("SOMEKEY", "val", None, []),
+        ("SOMEKEY", "val", None, ["Keyword 'SOMEKEY' has no comment."]),
     ],
     ids=[
         "valid_regular_keyword",
@@ -60,7 +88,9 @@ class BadStr:
 def test_validate_fits_keyword_value_comment(
     keyword, value, comment, expected_findings
 ):
-    findings = validate_fits_keyword_value_comment(keyword, value, comment)
+    findings = validate_fits_keyword_value_comment(
+        keyword, value, comment, warn_empty_keyword=True, warn_no_comment=True
+    )
     assert findings == expected_findings
 
 
@@ -70,25 +100,27 @@ def test_validate_fits_keyword_value_comment(
     "keyword,value,data_type,expected_findings",
     [
         # Valid integer
-        ("SOMEKEY", "123", "int", []),
+        ("SOMEINT", "123", "int", []),
         # Invalid integer
-        ("SOMEKEY", "abc", "int", ["Value for 'SOMEKEY' cannot be cast to data type 'int': invalid literal for int() with base 10: 'abc'"]),
+        ("SOMEINT", "abc", "int", ["Value for 'SOMEINT' cannot be cast to data type 'int': invalid literal for int() with base 10: 'abc'"]),
         # Valid float
-        ("SOMEKEY", "123.45", "float", []),
+        ("SOMEFLOAT", "123.45", "float", []),
         # Invalid float
-        ("SOMEKEY", "not a float", "float", ["Value for 'SOMEKEY' cannot be cast to data type 'float': could not convert string to float: 'not a float'"]),
+        ("SOMEFLOAT", "not a float", "float", ["Value for 'SOMEFLOAT' cannot be cast to data type 'float': could not convert string to float: 'not a float'"]),
         # Valid date (ISO format)
-        ("SOMEKEY", "2023-01-01T00:00:00", "date", []),
+        ("SOMEDATE", "2023-01-01T00:00:00", "date", []),
         # Invalid date
-        ("SOMEKEY", "invalid date", "date", ["Value for 'SOMEKEY' cannot be cast to data type 'date': Invalid isoformat string: 'invalid date'"]),
+        ("SOMEDATE", "invalid date", "date", ["Value for 'SOMEDATE' cannot be cast to data type 'date': Invalid isoformat string: 'invalid date'"]),
         # Boolean with non-empty string (passes since bool() succeeds)
-        ("SOMEKEY", "any", "bool", []),
+        ("SOMEBOOL", "any", "bool", []),
         # Boolean with empty string (passes since bool() succeeds)
-        ("SOMEKEY", "", "bool", []),
+        ("SOMEBOOL", "", "bool", []),
         # Integer to string (passes since str() succeeds)
-        ("SOMEKEY", 123, "str", []),
+        ("SOMESTR", 123, "str", []),
         # Unknown data type
-        ("SOMEKEY", "value", "unknown", ["Unknown data type 'unknown' for keyword 'SOMEKEY'."]),
+        ("SOMETYPE", "value", "unknown", ["Unknown data type 'unknown' for keyword 'SOMETYPE'."]),
+        # Unknown Keyword
+        ("SOMEKEY", "value", "unknown", ["Keyword 'SOMEKEY' not found in the schema. Cannot Validate Data Type."]),
     ],
     ids=[
         "valid_int",
@@ -101,9 +133,121 @@ def test_validate_fits_keyword_value_comment(
         "bool_empty_string",
         "int_to_str",
         "unknown_data_type",
+        "unknown_keyword",
     ]
 )
 # fmt: on
 def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_findings):
-    findings = validate_fits_keyword_data_type(keyword, value, data_type)
+    schema = create_mock_schema()
+    findings = validate_fits_keyword_data_type(keyword, value, schema)
+    print(findings)
+    assert findings == expected_findings
+
+
+# Parameterized test cases for the validate method
+@pytest.mark.parametrize(
+    "header_dict, warn_no_comment, warn_data_type, expected_findings",
+    [
+        # Test 1: Missing required attribute
+        (
+            {"NAXIS": ("3", "Number of axes")},
+            False,
+            False,
+            ["Missing Required Attribute: AUTHOR"],
+        ),
+        # Test 2: Invalid keyword
+        (
+            {"NAXIS": ("3", "Number of axes"), "INVALID_KEY!": ("value", "comment")},
+            False,
+            False,
+            [
+                "Missing Required Attribute: AUTHOR",
+                "Invalid keyword 'INVALID_KEY!': Must be 1-8 characters, containing only A-Z, 0-9, -, _.",
+            ],
+        ),
+        # Test 3: Warn about missing comments
+        (
+            {"NAXIS": ("3", ""), "AUTHOR": ("John Doe", "")},
+            True,
+            False,
+            [
+                "Keyword 'NAXIS' has no comment.",
+                "Keyword 'AUTHOR' has no comment.",
+            ],
+        ),
+        # Test 4: Data type validation with correct types
+        (
+            {"NAXIS": ("3", "Number of axes"), "AUTHOR": ("John Doe", "Author name")},
+            False,
+            True,
+            [],
+        ),
+        # Test 5: Data type validation with incorrect type
+        (
+            {
+                "NAXIS": ("three", "Number of axes"),
+                "AUTHOR": ("John Doe", "Author name"),
+            },
+            False,
+            True,
+            [
+                "Value for 'NAXIS' cannot be cast to data type 'int': invalid literal for int() with base 10: 'three'",
+            ],
+        ),
+        # Test 6: Keyword not in schema for data type validation
+        (
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "AUTHOR": ("John Doe", "Author name"),
+                "EXTRAKEY": ("value", "comment"),
+            },
+            False,
+            True,
+            [
+                "Keyword 'EXTRAKEY' not found in the schema. Cannot Validate Data Type.",
+            ],
+        ),
+        # Test 7: Keyword in schema but without data_type
+        (
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "AUTHOR": ("John Doe", "Author name"),
+                "COMMENT": ("Test comment", "Comment description"),
+            },
+            False,
+            True,
+            [
+                "Keyword 'COMMENT' has no data type. Cannot Validate Data Type.",
+            ],
+        ),
+    ],
+    ids=[
+        "missing_required_attribute",
+        "invalid_keyword",
+        "warn_no_comment",
+        "warn_data_type_correct",
+        "warn_data_type_incorrect",
+        "keyword_not_in_schema",
+        "keyword_without_data_type",
+    ],
+)
+def test_validate_header(
+    header_dict, warn_no_comment, warn_data_type, expected_findings
+):
+    # Helper function to create a fits.Header from a dictionary of (value, comment) tuples
+    def create_fits_header(header_dict):
+        header = fits.Header()
+        for key, (value, comment) in header_dict.items():
+            header.set(key, value, comment)
+        return header
+
+    header = create_fits_header(header_dict)
+    schema = create_mock_schema()
+    findings = validate_header(
+        header=header,
+        warn_no_comment=warn_no_comment,
+        warn_data_type=warn_data_type,
+        schema=schema,
+    )
+    print(findings)
     assert findings == expected_findings
