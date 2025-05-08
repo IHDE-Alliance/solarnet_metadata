@@ -248,5 +248,4 @@ def test_validate_header(
         warn_data_type=warn_data_type,
         schema=schema,
     )
-    print(findings)
     assert findings == expected_findings
