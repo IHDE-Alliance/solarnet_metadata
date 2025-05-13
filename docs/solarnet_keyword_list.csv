@@ -213,6 +213,7 @@
 `WCSNAMEa`,P,WCS name,[Appendix I-d](#appendix-id)
 `WCSNn`,P,WCS name,"[Appendix I-b](#appendix-ib),  [17.1](#17.1)"
 `WGTEXT`,N,extension weights,[Appendix IX](#appendix-ix)
+`XDIMENm`,N,Dimension number,[Appendix IX](#appendix-ix)
 `XNAXIS`,N,Number of axes in external extension,[Appendix VII](#appendix-vii)
 `XNAXISn`,N,Number of elements along axis in external extension,[Appendix VII](#appendix-vii)
 `XTIMXTm`,N,Dimension extension,[Appendix IX](#appendix-ix)
