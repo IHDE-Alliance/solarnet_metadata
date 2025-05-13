@@ -49,7 +49,7 @@
 `CUNITia`,P,Coordinate units,"[5.4](#5.4),  [15.2](#15.2)"
 `CWDISia`,N,Distortion correction,[Appendix VI](#appendix-vi)
 `CWERRia`,N,Maximum value of weighted distortion correction for axis i,[Appendix VI](#appendix-vi)
-`DATAEXT`,N,Data extension,[Appendix VI](#appendix-vi)
+`DATAEXT`,N,Data extension,[Appendix VI](#appendix-vi), [Appendix VII](#appendix-vii)
 `DATAKURT`,O,Kurtosis,"[5.6](#5.6), [18.8](#18.8)"
 `DATAMAD`,N,data statistic - the mean absolute deviation avg( abs( x-avg(x) ) ),"[5.6](#5.6), [18.8](#18.8)"
 `DATAMAX`,S,Maximum of data,"[5.6](#5.6), [Appendix III](#appendix-iii), [18.8](#18.8)"
@@ -111,7 +111,6 @@
 `NSPIKPIX`,N,the number of identified spike pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
 `NSUMEXP`,N,Number of summed exposures,"[5.2](#5.2), [15.4](#15.4)"
 `NTOTPIX`,N,the number of potentially usable pixels: the number of data cube pixels minus NMASKPIX,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`NXDIM`,N,the number of dimensions absorbed by the fitting process,[Appendix IX](#appendix-ix)
 `OBSERVER`,S,Observer,"[6.0](#6.0), [15.5](#15.5)"
 `OBSGEO-X`,P,Observer X Position,"[3.2](#3.2), [15.3.1](#15.3.1)"
 `OBSGEO-Y`,P,Observer Y Position,"[3.2](#3.2), [15.3.1](#15.3.1)"
@@ -124,6 +123,7 @@
 `OBS_MODE`,O,Observation mode,"[6.0](#6.0), [15.5](#15.5)"
 `OBS_VR`,N,[km/s] Observer's outward velocity w.r.t. Sun,"[3.2](#3.2), [15.6](#15.6)"
 `ORIGIN`,S,File originator,"[8.0](#8.0), [15.1](#15.1)"
+`PARENTXT`,N,"Identifies parent extension(s), path(s), file name(s), and extension name(s), likely using external extension reference syntax","[8.0](#8.0), [Appendix IV](#appendix-iv), [Appendix VII](#appendix-vii), [Appendix IX](#appendix-ix)"
 `PCONSna`,N,Parameter constant,"[5.6.1](#5.6.1), [18.9](#18.9)"
 `PCT_APRX`,N,Percentage of approximated pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
 `PCT_DATA`,N,Percentage of usable pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
@@ -133,8 +133,6 @@
 `PCT_SPIK`,N,Percentage of spike pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
 `PCi_ja`,P,linear transformation matrix element,"[3.1](#3.1), [5.5](#5.5), [Appendix II](#appendix-ii), [Appendix IV](#appendix-iv), [15.2](#15.2)"
 `PDESCna`,N,Parameter Desscription,[Appendix IX](#appendix-ix)
-`PGEXTNAM`,N,Progenitor extension name,[Appendix IX](#appendix-ix)
-`PGFILENA`,N,the name of the (progenitor) file containing the original data,[Appendix IX](#appendix-ix)
 `PINITna`,N,Initial value,[Appendix IX](#appendix-ix)
 `PIXLISTS`,N,Pixel lists,"[Appendix II](#appendix-ii), [Appendix IV](#appendix-iv), [17.0](#17.0)"
 `PIXTYPE`,N,Pixel Type,"[Appendix II](#appendix-ii),  [17.2](#17.2)"
@@ -215,8 +213,11 @@
 `WCSNAMEa`,P,WCS name,[Appendix I-d](#appendix-id)
 `WCSNn`,P,WCS name,"[Appendix I-b](#appendix-ib),  [17.1](#17.1)"
 `WGTEXT`,N,extension weights,[Appendix IX](#appendix-ix)
-`XDIMTYm`,N,Dimension type,[Appendix IX](#appendix-ix)
+`XDIMENm`,N,Dimension number,[Appendix IX](#appendix-ix)
+`XNAXIS`,N,Number of axes in external extension,[Appendix VII](#appendix-vii)
+`XNAXISn`,N,Number of elements along axis in external extension,[Appendix VII](#appendix-vii)
 `XTIMXTm`,N,Dimension extension,[Appendix IX](#appendix-ix)
+`XTYPEm`,N,Dimension type,[Appendix IX](#appendix-ix)
 `XPOSURE`,P,Exposure time,"[5.2](#5.2), [15.4](#15.4)"
 `iCRVLn`,P,Reference value,[Appendix I-a](#appendix-ia)
 `iCTYPn`,P,Coordinate type,[Appendix I-a](#appendix-ia)

@@ -1,5 +1,10 @@
+<style>
+.new {
+    background-color:rgb(252, 252, 147)
+}
+</style>
 (appendix-ix)=
-# Appendix IX. Higher-level data: parameterized components
+# <span class='new'>Appendix IX. Higher-level data: parameterized components</span>
 
 One common type of higher-level data are results from analysing lower-level data by fitting of parameterized components (e.g., emission line profiles) to spectroscopic data by means of {math}`\chi^2` minimization, but so far there has been no standard mechanism for how to store such results in FITS files.
 
@@ -53,7 +58,9 @@ To ensure that the result of the analysis can be interpreted correctly, the full
 
 **Mandatory general keywords for HDUs with SOLARNET Type P data**
 
-`SOLARNET` must be set to either `0.5` or `1`, and `OBS_HDU``=2` _(not `1`!)_ signals that the HDU contains SOLARNET Type P data.
+`SOLARNET` must be set to either `0.5` or `1`, and `OBS_HDU``=2` _(not `1`!)_ signals that the HDU contains SOLARNET Type P data
+
+<span class=new>In order to make the Type P format as broadly useful as possible by generic software in as many domains as possible, _HDUs containing Type P data (i.e., `OBS_HDU``=2`) are exempt from most SOLARNET metadata requirements_. Although it is recommended to propagate SOLARNET keywords from the parent extension(s) when available, it is also possible to attach the metadata through the `PARENTXT` keyword (see below). For HDUs with `OBS_HDU``=2`, parent extensions specified by `PARENTXT` are to be treated as if they are primary HDUs, with the `INHERIT` convention in use for the referring HDU.</span>
 
 `ANA_NCMP` must be set to the number of components used in the analysis.
 
@@ -72,9 +79,9 @@ The `CTYPEi` of the parameter dimension must be `'PARAMETER'`. Note that the Met
 
 **Optional _functional_ keywords for each component**
 
-`CMPMULn`: Indicates whether component n is multiplicative (`CMPMULn=1`), in which case it is to be applied to the result of all previous components `n-1`, `n-2`, etc. This can be used for e.g., extinction functions. Default value is `0`.
+`CMPMULn`: Indicates whether component n is multiplicative (`CMPMULn``=1`), in which case it is to be applied to the result of all previous components `n-1`, `n-2`, etc. This can be used for e.g., extinction functions. Default value is `0`.
 
-`CMPINCn`: Indicates whether component `n` is included (`CMPINCn=1`) or excluded (`CMPINCn=0`) in the fit. This allows specification of components that would normally be included but for some reason (e.g., poor S/N ratio) has been left out for this particular data set. If `CMPINCn` is zero, additive components have a value of zero independent of the parameter values, and multiplicative components have a value of 1. Default value is 1, i.e., the component is included in the fit. The parameters in the data cube should be set to the initial values that would have been used if the component was included. If this is not feasible, the parameters should be set such that the component value would be zero if it had in fact been included.
+`CMPINCn`: Indicates whether component `n` is included (`CMPINCn``=1`) or excluded (`CMPINCn``=0`) in the fit. This allows specification of components that would normally be included but for some reason (e.g., poor S/N ratio) has been left out for this particular data set. If `CMPINCn` is zero, additive components have a value of zero independent of the parameter values, and multiplicative components have a value of 1. Default value is 1, i.e., the component is included in the fit. The parameters in the data cube should be set to the initial values that would have been used if the component was included. If this is not feasible, the parameters should be set such that the component value would be zero if it had in fact been included.
 
 **Optional _descriptive_ keywords for each component**
 
@@ -127,25 +134,27 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 **Optional functional keywords for the analysis as a whole**
 
-`PGFILENA`: the name of the (progenitor) file containing the original data
+`XTYPEm`: <span class=new>The `CTYPE` of the m<sup>th</sup> coordinate(s) that was absorbed/removed during the fitting process (typically `XTYPE1``='WAVE'` for a disappearing {math}`\lambda` coordinate).</span>
 
-`PGEXTNAM`: the name of the extension in the progenitor file that contains the original data
+`XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of dimensions that was absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
 
-`NXDIM`: the number of dimensions absorbed by the fitting process
+To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
-`XDIMTYm`: the `CTYPEi` of the m<sup>th</sup> dimension absorbed by the fitting process.
+`RESEXT`: The HDU containing the analysis results ([x,y,t,p]). Note OBS_HDU=2
 
-To allow full manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify the dimensionalities that would result from the example discussed above.
+`DATAEXT`: The original data/Obs-HDU (`[x,y,lambda,t]`). <span class=new>`DATAEXT` will often be an external extension (see [Appendix VII](#appendix-vii)). In this case, although not mandatory, it is _strongly recommended to include a placeholder extension_, as this allows e.g., reconstruction of all coordinates and dimensions of the original data. If necessary, it may be a minimal extension with little metadata other than to specify coordinates and data dimensions through `XNAXIS`, `XNAXISn` and the WCS keywords.</span>
 
-- `RESEXT`: the HDU containing the analysis results (`[x,y,t,p]`). Note `OBS_HDU=2`
-- `DATAEXT`: the original data/Obs-HDU (`[x,y,lambda,t]`)
-- `WGTEXT`: data weights  used during fitting (`[x,y,lambda,t]`). When not present, all data points are assumed to have equal weight.
-- `RESIDEXT`: residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting
-- `CONSTEXT`: constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen at the stored value during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless `PCONSna=1`.
-- `INCLEXT`: component inclusion mask (`[x,y,t,n]`) – if `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. When not present, it is assumed that all components have been included at all times.
-- `XDIMXTm`: The values of coordinates absorbed by the fitting process (`[x,y,lambda,t]`) specified by `XDIMTYm`, (see above) may be included in separate extensions as a convenience, although this is redundant whenever any of the arrays with all dimensions of the original data is present and contains the appropriate WCS information. Thus, `XDIMXTm` refers to the extension containing absorbed coordinate number `m` (with coordinate specification given by `XDIMTYm`).
+`PARENTXT`: <span class=new>A reference (external or local) to the parent extension containing the original data. The value of this keyword will often be identical to `DATAEXT`, but not necessarily: the original data may have been modified prior to the analysis, e.g., by applying e.g., cosmic ray removal, flatfielding etc.</span>
 
-In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Type P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU=2` as these are also “type P” data). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
+`WGTEXT`: Data weights used during fitting (`[x,y,lambda,t]`). When not present, all data points are assumed to have equal weight.
+
+`RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting. This extention is normally not included, since it can be calculated from the original data and the fit paramters.
+
+`CONSTEXT`: Constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen at the stored value during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless ` PCONSn``a=1 `.
+
+`INCLEXT`: Component inclusion mask (`[x,y,t,n]`) – if `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. When not present, it is assumed that all components have been included at all times.
+
+In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Type P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU``=2` as these are also “type P” data). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
 
 For these auxiliary extensions, it may be worth considering the “external extensions” mechanism, see [Appendix VII](#appendix-vii).
 
@@ -153,4 +162,4 @@ At the time of writing, the SPICE Level 3P pipeline is not yet set in stone, and
 
 **Extension to other types of higher-level data**
 
-The Type P storage scheme may also be used for results from other types of analyses that do not involve forward modelling of the data and subsequent {math}`\chi^2` minimisation, as a way to store interrelated parameters that have been determined from data in other ways, e.g. Mg II k line parameters, with `CMPNAMn='Mg II k'`, and `PNAMEna` set to e.g., `'k2v'`, `'k2r'`, or `'k3'`. For such cases, other values for the `CMPTYPn` keywords must be found (add an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues)), and the size of the `PARAMETER` dimension will be equal to the sum of the `CMP_NPn` keywords, not the sum plus 1 as is normally the case.
+The Type P storage scheme may also be used for results from other types of analyses that do not involve forward modelling of the data and subsequent {math}`\chi^2` minimisation, as a way to store interrelated parameters that have been determined from data in other ways, e.g. Mg II k line parameters, with `CMPNAMn``='Mg II k'`, and `PNAMEna` set to e.g., `'k2v'`, `'k2r'`, or `'k3'`. For such cases, other values for the `CMPTYPn` keywords must be found (add an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues)), and the size of the `PARAMETER` dimension will be equal to the sum of the `CMP_NPn` keywords, not the sum plus 1 as is normally the case.
