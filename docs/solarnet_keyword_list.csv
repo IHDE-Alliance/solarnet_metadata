@@ -49,7 +49,7 @@
 `CUNITia`,P,Coordinate units,"[5.4](#5.4),  [15.2](#15.2)"
 `CWDISia`,N,Distortion correction,[Appendix VI](#appendix-vi)
 `CWERRia`,N,Maximum value of weighted distortion correction for axis i,[Appendix VI](#appendix-vi)
-`DATAEXT`,N,Data extension,[Appendix VI](#appendix-vi)
+`DATAEXT`,N,Data extension,[Appendix VI](#appendix-vi), [Appendix VII](#appendix-vii)
 `DATAKURT`,O,Kurtosis,"[5.6](#5.6), [18.8](#18.8)"
 `DATAMAD`,N,data statistic - the mean absolute deviation avg( abs( x-avg(x) ) ),"[5.6](#5.6), [18.8](#18.8)"
 `DATAMAX`,S,Maximum of data,"[5.6](#5.6), [Appendix III](#appendix-iii), [18.8](#18.8)"
