@@ -483,7 +483,7 @@ PRSTEP2 = 'CALIBRATION' / Second processing step
 PRSTEP3 = 'DISTORTION-CORRECTION' / Third processing step
 ```
 
-Below is a list of recommendations for descriptions of processing steps. If desirable, further specifications may be added, e.g., instead of `'LINE-FITTING'` one may want to use `'GAUSSIAN-LINE-FITTING'` versus `'vOIGT-LINE-FITTING'`. Note that distortion corrections come in two flavours: applied to the data (regridding) or applied to the coordinates. In the latter case, `COORDINATE` should be a part of the processing step description. If you need to add to this list, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
+Below is a list of recommendations for descriptions of processing steps. If desirable, further specifications may be added, e.g., instead of `'LINE-FITTING'` one may want to use `'GAUSSIAN-LINE-FITTING'` versus `'VOIGT-LINE-FITTING'`. Note that distortion corrections come in two flavours: applied to the data (regridding) or applied to the coordinates. In the latter case, `COORDINATE` should be a part of the processing step description. If you need to add to this list, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
 
 ```none
 ATMOSPHERIC-INVERSION
