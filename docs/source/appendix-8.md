@@ -1,5 +1,6 @@
 (appendix-viii)=
-# Appendix VIII. File list wildcard patterns and sorting
+
+# <span class=new>Appendix VIII. File list wildcard patterns and sorting</span>
 
 In SOLARNET fits files, keywords used to give comma-separated lists of files (or external extension references) may use the shell wildcards asterisk (*) matching any number of characters, question mark (?) matching a single character, and character set (e.g., `[ABCx-y]`) matching a single character as specified within the brackets (the resulting expressions are often referred to as "glob patterns"). The files matching the pattern should be sorted in lexicographic order before being interpreted as a list of file names. File lists may also use the relative path notation as specified for external extensions in [Appendix VII](#appendix-vii).
 
