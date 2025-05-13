@@ -1,7 +1,10 @@
+<style>
+.new {
+    background-color:rgb(252, 252, 147)
+}
+</style>
 (appendix-vii)=
-<span class='new'>
-# Appendix VII. External Extension References
-</span>
+# <span class='new'>Appendix VII. External Extension References</span>
 
 In SOLARNET FITS files, for keywords that have no special function within the official FITS/WCS framework, references to other extensions may be in the form of _external extension references_, e.g.:
 
@@ -23,9 +26,7 @@ When looking up the file to locate the referenced extension, software should all
 
 <span class='new'>As mentioned in [Appendix VIII](#appendix-viii) wildcards may be used also for directories, e.g., `PARENTXT``='../../../*/*/*/*9934.fits;MgIX'`, which would be useful in case e.g., data from a series of files spanning multiple days are concatenated into a single file, in a yyyy/mm/dd directory structure.</span>
 
-<span class='new'>
-## Placeholder extensions
-</span>
+## <span class='new'>Placeholder extensions</span>
 
 Of course, the end user may not have the file containing the external extension available. To partially amend this situation, it is <span class=new>_strongly recommended to have a placeholder extension in the same file as the referring extension_, containing the full header of the referenced extension but no data cube, i.e., `NAXIS``=0` and no `NAXISn` keywords. Their original values should be given in `XNAXIS` and `XNAXISn`. The `EXTNAME` of the placeholder extension must be identical to the full reference including path, file name, and extension name, eg., `EXTNAME``='../auxiliary/s35837r001-aux.fits;VAR_KEY_DATA'`. When the reference includes wildcards, a "representative" placeholder can be given using the path as written in the reference, e.g., `EXTNAME``='../../../*/*/*/*9934.fits;MgIX'`.</span>
 
