@@ -1,5 +1,7 @@
 (appendix-ix)=
+<span class='new'>
 # Appendix IX. Higher-level data: parameterized components
+</span>
 
 One common type of higher-level data are results from analysing lower-level data by fitting of parameterized components (e.g., emission line profiles) to spectroscopic data by means of {math}`\chi^2` minimization, but so far there has been no standard mechanism for how to store such results in FITS files.
 
