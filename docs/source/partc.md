@@ -13,7 +13,7 @@ Keyword origins are defined using a code:
 :header: >
 :   "Keyword", "Origin", "Description", "Section Reference"
 :widths: 10 5 30 15
-:file: ../solarnet_keyword_list.csv
+:file: solarnet_keyword_list.csv
 ```
 
 [^footnote-18]: Some of the WCS keywords defined in these papers are also defined in the FITS standard Table 22
