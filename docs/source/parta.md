@@ -458,7 +458,7 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 PARENTXT = '../level1/obs1_level1.fits;Window A'
 ```
 
-<span class=new>If there is a need to refer to parent files that are not FITS files (or does not have an `EXTNAME` for the primary HDU), the semicolon and extension name may simply be dropped. E.g.:</span>
+<span class=new>For parent files that are not FITS files or lack an EXTNAME (for the primary HDU), the semicolon and extension name can be omitted. E.g.:</span>
 
 ```none
 PARENTXT = '../telemetry/20250102-000.tlm, /level1/obs1_level1.fits;Window A'
