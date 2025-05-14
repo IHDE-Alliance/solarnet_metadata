@@ -452,10 +452,16 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 
 `ORIGIN` should be set to a character string identifying the organization or institution responsible for creating the FITS file. DATE should be set to the date of creation of the FITS file.
 
-<span class=new>`PARENTXT` (parent extension) should be used to reference the extension(s) from which the current extension has been created. It will typically be a comma-separated list of external extension references, i.e., a list of relative paths, filenames and extension names such as:</span>
+<span class=new>`PARENTXT` (parent extension) should be used to reference the extension(s)/files from which the current extension has been created. It will typically be a comma-separated list of external extension references, i.e., a list of relative paths, filenames and extension names such as:</span>
 
 ```none
 PARENTXT = '../level1/obs1_level1.fits;Window A'
+```
+
+<span class=new>If there is a need to refer to parent files that are not FITS files (or does not have an `EXTNAME` for the primary HDU), the semicolon and extension name may simply be dropped. E.g.:</span>
+
+```none
+PARENTXT = '../telemetry/20250102-000.tlm, /level1/obs1_level1.fits;Window A'
 ```
 
 <span class=new>When concatenating a series of many files (e.g., converting repeated rasters to a movie) with a common filename marker, the wildcard syntax may be useful (see [Appendix VII](#appendix-vii)).
