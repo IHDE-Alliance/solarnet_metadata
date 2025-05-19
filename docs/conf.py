@@ -96,7 +96,7 @@ if not os.path.exists("generated"):
     os.mkdir("generated")  # generate the directory before putting things in it
 
 solarnet_keywords = {}
-with open("solarnet_keyword_list.csv", newline="") as csvfile:
+with open("solarnet_keyword_list.csv", "r", newline="", encoding="utf-8") as csvfile:
     reader = csv.reader(csvfile, delimiter=",")
     for row in reader:
         if len(row) != 3:
@@ -125,7 +125,7 @@ files_to_annotate = [
     "appendix-9.md",
 ]
 for file in files_to_annotate:
-    with open(f"source/{file}", "r") as input_file:
+    with open(f"source/{file}", "r", encoding="utf-8") as input_file:
         source_content = input_file.read()
 
         # Create a mapping from position to section reference
@@ -214,7 +214,7 @@ for file in files_to_annotate:
                     if nearest_section:
                         solarnet_keywords[keyword]["references"].add(nearest_section)
 
-        with open(f"generated/{file}", "w") as output_file:
+        with open(f"generated/{file}", "w", encoding="utf-8") as output_file:
 
             # Function to replace keywords outside of code blocks
             def replace_keywords(text):
@@ -237,7 +237,7 @@ for file in files_to_annotate:
             output_file.write("".join(parts))
 
 # Make a copy for direct inclusion in the documentation
-with open("generated/solarnet_keyword_list.csv", "w", newline="") as csvfile:
+with open("generated/solarnet_keyword_list.csv", "w", newline="", encoding="utf-8") as csvfile:
     writer = csv.writer(csvfile)
 
     # Define a custom sorting function for references
@@ -247,7 +247,7 @@ with open("generated/solarnet_keyword_list.csv", "w", newline="") as csvfile:
         if not match:
             return (999, ref)  # Default case for unexpected formats
 
-        section_text = match.group(1)
+        section_text = match.group(1) 
 
         # Check if it's an appendix reference
         if section_text.startswith("Appendix "):
