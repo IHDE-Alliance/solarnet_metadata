@@ -25,6 +25,12 @@ For more information see the `LICENSE.txt`_ in our `GitHub Repository`_ or the `
 If you want to find the latest released or past version, see the releases.
 To provide comments or suggestions, please create an issue or create a pull request.
 
+.. raw:: html
+
+   <div class="new" style="text-align: center;">
+      New changes since the most recent release are highlighted in yellow.
+   </div>
+
 Abstract
 --------
 

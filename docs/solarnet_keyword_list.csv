@@ -1,223 +1,224 @@
-`ANA_NCMP`,N,the number of components used in the analysis,[Appendix IX](#appendix-ix)
-`AO_LOCK`,N,the status of any adaptive optics. For individual exposures should be either 0 or 1,"[5.5](#5.5), [18.6](#18.6)"
-`AO_NMODE`,N,indicates the number of adaptive optics modes corrected,"[5.5](#5.5), [18.6](#18.6)"
-`ATMOS_R0`,N,the atmospheric coherence length for adaptive optics systems,"[5.5](#5.5), [Appendix I](#appendix-i), [Appendix I-a](#appendix-ia), [Appendix I-b](#appendix-ib), [16.0](#16.0), [18.7](#18.7)"
-`AUTHOR`,S,Author,"[6.0](#6.0), [15.5](#15.5)"
-`BLANK`,S,Value of missing pixels (floating HDU),"[5.6.2](#5.6.2), [15.4](#15.4)"
-`BNAME`,N,a human readable explanation of the data contents,"[5.1](#5.1), [15.4](#15.4), [18.5](#18.5)"
-`BNDCTR`,N,For radio observations may be used instead of WAVELNTH to specify a corresponding frequency in Hz,"[5.4](#5.4), [18.6](#18.6)"
-`BTYPE`,N,describe what the data cube itself represents,"[5.1](#5.1), [15.4](#15.4)"
-`BSCALE`,,Linear scaling factor,
-`BUNIT`,S,Units,"[5.1](#5.1), [15.4](#15.4)"
-`BZERO`,S,Scale Base,[Appendix IV](#appendix-iv)
-`CADAVG`,N,[s] Average actual cadence. the average frame-to-frame spacing in seconds,"[5.3](#5.3), [18.3](#18.3)"
-`CADENCE`,N,[s] Planned cadence. the planned/commanded frame-to-frame spacing in seconds,"[5.3](#5.3), [18.3](#18.3)"
-`CADMAX`,N,[s] Maximum actual frame-to-frame spacing. the maximum frame-to-frame spacing in seconds,"[5.3](#5.3), [18.3](#18.3)"
-`CADMIN`,N,[s] Minimum actual frame-to-frame spacing. the minimum frame-to-frame spacing in seconds,"[5.3](#5.3), [18.3](#18.3)"
-`CADVAR`,N,[s] Variance of frame-to-frame spacing. the variance of the frame-to-frame spacing in seconds,"[5.3](#5.3), [18.3](#18.3)"
-`CAMERA`,O,Name of the camera,"[6.0](#6.0), [15.5](#15.5)"
-`CAMPAIGN`,O,Observation campaign,"[6.0](#6.0), [15.5](#15.5)"
-`CAR_ROT`,P,Carrington rotation,[3.2](#3.2)
-`CCURRENT`,N,a comma-separated list of its own file name plus the names of all files containing concurrent Obs-HDUs,"[Appendix V-b](#appendix-vb), [15.5](#15.5)"
-`CDELTia`,P,Coordinate scale increment,"[3.1](#3.1), [Appendix VI](#appendix-vi), [15.2](#15.2)"
-`CDi_ja`,P,Linear-transformation matrix element,[15.2](#15.2)
-`CHECKSUM`,P,Checksum,"[9.0](#9.0), [15.1](#15.1)"
-`CMPDESn`,N,Description of component n for Type P data,[Appendix IX](#appendix-ix)
-`CMPINCn`,N,Component inclusion,[Appendix IX](#appendix-ix)
-`CMPMULn`,N,Component type,[Appendix IX](#appendix-ix)
-`CMPNAMn`,N,Component name,[Appendix IX](#appendix-ix)
-`CMPSTRn`,N,Component string,[Appendix IX](#appendix-ix)
-`CMPTYPn`,N,Component type,[Appendix IX](#appendix-ix)
-`CMP_NPn`,N,Number of parameters,[Appendix IX](#appendix-ix)
-`CNAMEia`,P,Coordinate axis name,[5.1](#5.1)
-`COMMENT`,S,Comment,"[2.0](#2.0), [5.5](#5.5), [Appendix VI-a](#appendix-via)"
-`COMPQUAL`,N,Quality of data after lossy compression,"[5.5](#5.5), [18.7](#18.7)"
-`COMP_ALG`,N,Name of lossy compression algorithm,"[5.5](#5.5), [18.7](#18.7)"
-`CONSTEXT`,N,Constant mask,[Appendix IX](#appendix-ix)
-`CONTINUE`,P,Continue," [2.0](#2.0),   [2.1](#2.1),   [8.2](#8.2), [Appendix I](#appendix-i), [Appendix II](#appendix-ii), [Appendix IV](#appendix-iv), [15.5](#15.5), [17.0](#17.0), [18.4](#18.4), [18.10](#18.10), [18.13](#18.13)"
-`CPDISia`,N,Distortion correction,[Appendix VI](#appendix-vi)
-`CPERRia`,N,Maximum value of prior distortion correction for axis i,[Appendix VI](#appendix-vi)
-`CQDISia`,P,Distortion correction,[Appendix VI](#appendix-vi)
-`CQERRia`,P,Maximum value of posterior distortion correction for axis i,[Appendix VI](#appendix-vi)
-`CRDERia`,P,Random error,"[3.1](#3.1), [15.2](#15.2)"
-`CREATOR`,O,File Creator,"[8.1](#8.1), [Appendix IV](#appendix-iv), [18.10](#18.10)"
-`CROTAia`,O,Coordinate rotation, [3.0](#3.0)
-`CRPIXja`,P,Reference pixel," [3.1](#3.1),  [3.2](#3.2), [Appendix III](#appendix-iii),  [Appendix VI](#appendix-vi), [15.2](#15.2)"
-`CRVALia`,P,Reference value," [3.1](#3.1), [Appendix VI](#appendix-vi), [15.2](#15.2)"
-`CSYERia`,P,Systematic error," [3.1](#3.1), [15.2](#15.2)"
-`CTYPEia`,P,Coordinate type," [3.1](#3.1), [4.1](#4.1), [5.1](#5.1), [5.4](#5.4), [Appendix I](#appendix-i), [Appendix I-a](#appendix-ia), [Appendix V-b](#appendix-vb), [Appendix IX](#appendix-ix), [15.2](#15.2)"
-`CUNITia`,P,Coordinate units,"[5.4](#5.4),  [15.2](#15.2)"
-`CWDISia`,N,Distortion correction,[Appendix VI](#appendix-vi)
-`CWERRia`,N,Maximum value of weighted distortion correction for axis i,[Appendix VI](#appendix-vi)
-`DATAEXT`,N,Data extension,[Appendix VI](#appendix-vi)
-`DATAKURT`,O,Kurtosis,"[5.6](#5.6), [18.8](#18.8)"
-`DATAMAD`,N,data statistic - the mean absolute deviation avg( abs( x-avg(x) ) ),"[5.6](#5.6), [18.8](#18.8)"
-`DATAMAX`,S,Maximum of data,"[5.6](#5.6), [Appendix III](#appendix-iii), [18.8](#18.8)"
-`DATAMEAN`,O,Mean of data,"[5.6](#5.6), [18.8](#18.8)"
-`DATAMEDN`,O,Median of data,"[5.6](#5.6), [18.8](#18.8)"
-`DATAMIN`,S,Minimum of data,"[5.6](#5.6), [Appendix III](#appendix-iii), [18.8](#18.8)"
-`DATANMAD`,N,data statistic - normalized mean absolute deviation DATAMAD/DATAMEAN,"[5.6](#5.6), [18.8](#18.8)"
-`DATANPnn`,N,Normalized Percentiles,"[5.6](#5.6), [18.8](#18.8)"
-`DATANRMS`,N,Normalized root mean square,"[5.6](#5.6), [18.8](#18.8)"
-`DATAPnn`,N,Percentiles,"[5.6](#5.6), [18.8](#18.8)"
-`DATARMS`,O,Root mean square,"[5.6](#5.6), [18.8](#18.8)"
-`DATASKEW`,O,Skewness,"[5.6](#5.6), [18.8](#18.8)"
-`DATASUM`,O,Sum of data,"[9.0](#9.0), [15.1](#15.1)"
-`DATATAGS`,N,Data Tags,"[6.0](#6.0), [15.5](#15.5)"
-`DATE`,S,File Creation Date,"[8.0](#8.0), [15.1](#15.1)"
-`DATE-AVG`,P,Average date of observation,"[4.0](#4.0), [18.2](#18.2)"
-`DATE-BEG`,P,Aquisition start time,"[2.2](#2.2), [4.0](#4.0), [4.1](#4.1), [Appendix III](#appendix-iii), [13.0](#13.0)"
-`DATE-END`,P,Date of end of observation,"[4.0](#4.0), [Appendix III](#appendix-iii), [18.2](#18.2)"
-`DATEREF`,P,Reference date,"[4.0](#4.0), [4.1](#4.1), [Appendix I](#appendix-i), [Appendix I-a](#appendix-ia), [Appendix III](#appendix-iii), [14.0](#14.0), [15.2](#15.2)"
-`DETECTOR`,O,detector,"[6.0](#6.0), [Appendix IV](#appendix-iv), [15.5](#15.5)"
-`DPja`,P,Primary distortion parameter,[Appendix IV](#appendix-iv)
-`DQia`,P,Posterior distortion parameter,[Appendix IV](#appendix-iv)
-`DSUN_AU`,N,[AU] Distance from instrument to Sun centre,"[3.2](#3.2), [18.1](#18.1)"
-`DSUN_OBS`,P,Distance to Sun,"[3.2](#3.2), [4.0](#4.0), [15.3.3](#15.3.3), [18.1](#18.1)"
-`DWia`,N,Distortion correction,"[Appendix VI](#appendix-vi), [Appendix VI-a](#appendix-via)"
-`ELEV_ANG`,N,[deg] Telescope elevation angle,"[5.5](#5.5), [18.7](#18.7)"
-`EXTNAME`,S,Extension name," [2.1](#2.1),   [2.2](#2.2),   [5.6.2](#5.6.2),   [8.2](#8.2),  [Appendix I](#appendix-i), [Appendix I-a](#appendix-ia), [Appendix I-b](#appendix-ib), [Appendix II](#appendix-ii), [Appendix III](#appendix-iii), [Appendix III-a](#appendix-iiia), [Appendix IV](#appendix-iv), [Appendix VII](#appendix-vii), [Appendix IX](#appendix-ix), [12.0](#12.0), [17.0](#17.0)"
-`EXTVER`,,Extension version,
-`EXTLEVEL`,,Extension level,
-`FILENAME`,P,Filename,"[Appendix IV](#appendix-iv), [Appendix V-a](#appendix-va), [15.1](#15.1)"
-`FILEVERP`,N,File Version Pattern,[Appendix V-a](#appendix-va)
-`FILTER`,O,Filters,"[6.0](#6.0), [15.5](#15.5)"
-`FT_LOCK`,N,feature tracking status (0 no tracking - 1 tracking),"[5.5](#5.5), [18.6](#18.6)"
-`GEOX_OBS`,P,Observer X Position,"[3.2](#3.2), [15.3.2](#15.3.2)"
-`GEOY_OBS`,P,Observer Y Position,"[3.2](#3.2), [15.3.2](#15.3.2)"
-`GEOZ_OBS`,P,Observer Z Position,"[3.2](#3.2), [15.3.2](#15.3.2)"
-`GRATING`,O,Grating,"[6.0](#6.0), [15.5](#15.5)"
-`HASH_SW`,N,Commit hash of processing software applied,"[8.1](#8.1), [18.10](#18.10)"
-`HGLN_OBS`,P,Observer Heliographic Longitude,"[3.2](#3.2), [4.0](#4.0), [15.3.3](#15.3.3)"
-`HGLT_OBS`,P,Observer Heliographic Latitude,"[3.2](#3.2), [4.0](#4.0), [15.3.3](#15.3.3)"
-`INCLEXT`,N,Component inclusion mask,[Appendix IX](#appendix-ix)
-`INFO_URL`,N,a human-readable web page describing the data,"[9.0](#9.0), [18.11](#18.11)"
-`INSTRUME`,S,Instrument,"[6.0](#6.0), [15.5](#15.5)"
-`LEVEL`,O,Data level of fits file,"[8.0](#8.0), [18.10](#18.10)"
-`METADIM`,N,Metadata dimension splits,"[Appendix III](#appendix-iii), [Appendix III-a](#appendix-iiia), [17.0](#17.0)"
-`METADIMn`,N,Metadata dimension splits,[Appendix III-a](#appendix-iiia)
-`METAFILS`,N,Metadata filenames,"[Appendix III-a](#appendix-iiia), [17.0](#17.0)"
-`MISSION`,N,Name of mission,"[6.0](#6.0), [15.5](#15.5)"
-`MOSAICID`,N,Mosaic ID,"[7.0](#7.0), [18.12](#18.12)"
-`NAPRXPIX`,N,the number of pixels with approximated values,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`NAXIS`,S,Number of axes,"[3.1](#3.1), [5.2](#5.2), [5.4.1](#5.4.1), [Appendix I](#appendix-i), [Appendix I-a](#appendix-ia), [Appendix III](#appendix-iii), [Appendix IV](#appendix-iv), [15.2](#15.2)"
-`NASIXn`,S,Number of elements along axis,"[5.2](#5.2), [Appendix I](#appendix-i), [Appendix I-a](#appendix-ia), [Appendix III](#appendix-iii), [Appendix IV](#appendix-iv)"
-`NBIN`,N,Combined binning factor (Product of all NBINj),"[5.2](#5.2), [15.4](#15.4)"
-`NBINj`,N,Binning in dimension n,"[5.2](#5.2), [15.4](#15.4)"
-`NDATAPIX`,N,the number of usable pixels: NTOTPIX - NLOSTPIX - NSATPIX - NSPIKPIX,
-`NLOSTPIX`,N,the number of lost pixels due to telemetry/acquisition glitches,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`NMASKPIX`,N,the number of dust-affected/hot/cold/padded pixels etc.,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`NSATPIX`,N,the number of saturated pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`NSPIKPIX`,N,the number of identified spike pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`NSUMEXP`,N,Number of summed exposures,"[5.2](#5.2), [15.4](#15.4)"
-`NTOTPIX`,N,the number of potentially usable pixels: the number of data cube pixels minus NMASKPIX,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`NXDIM`,N,the number of dimensions absorbed by the fitting process,[Appendix IX](#appendix-ix)
-`OBSERVER`,S,Observer,"[6.0](#6.0), [15.5](#15.5)"
-`OBSGEO-X`,P,Observer X Position,"[3.2](#3.2), [15.3.1](#15.3.1)"
-`OBSGEO-Y`,P,Observer Y Position,"[3.2](#3.2), [15.3.1](#15.3.1)"
-`OBSGEO-Z`,P,Observer Z Position,"[3.2](#3.2), [15.3.1](#15.3.1)"
-`OBSRVTRY`,N,Name of Observatory,"[6.0](#6.0), [15.5](#15.5)"
-`OBSTITLE`,O,Observation title,"[6.0](#6.0), [15.5](#15.5)"
-`OBS_DESC`,O,Observation description,"[6.0](#6.0), [15.5](#15.5)"
-`OBS_HDU`,N,This HDU contains observational data,"[2.2](#2.2), [Appendix IV](#appendix-iv), [Appendix IX](#appendix-ix), [13.0](#13.0)"
-`OBS_LOG`,N,URL of observation log,"[5.5](#5.5), [9.0](#9.0), [18.7](#18.7)"
-`OBS_MODE`,O,Observation mode,"[6.0](#6.0), [15.5](#15.5)"
-`OBS_VR`,N,[km/s] Observer's outward velocity w.r.t. Sun,"[3.2](#3.2), [15.6](#15.6)"
-`ORIGIN`,S,File originator,"[8.0](#8.0), [15.1](#15.1)"
-`PCONSna`,N,Parameter constant,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`PCT_APRX`,N,Percentage of approximated pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`PCT_DATA`,N,Percentage of usable pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`PCT_LOST`,N,Percentage of lost pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`PCT_MASK`,N,Percentage of masked pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`PCT_SATP`,N,Percentage of saturated pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`PCT_SPIK`,N,Percentage of spike pixels,"[5.6.1](#5.6.1), [18.9](#18.9)"
-`PCi_ja`,P,linear transformation matrix element,"[3.1](#3.1), [5.5](#5.5), [Appendix II](#appendix-ii), [Appendix IV](#appendix-iv), [15.2](#15.2)"
-`PDESCna`,N,Parameter Desscription,[Appendix IX](#appendix-ix)
-`PGEXTNAM`,N,Progenitor extension name,[Appendix IX](#appendix-ix)
-`PGFILENA`,N,the name of the (progenitor) file containing the original data,[Appendix IX](#appendix-ix)
-`PINITna`,N,Initial value,[Appendix IX](#appendix-ix)
-`PIXLISTS`,N,Pixel lists,"[Appendix II](#appendix-ii), [Appendix IV](#appendix-iv), [17.0](#17.0)"
-`PIXTYPE`,N,Pixel Type,"[Appendix II](#appendix-ii),  [17.2](#17.2)"
-`PLANNER`,O,Planner,"[6.0](#6.0), [15.5](#15.5), [16.0](#16.0)"
-`PMAXna`,N,Maximum value,[Appendix IX](#appendix-ix)
-`PMINna`,N,Minimum value,[Appendix IX](#appendix-ix)
-`PNAMEna`,N,Parameter name,[Appendix IX](#appendix-ix)
-`POINT_ID`,N,Pointing ID,"[7.0](#7.0), [Appendix V-b](#appendix-vb), [15.9](#15.9)"
-`POLCANGL`,N,Polarimetric angle," [5.4.1](#5.4.1),  [15.8](#15.8)"
-`POLCCONV`,N,Polarimetric conversion," [5.4.1](#5.4.1),  [15.8](#15.8)"
-`PRBRAna`,N,Branch name," [8.2](#8.2),  [18.10](#18.10)"
-`PRENVn`,N,Processing environment," [8.2](#8.2),  [18.10](#18.10)"
-`PRHSHna`,N,GIT commit hash for PRLIB1A," [8.2](#8.2),  [18.10](#18.10)"
-`PRLIBna`,N,Software library containing PRPROCn," [8.2](#8.2),  [18.10](#18.10)"
-`PRLOGn`,N,log message of PRPROCn," [8.2](#8.2),  [18.10](#18.10)"
-`PRMODEn`,N,processing mode of PRPROCn," [8.2](#8.2),  [18.10](#18.10)"
-`PROJECT`,N,Name of project," [6.0](#6.0),  [15.5](#15.5)"
-`PRPARAn`,N,list of parameters/options for PRPROCn," [8.2](#8.2),  [18.10](#18.10)"
-`PRPROCn`,N,name of procedure performing processing step n," [8.2](#8.2),  [18.10](#18.10)"
-`PRPVERn`,N,version number of processing procedure PRPROCn," [8.2](#8.2),  [18.10](#18.10)"
-`PRREFn`,N,Factors influencing PRSTEP1," [8.2](#8.2),  [18.10](#18.10)"
-`PRSTEPn`,N,processing step type for step n," [8.1](#8.1),   [8.2](#8.2), [18.10](#18.10)"
-`PRVERna`,N,version number of processing procedure PRPROC1,"[8.2](#8.2), [18.10](#18.10)"
-`PTRAna`,N,Linear transformation coefficient A,[Appendix IX](#appendix-ix)
-`PTRBna`,N,Linear transformation constant B,[Appendix IX](#appendix-ix)
-`PUNITna`,N,Parameter unit,[Appendix IX](#appendix-ix)
-`RELEASE`,N,Release date," [9.0](#9.0),  [18.11](#18.11)"
-`RELEASEC`,N,Release administrator," [9.0](#9.0),  [18.11](#18.11)"
-`REQUESTR`,N,Requester," [6.0](#6.0),  [15.5](#15.5)"
-`RESEXT`,N,Result extension,[Appendix IX](#appendix-ix)
-`RESIDEXT`,N,Residual extension,[Appendix IX](#appendix-ix)
-`RESOLVPW`,N,Resolving power," [5.4](#5.4),  [18.6](#18.6)"
-`RESPAPPL`,N,Applid response function," [5.4](#5.4),  [18.6](#18.6)"
-`RESPONSE`,N,Response function," [5.4](#5.4),  [18.6](#18.6)"
-`ROT_COMP`,N,Solar rotation compensation on (1)/off (0)," [5.5](#5.5),  [18.6](#18.6)"
-`ROT_FORM`,N,Rotation formula," [5.5](#5.5),  [18.6](#18.6)"
-`ROT_MODL`,N,Model used for rotation compensation," [5.5](#5.5),  [18.6](#18.6)"
-`RSUN_ARC`,O,Solar angular radius,[3.2](#3.2)
-`RSUN_REF`,P,Solar radius. [m] Solar rad. used for calc. px scale,"[3.1](#3.1), [18.7](#18.7)"
-`SETTINGS`,N,Settings," [6.0](#6.0),  [15.5](#15.5)"
-`SLIT_WID`,N,Slit width," [5.4](#5.4),  [15.7](#15.7)"
-`SOLARNET`,N,specifies if an Obs-HDU is fully (1.0) or partially compliant (0.5)," [2.0](#2.0),   [2.1](#2.1),   [2.2](#2.2),   [2.3](#2.3),   [3.2](#3.2),  [Appendix I](#appendix-i), [Appendix II](#appendix-ii), [Appendix III](#appendix-iii), [Appendix IV](#appendix-iv), [Appendix VII](#appendix-vii), [Appendix VIII](#appendix-viii), [Appendix IX](#appendix-ix), [12.0](#12.0), [13.0](#13.0), [16.0](#16.0), [17.0](#17.0), [17.2](#17.2)"
-`SOLAR_B0`,O,Observer latitude,[3.2](#3.2)
-`SOLAR_EP`,O,Ecliptic angle,[3.2](#3.2)
-`SOLAR_P0`,O,Solar angle,[3.2](#3.2)
-`SOLNETEX`,N,SOLARNET exceptions,"[2.2](#2.2), [16.0](#16.0)"
-`SPECSYS`,P,Spectral reference frame,"[3.2](#3.2), [15.6](#15.6)"
-`SVO_GRP`,N,SVO Group,"[7.0](#7.0), [18.12](#18.12)"
-`SVO_SEPn`,,Separation keywords,
-`TCTYPn`,P,Table column type,"[Appendix II](#appendix-ii),  [17.2](#17.2)"
-`TDESCn`,N,Table column description,"[Appendix II](#appendix-ii), [18.13](#18.13)"
-`TDIMn`,S,Table column dimensions,"[Appendix I-a](#appendix-ia), [Appendix I-b](#appendix-ib), [Appendix IV](#appendix-iv)"
-`TELCONFG`,N,Telescope configuration," [6.0](#6.0),  [15.5](#15.5)"
-`TELESCOP`,S,Telescope," [6.0](#6.0),  [15.5](#15.5)"
-`TEXPOSURE`,N,Single exposure time," [5.2](#5.2),  [15.4](#15.4)"
-`TFORMn`,S,Table column format,[Appendix II](#appendix-ii)
-`TIMESYS`,P,Time system,"[4.0](#4.0), [18.2](#18.2)"
-`TKEYSn`,N,Table keywords,[Appendix IV](#appendix-iv)
-`TPCn_na`,P,Pixel list flag,[Appendix II](#appendix-ii)
-`TPXLSn`,N,Pixel lists,[Appendix IV](#appendix-iv)
-`TTYPEn`,S,Table column name,"[5.6.2](#5.6.2), [Appendix I](#appendix-i), [Appendix I-a](#appendix-ia), [Appendix I-b](#appendix-ib), [Appendix II](#appendix-ii), [Appendix IV](#appendix-iv), [Appendix VII](#appendix-vii), [17.2](#17.2)"
-`TVARKn`,N,Var keys,[Appendix IV](#appendix-iv)
-`TZEROn`,S,Zero point,[Appendix IV](#appendix-iv)
-`UCD`,,Unified Content Descriptor,
-`VAR_KEYS`,N,Variance keys,"[Appendix I](#appendix-i), [Appendix I-d](#appendix-id), [Appendix IV](#appendix-iv), [Appendix VII](#appendix-vii), [17.0](#17.0)"
-`VELOSYS`,P,Velocity system,"[3.2](#3.2), [15.6](#15.6)"
-`VERSION`,N,Processed version," [8.0](#8.0),  [18.10](#18.10)"
-`VERS_CAL`,N,version number of calibration pack applied," [8.1](#8.1),  [18.10](#18.10)"
-`VERS_SW`,N,version number of processing software applied," [8.1](#8.1),  [18.10](#18.10)"
-`WAVEBAND`,N,Waveband description,"[5.4](#5.4), [18.6](#18.6)"
-`WAVECOV`,N,Wavelength coverage,"[5.4](#5.4), [18.4](#18.4)"
-`WAVELNTH`,O,Characteristic wavelength,"[5.4](#5.4), [Appendix IV](#appendix-iv), [18.6](#18.6)"
-`WAVEMAX`,N,the maximum wavelength of the spectral range with units specified in WAVEUNIT,"[5.4](#5.4), [15.6](#15.6), [18.4](#18.4)"
-`WAVEMIN`,N,the minimum wavelength of the spectral range with units specified in WAVEUNIT,"[5.4](#5.4), [15.6](#15.6)"
-`WAVEREF`,N,should be set to air or vacuum to signal whether wavelengths are given for air or vacuum,"[5.4](#5.4), [15.6](#15.6)"
-`WAVEUNIT`,O,Wavelength unit,"[5.4](#5.4), [15.6](#15.6)"
-`WCSAXES`,P,WCS axes,"[3.1](#3.1), [5.4.1](#5.4.1), [Appendix III](#appendix-iii), [15.2](#15.2)"
-`WCSNAMEa`,P,WCS name,[Appendix I-d](#appendix-id)
-`WCSNn`,P,WCS name,"[Appendix I-b](#appendix-ib),  [17.1](#17.1)"
-`WGTEXT`,N,extension weights,[Appendix IX](#appendix-ix)
-`XDIMTYm`,N,Dimension type,[Appendix IX](#appendix-ix)
-`XTIMXTm`,N,Dimension extension,[Appendix IX](#appendix-ix)
-`XPOSURE`,P,Exposure time,"[5.2](#5.2), [15.4](#15.4)"
-`iCRVLn`,P,Reference value,[Appendix I-a](#appendix-ia)
-`iCTYPn`,P,Coordinate type,[Appendix I-a](#appendix-ia)
-`jCRPXn`,P,Reference pixel,[Appendix I-a](#appendix-ia)
+`ANA_NCMP`,N,the number of components used in the analysis
+`AO_LOCK`,N,the status of any adaptive optics. For individual exposures should be either 0 or 1
+`AO_NMODE`,N,indicates the number of adaptive optics modes corrected
+`ATMOS_R0`,N,the atmospheric coherence length for adaptive optics systems
+`AUTHOR`,S,Author
+`BLANK`,S,Value of missing pixels (floating HDU)
+`BNAME`,N,a human readable explanation of the data contents
+`BNDCTR`,N,For radio observations may be used instead of WAVELNTH to specify a corresponding frequency in Hz
+`BTYPE`,N,describe what the data cube itself represents
+`BSCALE`,,Linear scaling factor
+`BUNIT`,S,Units
+`BZERO`,S,Scale Base
+`CADAVG`,N,[s] Average actual cadence. the average frame-to-frame spacing in seconds
+`CADENCE`,N,[s] Planned cadence. the planned/commanded frame-to-frame spacing in seconds
+`CADMAX`,N,[s] Maximum actual frame-to-frame spacing. the maximum frame-to-frame spacing in seconds
+`CADMIN`,N,[s] Minimum actual frame-to-frame spacing. the minimum frame-to-frame spacing in seconds
+`CADVAR`,N,[s] Variance of frame-to-frame spacing. the variance of the frame-to-frame spacing in seconds
+`CAMERA`,O,Name of the camera
+`CAMPAIGN`,O,Observation campaign
+`CAR_ROT`,P,Carrington rotation
+`CCURRENT`,N,a comma-separated list of its own file name plus the names of all files containing concurrent Obs-HDUs
+`CDELTia`,P,Coordinate scale increment
+`CDi_ja`,P,Linear-transformation matrix element
+`CHECKSUM`,P,Checksum
+`CMPDESn`,N,Description of component n for Type P data
+`CMPINCn`,N,Component inclusion
+`CMPMULn`,N,Component type
+`CMPNAMn`,N,Component name
+`CMPSTRn`,N,Component string
+`CMPTYPn`,N,Component type
+`CMP_NPn`,N,Number of parameters
+`CNAMEia`,P,Coordinate axis name
+`COMMENT`,S,Comment
+`COMPQUAL`,N,Quality of data after lossy compression
+`COMP_ALG`,N,Name of lossy compression algorithm
+`CONSTEXT`,N,Constant mask
+`CONTINUE`,P,Continue
+`CPDISia`,N,Distortion correction
+`CPERRia`,N,Maximum value of prior distortion correction for axis i
+`CQDISia`,P,Distortion correction
+`CQERRia`,P,Maximum value of posterior distortion correction for axis i
+`CRDERia`,P,Random error
+`CREATOR`,O,File Creator
+`CROTAia`,O,Coordinate rotation
+`CRPIXja`,P,Reference pixel
+`CRVALia`,P,Reference value
+`CSYERia`,P,Systematic error
+`CTYPEia`,P,Coordinate type
+`CUNITia`,P,Coordinate units
+`CWDISia`,N,Distortion correction
+`CWERRia`,N,Maximum value of weighted distortion correction for axis i
+`DATAEXT`,N,Data extension
+`DATAKURT`,O,Kurtosis
+`DATAMAD`,N,data statistic - the mean absolute deviation avg( abs( x-avg(x) ) )
+`DATAMAX`,S,Maximum of data
+`DATAMEAN`,O,Mean of data
+`DATAMEDN`,O,Median of data
+`DATAMIN`,S,Minimum of data
+`DATANMAD`,N,data statistic - normalized mean absolute deviation DATAMAD/DATAMEAN
+`DATANPnn`,N,Normalized Percentiles
+`DATANRMS`,N,Normalized root mean square
+`DATAPnn`,N,Percentiles
+`DATARMS`,O,Root mean square
+`DATASKEW`,O,Skewness
+`DATASUM`,O,Sum of data
+`DATATAGS`,N,Data Tags
+`DATE`,S,File Creation Date
+`DATE-AVG`,P,Average date of observation
+`DATE-BEG`,P,Aquisition start time
+`DATE-END`,P,Date of end of observation
+`DATEREF`,P,Reference date
+`DETECTOR`,O,detector
+`DPja`,P,Primary distortion parameter
+`DQia`,P,Posterior distortion parameter
+`DSUN_AU`,N,[AU] Distance from instrument to Sun centre
+`DSUN_OBS`,P,Distance to Sun
+`DWia`,N,Distortion correction
+`ELEV_ANG`,N,[deg] Telescope elevation angle
+`EXTNAME`,S,Extension name
+`EXTVER`,,Extension version
+`EXTLEVEL`,,Extension level
+`FILENAME`,P,Filename
+`FILEVERP`,N,File Version Pattern
+`FILTER`,O,Filters
+`FT_LOCK`,N,feature tracking status (0 no tracking - 1 tracking)
+`GEOX_OBS`,P,Observer X Position
+`GEOY_OBS`,P,Observer Y Position
+`GEOZ_OBS`,P,Observer Z Position
+`GRATING`,O,Grating
+`HASH_SW`,N,Commit hash of processing software applied
+`HGLN_OBS`,P,Observer Heliographic Longitude
+`HGLT_OBS`,P,Observer Heliographic Latitude
+`INCLEXT`,N,Component inclusion mask
+`INFO_URL`,N,a human-readable web page describing the data
+`INSTRUME`,S,Instrument
+`LEVEL`,O,Data level of fits file
+`METADIM`,N,Metadata dimension splits
+`METADIMn`,N,Metadata dimension splits
+`METAFILS`,N,Metadata filenames
+`MISSION`,N,Name of mission
+`MOSAICID`,N,Mosaic ID
+`NAPRXPIX`,N,the number of pixels with approximated values
+`NAXIS`,S,Number of axes
+`NASIXn`,S,Number of elements along axis
+`NBIN`,N,Combined binning factor (Product of all NBINj)
+`NBINj`,N,Binning in dimension n
+`NDATAPIX`,N,the number of usable pixels: NTOTPIX - NLOSTPIX - NSATPIX - NSPIKPIX
+`NLOSTPIX`,N,the number of lost pixels due to telemetry/acquisition glitches
+`NMASKPIX`,N,the number of dust-affected/hot/cold/padded pixels etc.
+`NSATPIX`,N,the number of saturated pixels
+`NSPIKPIX`,N,the number of identified spike pixels
+`NSUMEXP`,N,Number of summed exposures
+`NTOTPIX`,N,the number of potentially usable pixels: the number of data cube pixels minus NMASKPIX
+`OBSERVER`,S,Observer
+`OBSGEO-X`,P,Observer X Position
+`OBSGEO-Y`,P,Observer Y Position
+`OBSGEO-Z`,P,Observer Z Position
+`OBSRVTRY`,N,Name of Observatory
+`OBSTITLE`,O,Observation title
+`OBS_DESC`,O,Observation description
+`OBS_HDU`,N,This HDU contains observational data
+`OBS_LOG`,N,URL of observation log
+`OBS_MODE`,O,Observation mode
+`OBS_VR`,N,[km/s] Observer's outward velocity w.r.t. Sun
+`ORIGIN`,S,File originator
+`PARENTXT`,N,"Identifies parent extension(s), path(s), file name(s), and extension name(s), likely using external extension reference syntax"
+`PCONSna`,N,Parameter constant
+`PCT_APRX`,N,Percentage of approximated pixels
+`PCT_DATA`,N,Percentage of usable pixels
+`PCT_LOST`,N,Percentage of lost pixels
+`PCT_MASK`,N,Percentage of masked pixels
+`PCT_SATP`,N,Percentage of saturated pixels
+`PCT_SPIK`,N,Percentage of spike pixels
+`PCi_ja`,P,linear transformation matrix element
+`PDESCna`,N,Parameter Desscription
+`PINITna`,N,Initial value
+`PIXLISTS`,N,Pixel lists
+`PIXTYPE`,N,Pixel Type
+`PLANNER`,O,Planner
+`PMAXna`,N,Maximum value
+`PMINna`,N,Minimum value
+`PNAMEna`,N,Parameter name
+`POINT_ID`,N,Pointing ID
+`POLCANGL`,N,Polarimetric angle
+`POLCCONV`,N,Polarimetric conversion
+`PRBRAna`,N,Branch name
+`PRENVn`,N,Processing environment
+`PRHSHna`,N,GIT commit hash for PRLIB1A
+`PRLIBna`,N,Software library containing PRPROCn
+`PRLOGn`,N,log message of PRPROCn
+`PRMODEn`,N,processing mode of PRPROCn
+`PROJECT`,N,Name of project
+`PRPARAn`,N,list of parameters/options for PRPROCn
+`PRPROCn`,N,name of procedure performing processing step n
+`PRPVERn`,N,version number of processing procedure PRPROCn
+`PRREFn`,N,Factors influencing PRSTEP1
+`PRSTEPn`,N,processing step type for step n
+`PRVERna`,N,version number of processing procedure PRPROC1
+`PTRAna`,N,Linear transformation coefficient A
+`PTRBna`,N,Linear transformation constant B
+`PUNITna`,N,Parameter unit
+`RELEASE`,N,Release date
+`RELEASEC`,N,Release administrator
+`REQUESTR`,N,Requester
+`RESEXT`,N,Result extension
+`RESIDEXT`,N,Residual extension
+`RESOLVPW`,N,Resolving power
+`RESPAPPL`,N,Applid response function
+`RESPONSE`,N,Response function
+`ROT_COMP`,N,Solar rotation compensation on (1)/off (0)
+`ROT_FORM`,N,Rotation formula
+`ROT_MODL`,N,Model used for rotation compensation
+`RSUN_ARC`,O,Solar angular radius
+`RSUN_REF`,P,Solar radius. [m] Solar rad. used for calc. px scale
+`SETTINGS`,N,Settings
+`SLIT_WID`,N,Slit width
+`SOLARNET`,N,specifies if an Obs-HDU is fully (1.0) or partially compliant (0.5)
+`SOLAR_B0`,O,Observer latitude
+`SOLAR_EP`,O,Ecliptic angle
+`SOLAR_P0`,O,Solar angle
+`SOLNETEX`,N,SOLARNET exceptions
+`SPECSYS`,P,Spectral reference frame
+`SVO_GRP`,N,SVO Group
+`SVO_SEPn`,,Separation keywords
+`TCTYPn`,P,Table column type
+`TDESCn`,N,Table column description
+`TDIMn`,S,Table column dimensions
+`TELCONFG`,N,Telescope configuration
+`TELESCOP`,S,Telescope
+`TEXPOSUR`,N,Single exposure time
+`TFORMn`,S,Table column format
+`TIMESYS`,P,Time system
+`TKEYSn`,N,Table keywords
+`TPCn_na`,P,Pixel list flag
+`TPXLSn`,N,Pixel lists
+`TTYPEn`,S,Table column name
+`TVARKn`,N,Var keys
+`TZEROn`,S,Zero point
+`UCD`,,Unified Content Descriptor
+`VAR_KEYS`,N,Variance keys
+`VELOSYS`,P,Velocity system
+`VERSION`,N,Processed version
+`VERS_CAL`,N,version number of calibration pack applied
+`VERS_SW`,N,version number of processing software applied
+`WAVEBAND`,N,Waveband description
+`WAVECOV`,N,Wavelength coverage
+`WAVELNTH`,O,Characteristic wavelength
+`WAVEMAX`,N,the maximum wavelength of the spectral range with units specified in WAVEUNIT
+`WAVEMIN`,N,the minimum wavelength of the spectral range with units specified in WAVEUNIT
+`WAVEREF`,N,should be set to air or vacuum to signal whether wavelengths are given for air or vacuum
+`WAVEUNIT`,O,Wavelength unit
+`WCSAXES`,P,WCS axes
+`WCSNAMEa`,P,WCS name
+`WCSNn`,P,WCS name
+`WGTEXT`,N,extension weights
+`XDIMENm`,N,Dimension number
+`XNAXIS`,N,Number of axes in external extension
+`XNAXISn`,N,Number of elements along axis in external extension
+`XTIMXTm`,N,Dimension extension
+`XTYPEm`,N,Dimension type
+`XPOSURE`,P,Exposure time
+`iCRVLn`,P,Reference value
+`iCTYPn`,P,Coordinate type
+`jCRPXn`,P,Reference pixel

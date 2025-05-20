@@ -452,7 +452,22 @@ However, definitions of data levels are extremely instrument-/mission-/pipeline-
 
 `ORIGIN` should be set to a character string identifying the organization or institution responsible for creating the FITS file. DATE should be set to the date of creation of the FITS file.
 
-In addition to the `LEVEL`, `VERSION` and `ORIGIN` keywords, we recommend that some additional keywords are used in order to indicate the processing steps that has been applied to the data. The four keywords described in Section 8.1 may be used instead of or in addition to the more complex set of keywords described in Section 8.2.
+<span class=new>`PARENTXT` (parent extension) should be used to reference the extension(s)/files from which the current extension has been created. It will typically be a comma-separated list of external extension references, i.e., a list of relative paths, filenames and extension names such as:</span>
+
+```none
+PARENTXT = '../level1/obs1_level1.fits;Window A'
+```
+
+<span class=new>For parent files that are not FITS files or lack an EXTNAME (for the primary HDU), the semicolon and extension name can be omitted. E.g.:</span>
+
+```none
+PARENTXT = '../telemetry/20250102-000.tlm, /level1/obs1_level1.fits;Window A'
+```
+
+<span class=new>When concatenating a series of many files (e.g., converting repeated rasters to a movie) with a common filename marker, the wildcard syntax may be useful (see [Appendix VII](#appendix-vii)).
+For Level P data, which have `OBS_HDU``=2`, the extensions referenced in `PARENTXT` should also be used as an additional source of metadata, as if the `PARENTXT` extension was the primary HDU and the `INHERIT` convention was in use [FITS Header Inheritance Convention](https://fits.gsfc.nasa.gov/registry/inherit/fits_inheritance.txt) (see [References](#reference_list)).</span>
+
+In addition to the `LEVEL`, `VERSION`, `PARENTXT` and `ORIGIN` keywords, we recommend that some additional keywords are used in order to indicate the processing steps that has been applied to the data. The four keywords described in Section 8.1 may be used instead of or in addition to the more complex set of keywords described in Section 8.2.
 
 (8.1)=
 ## 8.1 Basic description of processing software
@@ -474,7 +489,7 @@ PRSTEP2 = 'CALIBRATION' / Second processing step
 PRSTEP3 = 'DISTORTION-CORRECTION' / Third processing step
 ```
 
-Below is a list of recommendations for descriptions of processing steps. If desirable, further specifications may be added, e.g., instead of `'LINE-FITTING'` one may want to use `'GAUSSIAN-LINE-FITTING'` versus `'vOIGT-LINE-FITTING'`. Note that distortion corrections come in two flavours: applied to the data (regridding) or applied to the coordinates. In the latter case, `COORDINATE` should be a part of the processing step description. If you need to add to this list, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
+Below is a list of recommendations for descriptions of processing steps. If desirable, further specifications may be added, e.g., instead of `'LINE-FITTING'` one may want to use `'GAUSSIAN-LINE-FITTING'` versus `'VOIGT-LINE-FITTING'`. Note that distortion corrections come in two flavours: applied to the data (regridding) or applied to the coordinates. In the latter case, `COORDINATE` should be a part of the processing step description. If you need to add to this list, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
 
 ```none
 ATMOSPHERIC-INVERSION
