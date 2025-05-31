@@ -269,6 +269,8 @@ However, for searching and sorting purposes it would be useful to have a generic
 
 `COMPQUAL` could therefore be set to a number between 0.0 and 1.0, where 1.0 indicates lossless compression (if any) and 0.0 indicates “all information is lost”. In practice, however, the actual value is not crucial, as long as a higher value corresponds to a higher data quality. If there is a choice between different compression algorithms for this instrument, the name of the algorithm should be given in `COMP_ALG` – starting with either `'Lossy'` or `'Lossless'`, then typically a concatenation of all instrument-specific compression-related keywords, separated with slashes.
 
+`SIGMFORM`: The formula to be used to calculate the standard deviation $\sigma$ of each pixel in the data cube. The formula should be given as a human-readable string, e.g., `'sqrt( (data^2 - 2*GAIN*EXPTIME)^2 )'`, where `data` is the pixel value. Header keywords (e.g., EXPTIME) can be used directly in the formula. Try to avoid using "magical constants" in the formula (i.e., add keywords as necessary), but if you must, they should be explained in the comments. Note that variable keywords can be used to specify the formula as a function of the HDU’s dimensions, see [Appendix I](#appendix-i).
+
 `OBS_LOG`: Location of the log file that is relevant to this observation, if available, given as a URL.
 
 `COMMENT`: May be used to include the relevant parts of the `OBS_LOG`, and any other relevant comments about the HDU that may be useful for the interpretation of the data.
