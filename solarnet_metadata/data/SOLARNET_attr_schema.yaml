@@ -475,6 +475,12 @@ attribute_key:
     description: End time of the data aquisition
     human_readable: Date of end of observation
     required: optional # Optional date and time keywords (sections 18, 4)
+  DATE-OBS:
+    data_type: date
+    default: null
+    description: Date of the observation, in the time system specified by the TIMESYS keyword, which has the default of 'UTC'. The DATE-OBS keyword is used to indicate the date of the observation, and it should be set to the date of the first exposure in the observation. Note that we do _not_ recommend using the `DATE-OBS` keyword mentioned in the FITS Standard, since this is not explicitly defined there, and has a history of somewhat ambiguous use (see Paper IV).
+    human_readable: Date of observation
+    required: optional
   DATEREF:
     data_type: date
     default: null
@@ -745,12 +751,6 @@ attribute_key:
     description: the number of potentially usable pixels. the number of data cube pixels minus NMASKPIX
     human_readable: Total number of pixels
     required: optional # Optional keywords for missing and saturated pixels (sections 18, 5.6.1)
-  NXDIM:
-    data_type: int
-    default: null
-    description: the number of dimensions absorbed by the fitting process
-    human_readable: number of absorbed dimensions
-    required: optional
   OBSERVER:
     data_type: str
     default: null
@@ -836,11 +836,11 @@ attribute_key:
     description:  set to a character string identifying the organization or institution responsible for creating the FITS file. 
     human_readable: File originator
     required: obs # Mandatory general keywords (sections 15.1, 8, 9, Appendix V-a)
-  PARENT:
+  PARENTXT:
     data_type: str
     default: null
-    description: The PARENT keyword is used to indicate the name of the parent file from which the current file was derived. This keyword is used in conjunction with the PROGENITOR keyword to indicate the lineage of a file.
-    human_readable: Parent file
+    description: Identifies parent extension(s), path(s), file name(s), and extension name(s), likely using external extension reference syntax
+    human_readable: Parent extension
     required: optional
   PCONSna:
     data_type: int
@@ -896,18 +896,6 @@ attribute_key:
     default: null
     description: Optional functional keyword for parameters in parameterized components. Parameter desciption
     human_readable: Parameter Desscription
-    required: optional
-  PGEXTNAM:
-    data_type: str
-    default: null
-    description: the name of the extension in the progenitor file that contains the original data
-    human_readable: Progenitor extension name
-    required: optional
-  PGFILENA:
-    data_type: str
-    default: null
-    description: the name of the progenitor file
-    human_readable: Progenitor file name
     required: optional
   PINITna:
     data_type: float
@@ -1439,17 +1427,29 @@ attribute_key:
     description: data weights w used during fitting ([x,y,lambda,t]). When not present, all data points are assumed to have equal weight.
     human_readable: extension weights
     required: optional
-  XDIMTYm:
+  XDIMENm:
+    data_type: int
+    default: null
+    description: The dimension number(s), counting left to right starting with 1, of dimensions that was absorbed/removed during the fitting process.
+    human_readable: Dimension number
+    required: optional
+  XNAXIS:
+    data_type: int
+    default: null
+    description: Number of axes in external extension
+    human_readable: External extension axes
+    required: optional
+  XNAXISn:
+    data_type: int
+    default: null
+    description: Number of axes in external extension n
+    human_readable: External extension axes n
+    required: optional
+  XTYPEm:
     data_type: str
     default: null
     description:  the CTYPEi of the mth dimension absorbed by the fitting process.
     human_readable: Dimension type
-    required: optional
-  XTIMXTm:
-    data_type: str
-    default: null
-    description: The values of coordinates absorbed by the fitting process ([x,y,lambda,t]) specified by XDIMTYm, (see above) may be included in separate extensions as a convenience, although this is redundant whenever any of the arrays with all dimensions of the original data is present and contains the appropriate WCS information. Thus, XDIMXTm refers to the extension containing absorbed coordinate number m (with coordinate specification given by XDIMTYm).
-    human_readable: Dimension extension
     required: optional
   XPOSURE:
     data_type: float

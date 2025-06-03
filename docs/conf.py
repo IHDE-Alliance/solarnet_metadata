@@ -237,7 +237,9 @@ for file in files_to_annotate:
             output_file.write("".join(parts))
 
 # Make a copy for direct inclusion in the documentation
-with open("generated/solarnet_keyword_list.csv", "w", newline="", encoding="utf-8") as csvfile:
+with open(
+    "generated/solarnet_keyword_list.csv", "w", newline="", encoding="utf-8"
+) as csvfile:
     writer = csv.writer(csvfile)
 
     # Define a custom sorting function for references
@@ -247,7 +249,7 @@ with open("generated/solarnet_keyword_list.csv", "w", newline="", encoding="utf-
         if not match:
             return (999, ref)  # Default case for unexpected formats
 
-        section_text = match.group(1) 
+        section_text = match.group(1)
 
         # Check if it's an appendix reference
         if section_text.startswith("Appendix "):
