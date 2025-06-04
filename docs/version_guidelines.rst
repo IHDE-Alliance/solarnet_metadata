@@ -21,6 +21,26 @@ The process for updating the SOLARNET Metadata Recommendations and the associate
 4. **Determine Version Increment**: Based on the nature of the changes, the appropriate version increment (MAJOR, MINOR, or PATCH) is determined according to the Version Increment Rules.
 5. **Create Release and Notify Stakeholders**: A new release is generated with the updated version number, and stakeholders are notified of the changes.
 
+.. graphviz::
+
+   digraph {
+        layout=neato;
+        node [shape=box, style=rounded, width=2, height=1, fixedsize=true];
+        
+        A [label="Suggest New\nKeywords or\nClarifications", pos="0,2!"];
+        B [label="Develop\nDocumentation and\nCode Updates", pos="1.9,0.6!"];
+        C [label="Merge Updates to\nMain Branch", pos="1.2,-1.6!"];
+        D [label="Determine Version\nIncrement", pos="-1.2,-1.6!"];
+        E [label="Create Release &\nNotify Stakeholders", pos="-1.9,0.6!"];
+        
+        A -> B;
+        B -> C;
+        C -> D;
+        D -> E;
+        E -> A;
+        B -> B [constraint=false];
+    }
+
 This structured approach ensures that both the documentation and the code remain synchronized and that all changes are properly versioned and communicated.
 
 Semantic Versioning
