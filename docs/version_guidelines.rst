@@ -71,8 +71,21 @@ Version Increment Rules
 
 2. **Documentation Changes**:
 
-   - **Significant Updates**: Increment the MINOR version. Examples include adding new sections, reorganizing content, or making substantial clarifications to the metadata recommendations.
-   - **Minor Edits**: Increment the PATCH version. Examples include fixing typos, improving readability, or minor content adjustments.
+   - **Breaking Changes (MAJOR version increment)**:
+     - Adding new required keywords that data providers must implement
+     - Fundamental changes to keyword semantics or interpretation
+     - Changes that require users to modify their existing implementations
+
+   - **Non-Breaking Additions (MINOR version increment)**:
+     - Adding new optional keywords
+     - Deprecating existing keywords (generally, with possible exceptions for critical keywords)
+     - Extending existing keywords (e.g., adding wildcard syntax or expanding allowed values)
+
+   - **Minor Improvements (PATCH version increment)**:
+     - Adding new sections with additional guidance or clarification on recommendations
+     - Correcting typos or grammatical errors
+     - Improving readability of existing content
+     - Adding examples that illustrate existing requirements
 
 3. **Combined Changes**:
 
