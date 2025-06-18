@@ -273,7 +273,7 @@ def check_obs_hdu(header: fits.Header, is_obs: bool = False) -> Tuple[bool, List
         logger.warning(
             f"Keyword `OBS_HDU` is not present in the header, but `is_obs` given as True. Overriding `is_obs` to False. If this is not the desired behavior, please check the header `OBS_HDU`."
         )
-        is_obs = False
+        is_obs = True
     return is_obs, validation_findings
 
 
