@@ -1456,7 +1456,7 @@ attribute_key:
     default: null
     description: '[s] Total effective exposure time'
     human_readable: Exposure time
-    required: obs # Mandatory data description keywords (sections 15.4, 5.1, 5.2, 5.6.2)
+    required: optional # Mandatory data description keywords (sections 15.4, 5.1, 5.2, 5.6.2)
   XTENSION:
     data_type: str
     default: null
