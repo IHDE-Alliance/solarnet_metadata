@@ -117,5 +117,6 @@ ignore_directives = [
     "doctest",
     "automodapi",
     "csv-table",
+    "graphviz",
 ]
 ignore_messages = "not referenced"
