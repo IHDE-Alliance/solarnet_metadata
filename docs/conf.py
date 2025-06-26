@@ -31,7 +31,7 @@ author = "Stein Vidar Hagfors Haugan, Terje Fredvik"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["myst_parser"]
+extensions = ["myst_parser", "sphinx.ext.graphviz"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["source"]
@@ -46,6 +46,9 @@ source_suffix = {
     ".txt": "markdown",
     ".md": "markdown",
 }
+
+# GraphViz configuration
+graphviz_output_format = 'svg'  # 'svg' for HTML, 'png' for PDF
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -66,6 +69,7 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
 
 # -- Options for LaTeX output ---------------------------------------------
 
