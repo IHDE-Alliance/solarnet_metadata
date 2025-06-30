@@ -1,13 +1,12 @@
 import pytest
 from astropy.io import fits
 
-from solarnet_metadata.validation import (
-    validate_header,
-    validate_fits_keyword_value_comment,
-    validate_fits_keyword_data_type,
-)
 from solarnet_metadata.schema import SOLARNETSchema
-
+from solarnet_metadata.validation import (
+    validate_fits_keyword_data_type,
+    validate_fits_keyword_value_comment,
+    validate_header,
+)
 
 # Mock schema for testing
 MOCK_SCHEMA = {
