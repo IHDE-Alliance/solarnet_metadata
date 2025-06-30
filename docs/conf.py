@@ -43,7 +43,6 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.doctest",
     "sphinx.ext.mathjax",
-    "matplotlib.sphinxext.plot_directive",
     "sphinx_automodapi.automodapi",
     "sphinx_automodapi.smart_resolver",
     "sphinx_copybutton",
@@ -136,10 +135,6 @@ intersphinx_mapping = {
     "scipy": (
         "https://docs.scipy.org/doc/scipy/reference/",
         (None, "http://data.astropy.org/intersphinx/scipy.inv"),
-    ),
-    "matplotlib": (
-        "https://matplotlib.org/",
-        (None, "http://data.astropy.org/intersphinx/matplotlib.inv"),
     ),
     "astropy": ("http://docs.astropy.org/en/stable/", None),
     "sunpy": ("https://docs.sunpy.org/en/stable/", None),
