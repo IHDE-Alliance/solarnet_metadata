@@ -235,9 +235,9 @@ You can create your own schema files to extend or override the default schema. Y
   
   conditional_requirements:
     - condition_type: "equals"
-    condition_key: "INST_TYP"
-    condition_value: "Custom_Instrument"
-    required_attributes: ["CUSTOM_ATTR"]
+      condition_key: "INST_TYP"
+      condition_value: "Custom_Instrument"
+      required_attributes: ["CUSTOM_ATTR"]
 
 You can then load this custom schema along with the defaults:
 
