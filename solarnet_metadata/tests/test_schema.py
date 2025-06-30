@@ -1,8 +1,9 @@
-import pytest
 import tempfile
 from pathlib import Path
-import yaml
+
 import pandas as pd
+import pytest
+import yaml
 
 from solarnet_metadata.schema import SOLARNETSchema
 

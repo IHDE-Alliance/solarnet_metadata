@@ -1,0 +1,38 @@
+/* _static/custom.css */
+div.related {
+    background-color: #FF8800; /* Orange from lightbulb outline */
+    color: #000000; /* Black text for contrast */
+    padding: 5px 0;
+    margin-bottom: 10px;
+}
+
+div.related a {
+    color: #000000; /* Yellow from sun for links */
+    text-decoration: none;
+}
+
+div.related a:hover {
+    text-decoration: underline;
+    color: #FF8800; /* Slightly darker yellow for hover effect */
+}
+
+/* Bottom navbar */
+div.related.bottom {
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #FF8800; /* Matching top navbar */
+    z-index: 100;
+}
+
+div.related ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+div.related li {
+    display: inline;
+}

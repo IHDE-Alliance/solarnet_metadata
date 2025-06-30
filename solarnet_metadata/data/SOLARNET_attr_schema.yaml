@@ -18,14 +18,18 @@
 #   - default: The default value of the attribute. (`null` if no default value)
 #   - description: A description of the attribute.
 #   - human_readable: A human-readable description of the attribute. (used as default comment)
+#   - pattern: A regular expression pattern for attributes with variable indices (e.g., NAXISn, CTYPEia).
+#   - valid_values: A list of allowed values for the attribute (optional).
 #   - required: Indicates whether the attribute is required or not. This can be one of the following:
-#     - `all`: The attribute is required for all FITS HDUs.
 #     - `primary`: The attribute is required for the primary HDU only.
 #     - `obs`: The attribute is required for the observation HDU only.
 #     - `optional`: The attribute is optional and may be included in any HDU.
 # - conditional_requirements: A list of dictionaries containing conditional 
-#   requirements for the attribute metadata.
-
+#   requirements for the attribute metadata. Each dictionary has the following keys:
+#   - condition_type: The type of condition (e.g., 'attribute_value').
+#   - condition_key: The attribute key to check.
+#   - condition_value: The value to compare against.
+#   - required_attributes: A list of attributes that are required when the condition is met.
 # =============================================================================
 attribute_key:
   ANA_NCMP:
@@ -707,7 +711,6 @@ attribute_key:
     default: null
     description: Binning should be specified by the keywords NBINj, where j is the dimension number (analogous to the NAXISj keywords). E.g., for an observational data cube with dimensions (x,y,lambda,t) where 2x2 binning has been performed in the y and lambda directions (as is sometimes done with slit spectrometers), NBIN2 and NBIN3 should be set to 2. The default value for NBINj is 1, so NBIN1 and NBIN4 may be left unspecified.
     human_readable: Number of pixels binned together
-    overwrite: false 
     required: optional # Required for binned data
   NDATAPIX:
     data_type: int
