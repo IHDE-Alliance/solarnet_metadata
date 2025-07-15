@@ -67,6 +67,13 @@ Version Guidelines
 
    version_guidelines
 
+Citation and Acknowledgements
+-----------------------------
+.. toctree::
+   :maxdepth: 0
+
+   citation
+
 References
 ----------
 .. toctree::
