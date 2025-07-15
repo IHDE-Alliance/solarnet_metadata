@@ -5,6 +5,7 @@ This module provides schema metadata templates an information.
 
 from pathlib import Path
 from typing import Optional
+
 import yaml
 
 import solarnet_metadata
@@ -21,6 +22,7 @@ class SOLARNETSchema:
     The SOLARNET Keyword information is loaded from YAML (dict-like) files in the following format:
 
     .. code-block:: yaml
+
         attribute_key:
             attribute_name:
                 data_type: <string> # A string representing the data type of the attribute
@@ -204,7 +206,7 @@ class SOLARNETSchema:
 
         - description: (`str`) A brief description of the attribute
         - default: (`str`) The default value used if none is provided
-        - required: (`bool`) Whether the attribute is required by SWxSOC standards
+        - required: (`bool`) Whether the attribute is required by SOLARNET standards
 
 
         Parameters
