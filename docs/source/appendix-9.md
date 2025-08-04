@@ -138,7 +138,7 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 `XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of dimensions that was absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
 
-<span class=new>`SIGMADAT`: Specification of the standard deviation $\sigma$ used in the fitting process (see [Appendix VII](#appendix-vii)). If the data extension (`DATAEXT`) is not available, the $\sigma$ values can of course not be calculated correctly, as the formula can only be applied to the fitted model.</span>
+<span class=new>`SIGMADAT`: Specification of the standard deviation $\sigma$ used in the fitting process, given as a formula, a curve, or a pixel-by-pixel specification, see [5.5 Quality aspects](#5-5). When used in a Level P extension, the occurrence of `data` in a formula refers to the data cube in the `DATAEXT`. Keywords used in the formula that are not specified in the Level P extension should be taken from the header of the `DATAEXT` (note that they may be variable keywords).</span>
 
 To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
@@ -150,7 +150,7 @@ To allow manual inspection, verification, and modification of the analysis resul
 
 `RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting. This extention is normally not included, since it can be calculated from the original data and the fit paramters.
 
-`CONSTEXT`: Constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen at the stored value during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless ` PCONSn``a=1 `.
+`CONSTEXT`: Constant mask (`[x,y,t,p]`) – if the constant mask value `(x,y,t,p)=1`, parameter `p` has been kept constant/frozen *at the present value* (not necessarily the initial value) during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless ` PCONSn``a=1 `. If only a few pixels have been kept constant, it is possible to store the indices of those pixels instead, in a pixel list with dimension `[n,m]`, where n is the number of dimensions in the result data cube (e.g., [4,m] for a result data cube with dimensions `[x,y,t,p]`), and m is the number of pixels that have been kept constant.
 
 `INCLEXT`: Component inclusion mask (`[x,y,t,n]`) – if `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. When not present, it is assumed that all components have been included at all times.
 
