@@ -278,7 +278,7 @@ However, for searching and sorting purposes it would be useful to have a generic
 
 <span class=new>If it's not practical to give a formula at all (e.g., if the sigma values as a function of data is discontinuous), it may be specified as a curve in a separate extension using an `EXTNAME` name that starts with `'CURVE:'`, e.g., `SIGMADAT``='CURVE:SIGMA-TABLE'`. The contents of this extension should be a data cube with dimension `[2,n]`, functioning as a lookup table where `(1,*)` are data values and `(2,*)` are the corresponding $\sigma$ values. The table is subject to linear interpolation. The $\sigma$ values may also be specified on a pixel-by-pixel basis, `SIGMADAT``='SIGMA</span>
 
-<span class=new>If it is necessary to specify $\sigma$ directly for each individual pixel, values can be specified in an extension with an `EXTNAME` that starts with `'VALUES:'`, e.g., `SIGMADAT``='VALUES:SIGMA-VALUES'`.</span>
+<span class=new>If it is necessary to specify $\sigma$ directly for each individual pixel, values can be specified in an extension with an `EXTNAME` that starts with `'VALUES:'`, e.g., `SIGMADAT``='VALUES:SIGMA-VALUES'`. The extension should have the same dimensions as the original data.</span>
 
 `OBS_LOG`: Location of the log file that is relevant to this observation, if available, given as a URL.
 
