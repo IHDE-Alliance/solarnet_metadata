@@ -1,13 +1,13 @@
 (appendix-ii)=
 # Appendix II. Pixel list mechanism for flagging pixels
 
-In some cases, it is useful to flag pixels or ranges of pixels within an Obs-HDU, or to store attributes (numbers or strings) that apply only to specific pixels or ranges of pixels (see Section 5.6.2). One example is to store the location of hot/cold pixels. Another example is to store the location and original values of pixels affected by cosmic rays/spikes. Yet another example might be to highlight or label (even with a string) specific points within the data cube – such as where a reduction algorithm has broken down.
+In some cases, it is useful to flag individual pixels or ranges of pixels within an Obs-HDU, or to store attributes (numbers or strings) that apply only to specific pixels or ranges of pixels (see Section 5.6.2). One example is to store the location of hot/cold pixels. Another example is to store the location and original values of pixels affected by cosmic rays/spikes. Yet another example might be to highlight or label (even with a string) specific points within the data cube – such as where a reduction algorithm has broken down.
 
 Since the pixel list mechanism described here may be used by any HDU with a non-zero `SOLARNET` keyword, we will from now on simply use the term “referring HDU” for the HDU that uses this mechanism.
 
 This mechanism uses a specific implementation of the pixel list FITS standard (Paper I, Section 3.2), where binary table extensions are used to store pixel indices and any attributes associated with each pixel.
 
-The binary table extension must have `N + 1 + m` columns (or only `N + m` , see special case below), where `N` is the number of data cube dimensions in the referring HDU and `m` is the number of pixel attributes (may be zero). The `N` first columns contain pixel indices with `TTYPEn``='DIMENSIONk'`, where k is the dimension number in the referring HDU. Column number `N+1` must have `TTYPEn``='PIXTYPE'` (unless only single pixels are flagged). Any remaining columns must have `TTYPEn` set to the name of the attached attribute contained in that column, if any. Note that each cell of the binary table may only contain a single number or a string.
+The binary table extension must have `N + 1 + m` *columns* (or only `N + m` , see special case below), where `N` is the number of data cube dimensions in the referring HDU and `m` is the number of pixel attributes (may be zero). The `N` first *columns* contain pixel indices with `TTYPEn``='DIMENSIONk'`, where k is the dimension number in the referring HDU. Column number `N+1` must have `TTYPEn``='PIXTYPE'` (*unless only single pixels are flagged*). Any remaining columns must have `TTYPEn` set to the name of the attached attribute contained in that *column*, if any. Note that each cell of the binary table may only contain a single number or a string. Thus each *row* of the binary table represents a single pixel *or* a corner (lower left/upper right) of a pixel range, depending on the value of the `PIXTYPE` column.
 
 A zero-valued pixel index is a _wildcard_ representing all allowed pixel indices in the corresponding dimension.
 
