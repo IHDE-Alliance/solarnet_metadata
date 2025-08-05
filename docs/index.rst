@@ -12,15 +12,13 @@ SOLARNET Metadata Recommendations for Solar Observations
       Stein Vidar Hagfors Haugan, Terje Fredvik
    </div>
 
-This specification is licensed under the Creative Commons Attribution 4.0 International Public License.
-For more information see the `LICENSE.txt`_ in our `GitHub Repository`_ or the `Creative Commons website`_.
+This specification is licensed under the Creative Commons Attribution 4.0 International Public License. For more information see the `LICENSE.txt`_ in our `GitHub Repository`_ or the `Creative Commons website`_.
 
 .. _LICENSE.txt: https://github.com/IHDE-Alliance/solarnet_metadata/blob/main/LICENSE.txt
 .. _GitHub Repository: https://github.com/IHDE-Alliance/solarnet_metadata
 .. _Creative Commons website: https://creativecommons.org/licenses/by/4.0/
 
-If you want to find the latest released or past version, see the releases.
-To provide comments or suggestions, please create an issue or create a pull request.
+If you want to find the latest released or past version, see the releases. To provide comments or suggestions, please create an issue or a pull request, or contact prits-group@astro.uio.no.
 
 .. raw:: html
 
@@ -31,9 +29,9 @@ To provide comments or suggestions, please create an issue or create a pull requ
 Abstract
 --------
 
-Prior to these recommendations, metadata descriptions of solar observations have been standardized only for space-based observations, but the standards have been mostly within a single space mission at a time - at times with significant differences between different missions. For ground-based solar observations, data has typically not been made freely available to the general community, resulting in an even greater lack of standards for metadata descriptions. This situation makes it difficult to construct multi-instrument archives/virtual observatories with anything more than the most basic metadata available for searching, as well as making it difficult to write generic tools for instrument-agnostic data analysis. This document describes metadata recommendations developed under the SOLARNET EU project [#footnote1]_ , aiming to foster more collaboration and data sharing between both ground-based and space-based solar observatories by acting as a common reference to which even existing diverse data sets may be related, for ingestion into solar virtual observatories and for analysis by generic software.
+Prior to these SOLARNET [#footnote1]_ recommendations, metadata descriptions of solar observations have been standardized only for space-based observations, but the standards have been mostly within a single mission at a time - at times with significant differences between different missions. Ground-based solar observations have typically not been made freely available to the general community, resulting in an even greater lack of standards for metadata descriptions. This situation makes it difficult to construct multi-instrument archives/virtual observatories, and makes it difficult to write generic data analysis tools. The metadata recommendations in this document aim to remedy this, to foster more collaboration and data sharing by acting as a common reference for generic analysis software and for ingestion into solar virtual observatories.
 
-The recommendations are currently being followed by at least nine data pipelines [#footnote2]_ . *Please notify prits-group@astro.uio.no if you use these recommendations so you can be added to the list*. Since the document is still evolving, we also highly recommend that you ask to be put on our mailing list for discussions and announcements of changes (prior to implementation in the document itself). This is important to ensure we do not implement changes that have already been "locked in".
+These recommendations are currently being followed by at least nine data pipelines [#footnote2]_ . *Please notify prits-group@astro.uio.no if you use these recommendations so your pipeline can be added to the list*. We also highly recommend that you ask to be put on our mailing list for occasional discussions and announcements of changes (prior to implementation in the document itself). This is important to ensure we do not implement changes that have already been "locked in".
 
 .. [#footnote1] This document has received funding from the European Union's Horizon 2020 and FP7 programmes under grant agreements No 824135 and 31295. Version 2.0 of this document was the final version produced under these grants, but it keeps evolving as further needs and issues arise. 
 
