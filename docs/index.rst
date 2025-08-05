@@ -28,7 +28,7 @@ To provide comments or suggestions, please create an issue or create a pull requ
 .. raw:: html
 
    <div class="new" style="text-align: center;">
-      New changes since the most recent release are highlighted in yellow.
+      Recent significant changes are highlighted in yellow.
    </div>
 
 Abstract
