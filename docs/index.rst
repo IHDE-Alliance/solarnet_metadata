@@ -24,21 +24,21 @@ To provide comments or suggestions, please create an issue or create a pull requ
 
 .. raw:: html
 
-   <div class="new" style="text-align: center;">
-      Recent significant changes are highlighted in yellow.
+   <div style="text-align: center;">
+      <span class="new">Recent significant changes are highlighted in yellow.</span>
    </div>
 
 Abstract
 --------
 
-Until the advent of the SOLARNET recommendations[#footnote]_ , metadata descriptions of Solar observations have been standardized for space-based observations, but the standards have been mostly within a single space mission at a time, at times with significant differences between different mission standards. In the context of ground-based Solar observations, data has typically not been made freely available to the general research community, resulting in an even greater lack of standards for metadata descriptions. This situation makes it difficult to construct multi-instrument archives/virtual observatories with anything more than the most basic metadata available for searching, as well as making it difficult to write generic software for instrument-agnostic data analysis. This document describes the metadata recommendations developed under the SOLARNET EU project, which aims to foster more collaboration and data sharing between both ground-based and space-based Solar observatories. The recommendations will be followed by data pipelines developed under the SOLARNET project and others see footnote for a full list [#footnote]_ . These recommendations are meant to function as a common reference to which even existing diverse data sets may be related, for ingestion into solar virtual observatories and for analysis by generic software.
+Prior to these recommendations, metadata descriptions of solar observations have been standardized only for space-based observations, but the standards have been mostly within a single space mission at a time - at times with significant differences between different missions. For ground-based solar observations, data has typically not been made freely available to the general community, resulting in an even greater lack of standards for metadata descriptions. This situation makes it difficult to construct multi-instrument archives/virtual observatories with anything more than the most basic metadata available for searching, as well as making it difficult to write generic tools for instrument-agnostic data analysis. This document describes metadata recommendations developed under the SOLARNET EU project [#footnote1]_ , aiming to foster more collaboration and data sharing between both ground-based and space-based solar observatories by acting as a common reference to which even existing diverse data sets may be related, for ingestion into solar virtual observatories and for analysis by generic software.
 
-Since this document is still evolving, we highly recommend that you contact prits-group@astro.uio.no to be put on a mailing list for discussions and announcements (prior to implementation in the document itself).
+The recommendations are being followed by data pipelines developed under the SOLARNET project and others, see [#footnote2]_ for a full list and *please notify prits-group@astro.uio.no to be added to the list if you use these recommendations*. Since the document is still evolving, we also highly recommend that you ask us to be put on a mailing list for discussions and announcements (prior to implementation in the document itself).
 
-.. [footnote] This document has received funding from the European Union's Horizon 2020 and FP7 programmes under grant agreements No 824135 and 31295. Version 2.0 of this document was the final version produced under these grants, but it keeps evolving as further needs and issues arise. 
+.. [#footnote1] This document has received funding from the European Union's Horizon 2020 and FP7 programmes under grant agreements No 824135 and 31295. Version 2.0 of this document was the final version produced under these grants, but it keeps evolving as further needs and issues arise. 
 
 
-.. [#footnote] Full list per July 2021: Solar Orbiter SPICE, SST CHROMIS/CRISP (SSTRED), AISAS/Lomnicky Stit COMP-S/SCD, SAMNET, Gregor HiFI/GFPI, ROB USET, Alma pipeline for Solar data (SOAP), INAF IBIS-A (IBIS data Archive), PADRE/MeDDEA
+.. [#footnote2] Solar Orbiter SPICE, SST CHROMIS/CRISP (SSTRED), AISAS/Lomnicky Stit COMP-S/SCD, SAMNET, Gregor HiFI/GFPI, ROB USET, Alma pipeline for Solar data (SOAP), INAF IBIS-A (IBIS data Archive), PADRE/MeDDEA
 
 Part A. Description of FITS Keywords
 ------------------------------------
