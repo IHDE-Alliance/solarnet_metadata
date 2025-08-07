@@ -46,7 +46,7 @@ the form:
 F(\lambda;\mathbf{p}) = \left( ((f_1(\lambda;\mathbf{p_1}) + f_2(\lambda;\mathbf{p_2}) + \cdots ) \cdot f_j(\lambda;\mathbf{p_j}) + \cdots \right) \cdot f_x(\lambda;\mathbf{p_x}) + \cdots
 ```
 
-where {math}`f_n` are individual components, {math}`p_n` are their parameters, and {math}`p` is the aggregation of all parameters, by {math}`\chi^2` minimization of:
+where {math}`f_n` are individual components, {math}`\mathbf{p_n}` are their parameters, and {math}`\mathbf{p}` is the aggregation of all parameters, by {math}`\chi^2` minimization of:
 
 ```{math}
 \chi^2 = \sum_\lambda W(\lambda) \cdot (y(\lambda) - F(\lambda; \mathbf{p}))^2
