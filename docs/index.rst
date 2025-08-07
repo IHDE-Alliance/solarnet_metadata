@@ -33,7 +33,7 @@ Prior to these SOLARNET [#footnote1]_ recommendations, metadata descriptions of 
 
 These recommendations are currently being followed by at least nine data pipelines [#footnote2]_ . *Please notify prits-group@astro.uio.no if you use these recommendations so your pipeline can be added to the list*. We also highly recommend that you ask to be put on our mailing list for occasional discussions and announcements of changes (prior to implementation in the document itself). This is important to ensure we do not implement changes that have already been "locked in".
 
-.. [#footnote1] The SOLARNET project was funded by the European Union's Horizon 2020 and FP7 programmes under grant agreements No 312495 and 824135 (SOLARNET). Version 2.0 of this document was the final version produced under these grants, but it keeps evolving as further needs and issues arise. 
+.. [#footnote1] The SOLARNET project was funded by the European Union's Horizon 2020 and FP7 programmes under grant agreements No 312495 and 824135. Version 2.0 of this document was the final version produced under these grants, but it keeps evolving as further needs and issues arise. 
 
 .. [#footnote2] Solar Orbiter SPICE, SST CHROMIS/CRISP (SSTRED), AISAS/Lomnicky Stit COMP-S/SCD, SAMNET, Gregor HiFI/GFPI, ROB USET, Alma pipeline for Solar data (SOAP), INAF IBIS-A (IBIS data Archive), PADRE/MeDDEA
 
