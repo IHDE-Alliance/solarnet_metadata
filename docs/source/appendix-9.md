@@ -25,7 +25,7 @@ F(\lambda;I_0,\lambda_p,w,a_0)=Gaussian(\lambda;I_0,\lambda_c,w) + Polynomial(\l
 ```
 for each point `(x,y,t)`.
 
-For readout windows with multiple significant emission lines, multiple Gaussians are used. When e.g., two Gaussians are used, the Level 3P data will be the best-fitting parameters {math}`(I_{0_1},\lambda_{p_1},w_1,I_{0_2},\lambda_{p_2}, w_2, a_0)` of the function:
+For readout windows with multiple significant emission lines, multiple Gaussians are used. When e.g., two Gaussians are used, the Level 3P data will be the best-fitting parameters {math}`(I_{0_1},\lambda_{c_1},w_1,I_{0_2},\lambda_{c_2}, w_2, a_0)` of the function:
 
 ```{math}
 F(\lambda;I_{0_1},\lambda_{c_1},w_1,I_{0_2},\lambda_{c_2}, w_2, a_0)=Gaussian(\lambda;I_{0_1},\lambda_{c_1},w_1) + Gaussian(\lambda;I_{0_2},\lambda_{c_2},w_2) + Polynomial(\lambda;a_0)
