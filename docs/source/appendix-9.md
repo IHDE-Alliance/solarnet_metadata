@@ -31,7 +31,7 @@ For readout windows with multiple significant emission lines, multiple Gaussians
 F(\lambda;I_{0_1},\lambda_{c_1},w_1,I_{0_2},\lambda_{c_2}, w_2, a_0)=Gaussian(\lambda;I_{0_1},\lambda_{c_1},w_1) + Gaussian(\lambda;I_{0_2},\lambda_{c_2},w_2) + Polynomial(\lambda;a_0)
 ```
 
-for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1…3)`) is  {math}`(I_{0_1},\lambda_{c_1},w_1)`, `(x,y,t,4..6)` is {math}`(I_{0_2},\lambda_{c_2},w_2)`, `(x,y,t,7)` is {math}`a_0`, and `(x,y,t,8)` is the {math}`\chi^2` value from the fit.
+for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1..3)`) is  {math}`(I_{0_1},\lambda_{c_1},w_1)`, `(x,y,t,4..6)` is {math}`(I_{0_2},\lambda_{c_2},w_2)`, `(x,y,t,7)` is {math}`a_0`, and `(x,y,t,8)` is the {math}`\chi^2` value from the fit.
 
 Generally, for _n_ Gaussians and a constant background, the size of the parameter dimension would be 3n+1+1. For n Gaussians and a linear background, the size would be 3n+2+1 because the last component would be {math}`Polynomial(\lambda;a_0,a_1) = a_0 + a_1\lambda`. Additional components may be defined, e.g., Voigt profiles and instrument-specific components (broadened Gauss profiles for SOHO/CDS).
 
@@ -96,6 +96,8 @@ component parameters {math}`p_a = p_1 \dots p_{26}`.
 
 **Mandatory functional keyword for each parameter**
 
+Below, `n` is the component number, and `a` is a letter (`A-Z`) specifying the parameter number within the component (e.g., `PUNIT1A` is the units for the first parameter of the first component, `PUNIT2B` is the units for the second parameter of the second component, etc.).
+
 `PUNITna`: The units for parameter a of component `n`, specified according to the FITS Standard Section 4.3, e.g., `'nm'` or `'km/s'`.
 
 **Optional functional keywords for each parameter**
@@ -112,7 +114,7 @@ component parameters {math}`p_a = p_1 \dots p_{26}`.
 
 `PTRBna`: Linear transformation constant {math}`B` (default value 0), see below
 
-When `PCONSna``=1`, i.e., when {math}`p_a` has been kept constant during fitting, it does not mean that {math}`p_a` necessarily has the same value for all `(x,y,t)`. The parameter may have been set to different values at different points prior to the fitting and then not been allowed to change during subsequent fitting of the other parameters. I.e., for points where a parameter has been kept constant, the `PINITna` value does not apply. Using the example above, the data cube value for `(x,y,t,p)` can differ from `(x,y,t+1,p)` even if the corresponding `PCONSna` value is `1`. It is also possible to keep a parameter constant only at specific points `(x,y,t)` using a constant mask, see `CONTEXT` below.
+When `PCONSna``=1`, i.e., when {math}`p_a` has been kept constant during fitting, it does not mean that {math}`p_a` necessarily has the same value for all `(x,y,t)`. The parameter may have been set to different values at different points prior to the fitting and then not been allowed to change during subsequent fitting of the other parameters. I.e., for points where a parameter has been kept constant, the `PINITna` value does not apply. Using the example above, the data cube value for `(x,y,t,p)` can differ from `(x,y,t+1,p)` even if the corresponding `PCONSna` value is `1`. It is also possible to keep a parameter constant only at specific points `(x,y,t)` using a constant mask, see `CONSTEXT` below.
 
 A Gaussian component is explicitly defined to be simply {math}`f(\lambda;p_1,p_2,p_3)=p_1 e^{-1/2(\lambda - p_2)^2/p_3^2}`. However, some may prefer to store results in modified form, such as velocities instead of line positions, and with varying definitions of line width (e.g., FWHM). To accommodate this without having to create separate components for every form, it is possible to use the `PTRAna` and `PTRBna` keywords to define a linear transformation between the _nominal_ (stored) value {math}`n_a`) of a parameter and the actual value {math}`p_a`) that is passed to the component function.
 
@@ -150,9 +152,9 @@ To allow manual inspection, verification, and modification of the analysis resul
 
 `RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting. This extention is normally not included, since it can be calculated from the original data and the fit paramters.
 
-`CONSTEXT`: Constant mask (`[x,y,t,p]`). If constant mask `(x,y,t,p)` is nonzero, parameter `p` has been kept constant/frozen *at the present value* (not necessarily the initial value) during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless `PCONSn``a=1 `. <span class=new>`CONSTEXT` may also be specified as a pixel list ([Appendix II](#appendix-ii)). If the list contains an entry `(x,y,t,p)`, it means that the value of `(x,y,t,p)` in the result cube has been kept constant.</span>
+`CONSTEXT`: Constant mask (`[x,y,t,p]`). If constant mask `(x,y,t,p)` is 1 (not zero), parameter `p` has been kept constant/frozen *at the present value* (not necessarily the initial value) during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless `PCONSn``a=1 `. <span class=new>`CONSTEXT` may also be specified as a pixel list ([Appendix II](#appendix-ii)). If the list contains an entry `(x,y,t,p)`, it means that the value of `(x,y,t,p)` in the result cube has been kept constant.</span>
 
-`INCLEXT`: Component inclusion mask (`[x,y,t,n]`). If `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. If `(x,y,t,n)=1`, the component has been included in the fit. When the extension is not present, it is assumed that all components have been included at all times. <span class=new>As for `CONTEXT`, `INCLEXT` may be defined through the pixel list mechanism ([Appendix II](#appendix-ii)); if the list contains `(x,y,t,n)` then component `n` has *not* been included for point `(x,y,t,*)`. Where a component is not included, it's parameter values should be set to `NaN`.</span>
+`INCLEXT`: Component inclusion mask (`[x,y,t,n]`). If `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. If `(x,y,t,n)=1`, the component has been included in the fit. When the extension is not present, it is assumed that all components have been included at all times. <span class=new>As for `CONSTEXT`, `INCLEXT` may be defined through the pixel list mechanism ([Appendix II](#appendix-ii)); if the list contains `(x,y,t,n)` then component `n` has *not* been included for point `(x,y,t,*)`. Where a component is not included, it's parameter values should be set to `NaN`.</span>
 
 In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Type P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU``=2` as these are also “type P data"). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
 
