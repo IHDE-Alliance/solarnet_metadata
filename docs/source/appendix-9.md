@@ -31,7 +31,7 @@ For readout windows with multiple significant emission lines, multiple Gaussians
 F(\lambda;I_{0_1},\lambda_{c_1},w_1,I_{0_2},\lambda_{c_2}, w_2, a_0)=Gaussian(\lambda;I_{0_1},\lambda_{c_1},w_1) + Gaussian(\lambda;I_{0_2},\lambda_{c_2},w_2) + Polynomial(\lambda;a_0)
 ```
 
-for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1…3)` is  {math}`(I_{0_1},\lambda_{p_1},w_1)`, `(x,y,t,4..6)` is {math}`(I_{0_2},\lambda_{p_2},w_2)`, `(x,y,t,7)` is {math}`a_0`, and `(x,y,t,8)` is the {math}`\chi^2` value from the fit.
+for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1…3)`) is  {math}`(I_{0_1},\lambda_{c_1},w_1)`, `(x,y,t,4..6)` is {math}`(I_{0_2},\lambda_{c_2},w_2)`, `(x,y,t,7)` is {math}`a_0`, and `(x,y,t,8)` is the {math}`\chi^2` value from the fit.
 
 Generally, for _n_ Gaussians and a constant background, the size of the parameter dimension would be 3n+1+1. For n Gaussians and a linear background, the size would be 3n+2+1 because the last component would be {math}`Polynomial(\lambda;a_0,a_1) = a_0 + a_1\lambda`. Additional components may be defined, e.g., Voigt profiles and instrument-specific components (broadened Gauss profiles for SOHO/CDS).
 
@@ -52,7 +52,7 @@ where {math}`f_n` are individual components, {math}`\mathbf{p_n}` are their para
 \chi^2 = \sum_\lambda W(\lambda) \cdot (y(\lambda) - F(\lambda; \mathbf{p}))^2
 ```
 
-where {math}`W(\lambda)` is the statistical weight of each pixel (typically {math}`1/\sigma^2` ) and {math}`y(\lambda)` is the original data. The bold font for {math}`\mathbf{p}` and {math}`\mathbf{p_n}` indicates vectors of parameters, distinguishing them from individual parameters in non-bold font.
+where {math}`W(\lambda)` is the statistical weight of each pixel (typically {math}`1/\sigma^2` ) and {math}`y(\lambda)` is the original data. The bold font for {math}`\mathbf{p}` and {math}`\mathbf{p_n}` indicates vectors of/multiple parameters, distinguishing them from individual parameters in non-bold font.
 
 To ensure that the result of the analysis can be interpreted correctly, the full definition of {math}`F(\lambda;\mathbf{p})` and its parameters must be specified in the header of the extension containing the result, using the following keywords:
 
