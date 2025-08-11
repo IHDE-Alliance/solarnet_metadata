@@ -173,6 +173,7 @@
 `RSUN_ARC`,O,Solar angular radius
 `RSUN_REF`,P,Solar radius. [m] Solar rad. used for calc. px scale
 `SETTINGS`,N,Settings
+`SIGMADAT`,N,"specifies the standard deviation values of the data as a formula, a lookup table, or as an extension with explicit values"
 `SLIT_WID`,N,Slit width
 `SOLARNET`,N,specifies if an Obs-HDU is fully (1.0) or partially compliant (0.5)
 `SOLAR_B0`,O,Observer latitude
@@ -212,7 +213,6 @@
 `WCSAXES`,P,WCS axes
 `WCSNAMEa`,P,WCS name
 `WCSNn`,P,WCS name
-`WGTEXT`,N,extension weights
 `XDIMENm`,N,Dimension number
 `XNAXIS`,N,Number of axes in external extension
 `XNAXISn`,N,Number of elements along axis in external extension
