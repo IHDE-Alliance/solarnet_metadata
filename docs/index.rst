@@ -92,6 +92,13 @@ API Guide
 
    api
 
+Citation and Acknowledgements
+-----------------------------
+.. toctree::
+   :maxdepth: 0
+
+   citation
+
 References
 ----------
 .. toctree::
