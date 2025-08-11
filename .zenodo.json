@@ -13,6 +13,26 @@
             "orcid": "0000-0002-8673-3920"
         }
     ],
+    "contributors": [
+        {
+            "name": "Löfdahl, Mats G.",
+            "affiliation": "Institute for Solar Physics, Stockholm University",
+            "orcid": "0000-0002-2472-5677",
+            "type": "ProjectMember"
+        },
+        {
+            "name": "Steven Christe",
+            "affiliation": "NASA Goddard Space Flight Center",
+            "orcid": "0000-0001-6127-795X",
+            "type": "ProjectMember"
+        },
+        {
+            "name": "Andrew Robbertz",
+            "affiliation": "NASA Goddard Space Flight Center",
+            "orcid": "0009-0008-6857-0882",
+            "type": "ProjectMember"
+        }
+    ],
     "license": "CC-BY-4.0",
     "keywords": [
         "SOLARNET",

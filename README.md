@@ -7,11 +7,12 @@ Until the advent of the SOLARNET recommendations, metadata descriptions of Solar
 
 The original development of this work received funding from the European Union’s Horizon 2020 and FP7 programmes under grant agreements No 824135 and 31295. Version 2.0 of this document was the final version produced under these grants.
 
-Past versions (<=2.2) before migrating to this repository can be found 
-* [https://arxiv.org/pdf/2011.12139](https://arxiv.org/pdf/2011.12139)
-* [https://sdc.uio.no/open/solarnet/](https://sdc.uio.no/open/solarnet/)
-
 The latest rendered documentation can be found on [readthedocs](http://solarnet-metadata.rtfd.io/).
+
+## Acknowledging or Citing The SOLARNET Metadata Recommendations
+
+If you use the SOLARNET Metadata Recommendations in your scientific work, we would appreciate your [citing it in your publications](http://solarnet-metadata.readthedocs.io/en/latest/citation.html).
+The continued growth and development of the SOLARNET Metadata Recommendations is dependent on the community being aware of them.
 
 ## Building the Documentation Locally
 
