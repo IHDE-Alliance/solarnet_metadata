@@ -201,7 +201,7 @@ In order to provide a simple way to determine the combined binning factor (for a
 
 Cadence may be a very important search term. A meta-Obs-HDU may be used to report such attributes even if it is impossible to do so in the constituent HDUs ([Appendix III](#appendix-iii)).
 
-The planned/commanded cadence (frame-to-frame spacing measured in seconds) should be reported in `CADENCE`. The average (actual) cadence should be reported in `CADAVG`.
+The planned/commanded cadence (frame-to-frame timing between frames of the same type measured in seconds) should be reported in `CADENCE`. The average (actual) cadence should be reported in `CADAVG`.
 
 The cadence _regularity_ is also important: The keywords `CADMAX` and `CADMIN` should be set to the maximum and minimum frame-to-frame spacing. `CADVAR` should be set to the variance of the frame-to-frame spacings.
 
