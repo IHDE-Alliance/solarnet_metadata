@@ -22,6 +22,7 @@
 `CDELTia`,P,Coordinate scale increment
 `CDi_ja`,P,Linear-transformation matrix element
 `CHECKSUM`,P,Checksum
+`CHISQAVG`,N,Average chi-square in Level P data
 `CMPDESn`,N,Description of component n for Type P data
 `CMPINCn`,N,Component inclusion
 `CMPMULn`,N,Component type
