@@ -142,7 +142,7 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 <span class=new>`SIGMADAT`: Specification of the standard deviation {math}`\sigma` of the data used in the fitting process, given as a formula, a curve, or a pixel-by-pixel specification, see [5.5 Quality aspects](#5.5). When used in a Level P extension, the occurrence of `data` in a formula refers to the data cube in the `DATAEXT`. Keywords used in the formula that are not specified in the Level P extension should be taken from the header of the `DATAEXT` (note that they may be variable keywords). If `SIGMADAT` is not present, {math}`\sigma` is constant across all pixels. The value of `SIGMADAT` in a Level P data extension takes precedence over any occurrence in the `DATAEXT` extension.</span>
 
-<span class=new>CHISQAVG`: Specification of the average {math}`\chi^2` value of the fit. A higher than usual value would be a good indicator that something has gone systematically wrong (not just at single points)</span>
+<span class=new>`CHISQAVG`: Specification of the average {math}`\chi^2` value of the fit. A higher than usual value would be a good indicator that something has gone systematically wrong (not just at single points)</span>
 
 To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
