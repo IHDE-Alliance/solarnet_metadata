@@ -158,7 +158,7 @@ To allow manual inspection, verification, and modification of the analysis resul
 
 `INCLEXT`: Component inclusion mask (`[x,y,t,n]`). If `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. If `(x,y,t,n)=1`, the component has been included in the fit. When the extension is not present, it is assumed that all components have been included at all times. <span class=new>As for `CONSTEXT`, `INCLEXT` may be defined through the pixel list mechanism ([Appendix II](#appendix-ii)); if the list contains `(x,y,t,n)` then component `n` has *not* been included for point `(x,y,t,*)`. Where a component is not included, its parameter values should be set to `NaN`.</span>
 
-In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Type P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU``=2` as these are also “type P data"). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
+In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Type P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU``=2` as these are also “Type P data"). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
 
 For these auxiliary extensions, it may be worth considering the “external extensions” mechanism, see [Appendix VII](#appendix-vii).
 
