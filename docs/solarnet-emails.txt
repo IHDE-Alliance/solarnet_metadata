@@ -1,0 +1,119 @@
+perl -pe 's/^.*:.*//; s/^\s*$//; s/\s.*\n/\n/;' solarnet-emails.txt >solarnet-only-addresses.txt
+
+KIS:
+cale@leibniz-kis.de				Peter Caligari 
+nbello@leibniz-kis.de				Nazaret Bello Gonzalez
+rolf.schlichenmaier@leibniz-kis.de		Rolf Schlichenmaier
+schaffer@leibniz-kis.de				Carl Schaffer
+steiner@leibniz-kis.de                          Oskar Steiner
+vigeesh@leibniz-kis.de				Vigeesh Gangadharan   
+schmassmann@leibniz-kis.de			Markus Schmassmann
+
+IAC:
+bgelly@themis.iac.es				Bernard Gelly
+mcv@iac.es					Manuel Collados
+dr16.cellule.contrats@cnrs.fr
+jorge.quintero.nehrkorn@iac.es			Jorge Quintero
+khomenko.iac@gmail.com				Elena Khomenko
+ckuckein.iac@gmail.com				Christoph Kuckein
+
+SU:
+dan@astro.su.se					Dan Kiselman
+hillberg@astro.su.se				Thomas Hillberg
+mats@astro.su.se				Mats Löfdahl
+jorrit.leenaarts@astro.su.se                    Jorrit Leenaarts
+sanja.danilovic@astro.su.se			Sanja Danilovic
+oleksii.andriienko@astro.su.se                  Oleksii Andriienko
+jaime@astro.su.se				Jaime de la Cruz Rodriguez
+
+INAF:
+ilaria.ermolli@oa-roma.inaf.it			Ilaria Ermolli
+knapic@oats.inaf.it				Cristina Knapic
+marassi@oats.inaf.it				Alessandro Marassi
+gianna.cauzzi@inaf.it				Gianna Cauzzi
+marco.molinaro@inaf.it				Marco Molinaro
+
+AIP:
+cdenker@aip.de					Carsten Denker
+mverma@aip.de					Meetu Verma
+
+UCL:
+b.bentley@ucl.ac.uk				Bob Bentley
+k.benson@ucl.ac.uk				Kevin Benson
+sarah.matthews@ucl.ac.uk			Sarah Matthews
+
+QUB:
+p.keys@qub.ac.uk				Peter Keys
+
+MPG:
+solanki@mps.mpg.de				Sami Solanki
+
+USFD:
+robertus@sheffield.ac.uk			Robertus Erdelyi
+m.druett@sheffield.ac.uk                        Malcolm Druett
+
+
+USI/IRSOL:
+martina.pestoni@usi.ch				Martina Pestoni
+michele.delorenzi@cscs.ch      			Michele De Lorenzi
+rolf.krause@usi.ch				Rolf Krause
+
+ASU:
+michal.sobotka@asu.cas.cz			Michal Sobotka
+
+ORB:
+benjamin.mampaey@oma.be				Benjamin Mampaey
+robbev@oma.be					Robbe Vansintjan
+v.delouille@oma.be				Veronique Delouille
+
+HVAR:
+jcalogovic@geof.hr				Jasa Calogovic
+roman.brajsa@geof.hr				Roman Brajsa
+ivica.skokic@geof.hr				Ivica Skokic
+ivica.skokic@gmail.com                          Ivica Skokic
+
+AISAS:
+gomory@astro.sk					Peter Gomory
+rybak@astro.sk					Jan Rybak
+trembac@astro.sk                                
+schwartz@astro.sk                               
+
+UNITOV / UNICT:
+dario.delmoro@roma2.infn.it			Dario Del Moro
+francesca.zuccarello@ct.infn.it			Francesca Zuccarello
+luca.giovannelli@roma2.infn.it			Luca Giovannelli
+
+UNI GRAZ:
+wolfgang.hirtenfellner-polanec@uni-graz.at	Wolfgang Hirtenfellner-Polanec
+
+USA:
+adavey@nso.edu					Alisdair Davey
+kreardon@nso.edu				Kevin Reardon
+william.t.thompson@nasa.gov			Bill Thompson
+joeh@virtualsolar.org				Joe Hourcle
+therese.a.kucera@nasa.gov                       Terry Kucera
+a.robbertz@gmail.com                            Andrew Robbertz
+Andrew.Robbertz@gd-ms.com                       Andrew Robbertz
+jack.ireland-1@nasa.gov                         Jack Ireland
+steven.d.christe@nasa.gov                       Steven Christe
+
+UIO:
+terje.fredvik@astro.uio.no			Terje Fredvik
+mats.carlsson@astro.uio.no			Mats Carlsson
+s.v.h.haugan@astro.uio.no			Stein Haugan
+martin.wiesmann@astro.uio.no                    Martin Wiesmann
+v.m.de.j.henriques@astro.uio.no                 Vasco Manuel de Jorge Henriques
+sven.wedemeyer@astro.uio.no                     Sven Wedemeyer-Bohm
+carlos.diaz@astro.uio.no			Carlos Díaz
+prits-group@astro.uio.no                        Project Related IT Services @ UiO
+
+SPICE:
+frederic.auchere@universite-paris-saclay.fr     Frédéric Auchere
+eric.buchlin@cnrs.fr                            Eric Buchlin
+stephane.caminade@cnrs.fr                       Stephane Caminade
+david.picard@u-psud.fr                          David Picard
+julia.faurie@cnrs.fr                            Julia Faurie
+
+
+MISC:
+lyndsay.fletcher@glasgow.ac.uk			Lyndsay Fletcher
