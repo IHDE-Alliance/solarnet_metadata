@@ -7,7 +7,7 @@
 `BNAME`,N,a human readable explanation of the data contents
 `BNDCTR`,N,For radio observations may be used instead of WAVELNTH to specify a corresponding frequency in Hz
 `BTYPE`,N,describe what the data cube itself represents
-`BSCALE`,,Linear scaling factor
+`BSCALE`,S,Linear scaling factor
 `BUNIT`,S,Units
 `BZERO`,S,Scale Base
 `CADAVG`,N,[s] Average actual cadence. the average frame-to-frame spacing in seconds
@@ -78,8 +78,9 @@
 `DWia`,N,Distortion correction
 `ELEV_ANG`,N,[deg] Telescope elevation angle
 `EXTNAME`,S,Extension name
-`EXTVER`,,Extension version
-`EXTLEVEL`,,Extension level
+`EXT_EXT`,N,Identifier for external extension placeholder extensions
+`EXTVER`,S,Extension version
+`EXTLEVEL`,S,Extension level
 `FILENAME`,P,Filename
 `FILEVERP`,N,File Version Pattern
 `FILTER`,O,Filters
@@ -183,7 +184,7 @@
 `SOLNETEX`,N,SOLARNET exceptions
 `SPECSYS`,P,Spectral reference frame
 `SVO_GRP`,N,SVO Group
-`SVO_SEPn`,,Separation keywords
+`SVO_SEPn`,N,Separation keywords
 `TCTYPn`,P,Table column type
 `TDESCn`,N,Table column description
 `TDIMn`,S,Table column dimensions
@@ -198,7 +199,7 @@
 `TTYPEn`,S,Table column name
 `TVARKn`,N,Var keys
 `TZEROn`,S,Zero point
-`UCD`,,Unified Content Descriptor
+`UCD`,N,Unified Content Descriptor
 `VAR_KEYS`,N,Variance keys
 `VELOSYS`,P,Velocity system
 `VERSION`,N,Processed version
