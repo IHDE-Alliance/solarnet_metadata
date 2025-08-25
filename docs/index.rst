@@ -60,6 +60,20 @@ Part C. Part C. Alphabetical listings of FITS keywords with section references
 
    generated/partc
 
+Version Guidelines
+------------------
+.. toctree::
+   :maxdepth: 0
+
+   version_guidelines
+
+Citation and Acknowledgements
+-----------------------------
+.. toctree::
+   :maxdepth: 0
+
+   citation
+
 References
 ----------
 .. toctree::
