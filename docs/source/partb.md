@@ -329,7 +329,7 @@ RESOLVPW= 6530 / Resolving power of spectrograph
 FT_LOCK = 1 / Feature tracking on
 ROT_COMP= 1 / Solar rotation compensation on (1)/off (0)
 ROT_MODL= 'SNODGRASS' / Model used for rotation compensation
-ROT_FORM= 'A+B*sin^2(phi)+C*sin^4(phi)' / [deg/day] Snodgrass, [doi](https://en.wikipedia.org/wiki/Doi_%28identifier%29):[10.1086/168467](https://doi.org/10.1086%2F168467)
+ROT_FORM= 'A+B*sin^2(phi)+C*sin^4(phi)' / Snodgrass & Ulrich 1990
 AO_LOCK = 0.9 / Adaptive optics status, 0.0=no lock, 1.0=lock
 AO_NMODE= 2 / Type of modes: Zernike, Karhunen-Loeve
 ```
