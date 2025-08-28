@@ -140,7 +140,7 @@ During the fitting process, one or more data coordinates/dimensions may be absor
 
 `XTYPEm`: <span class=new>The `CTYPE` of the m<sup>th</sup> coordinate(s) that was absorbed/removed during the fitting process (typically `XTYPE1``='WAVE'` for a disappearing {math}`\lambda` coordinate).</span>
 
-`XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of the dimension(s) that were absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
+`XDIMENm`: <span class=new>The dimension number of the m<sup>th</sup> absorbed dimension, counting left to right starting with 1. For SPICE Level 3 P files `XDIMEN1``=3`.</span>
 
 <span class=new>`SIGMADAT`: Specification of the standard deviation {math}`\sigma` of the data used in the fitting process, given as a formula, a curve, or a pixel-by-pixel specification, see [5.5 Quality aspects](#5.5). When used in a Level P extension, the occurrence of `data` in a formula refers to the data cube in the `DATAEXT`. Keywords used in the formula that are not specified in the Level P extension should be taken from the header of the `DATAEXT` (note that they may be variable keywords). If `SIGMADAT` is not present, {math}`\sigma` is constant across all pixels. The value of `SIGMADAT` in a Level P data extension takes precedence over any occurrence in the `DATAEXT` extension.</span>
 
