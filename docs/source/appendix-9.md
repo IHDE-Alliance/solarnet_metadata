@@ -136,9 +136,11 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 **Optional functional keywords for the analysis as a whole**
 
+During the fitting process, one or more data coordinates/dimensions may be absorbed/removed and will not appear in the result extension. In the example above, the {math}`\lambda` coordinate and the corresponding dimension is absorbed. The following keywords describe the absorbed/removed coordinates/dimensions. Note that `m` does not refer to the coordinate number, it is just a counter starting with 1 for the first absorbed/removed coordinate or dimension, 2 for the second, etc. In the example above, there is only one absorbed/removed coordinate and dimension, so only `m=1` is used. Note also that in FITS, *there is no automatic correspondence between coordinates and dimensions* (if the `PCi_j` matrix is not diagonal), so the keywords below refer to coordinates and dimensions separately. In theory, a coordinate may disappear while no dimension disappears, or vice versa.
+
 `XTYPEm`: <span class=new>The `CTYPE` of the m<sup>th</sup> coordinate(s) that was absorbed/removed during the fitting process (typically `XTYPE1``='WAVE'` for a disappearing {math}`\lambda` coordinate).</span>
 
-`XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of dimensions that was absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
+`XDIMENm`: <span class=new>The dimension number of the m<sup>th</sup> absorbed dimension, counting left to right starting with 1. For SPICE Level 3 P files `XDIMEN1``=3`.</span>
 
 <span class=new>`SIGMADAT`: Specification of the standard deviation {math}`\sigma` of the data used in the fitting process, given as a formula, a curve, or a pixel-by-pixel specification, see [5.5 Quality aspects](#5.5). When used in a Level P extension, the occurrence of `data` in a formula refers to the data cube in the `DATAEXT`. Keywords used in the formula that are not specified in the Level P extension should be taken from the header of the `DATAEXT` (note that they may be variable keywords). If `SIGMADAT` is not present, {math}`\sigma` is constant across all pixels. The value of `SIGMADAT` in a Level P data extension takes precedence over any occurrence in the `DATAEXT` extension.</span>
 
