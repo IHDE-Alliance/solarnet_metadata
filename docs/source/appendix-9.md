@@ -138,7 +138,7 @@ During the fitting process, one or more coordinates/dimensions may be absorbed/r
 
 `XTYPEm`: <span class=new>The `CTYPE` of the m<sup>th</sup> coordinate(s) that was absorbed/removed during the fitting process (typically `XTYPE1``='WAVE'` for a disappearing {math}`\lambda` coordinate).</span>
 
-`XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of the dimension(s) that was absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
+`XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of the dimension(s) that were absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
 
 To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
