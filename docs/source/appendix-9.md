@@ -134,9 +134,11 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 **Optional functional keywords for the analysis as a whole**
 
+During the fitting process, one or more coordinates/dimensions may be absorbed/removed. In the example above, the {math}`\lambda` coordinate and the corresponding dimension is absorbed. The following keywords describe the absorbed/removed coordinates/dimensions. Note that `m` does not refer to the coordinate number, it is just a counter starting with 1 for the first absorbed/removed coordinate/dimension, 2 for the second, etc. In the example above, there is only one absorbed/removed coordinate/dimension, so only `m=1` is used.
+
 `XTYPEm`: <span class=new>The `CTYPE` of the m<sup>th</sup> coordinate(s) that was absorbed/removed during the fitting process (typically `XTYPE1``='WAVE'` for a disappearing {math}`\lambda` coordinate).</span>
 
-`XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of dimensions that was absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
+`XDIMENm`: <span class=new>The dimension number(s), counting left to right starting with 1, of the dimension(s) that was absorbed/removed during the fitting process (for SPICE Level 3 P files `XDIMEN1``=3`).</span>
 
 To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
