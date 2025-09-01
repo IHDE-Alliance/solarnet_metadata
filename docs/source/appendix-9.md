@@ -31,7 +31,7 @@ For readout windows with multiple significant emission lines, multiple Gaussians
 F(\lambda;I_1,v_1,w_1,I_2,v_2, w_2, a)=Gaussian(\lambda;I_1,v_1,w_1) + Gaussian(\lambda;I_2,v_2,w_2) + Polynomial(\lambda;a)
 ```
 
-for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1..3)`) is  {math}`(I_1,v_1,w_1)`, `(x,y,t,4..6)` is {math}`(I_2,v_2,w_2`, `(x,y,t,7)` is {math}`a`, and `(x,y,t,8)` is the reduced {math}`\chi^2` value from the fit.
+for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1..3)`) is  {math}`(I_1,v_1,w_1)`, `(x,y,t,4..6)` is {math}`(I_2,v_2,w_2`), `(x,y,t,7)` is {math}`a`, and `(x,y,t,8)` is the reduced {math}`\chi^2` value from the fit.
 
 Generally, for _n_ Gaussians and a constant background, the size of the parameter dimension would be 3n+1+1. For n Gaussians and a linear background, the size would be 3n+2+1 because the last component would be {math}`Polynomial(\lambda;a,b) = a + b\lambda`. Additional components may be defined, e.g., Voigt profiles,  instrument-specific components (broadened Gauss profiles for SOHO/CDS), or linked Gaussians (with a fixed {math}`\Delta\lambda`). Other components may be multiplicative, e.g., extinction functions.
 
@@ -64,7 +64,7 @@ To ensure that the result of the analysis can be interpreted correctly, the full
 
 `ANA_NCMP` must be set to the number of components used in the analysis.
 
-The `CTYPEi` of the parameter dimension must be `'PARAMETER'`. Note that the Meta-HDU mechanism ([Appendix III](#appendix-iii)) may be used to split Level P data over multiple files along this dimension, so e.g., parameters from each component are stored in separate files. In such cases, all HDUs should contain a full complement of all keywords defined here (including those describing components whose parameters are not present in the file).
+The `CTYPEi` of the parameter dimension must be `'PARAMETER'`, and the coordinate value must match the parameter number. Note that the Meta-HDU mechanism ([Appendix III](#appendix-iii)) may be used to split Level P data over multiple files along this dimension, so e.g., parameters from each component are stored in separate files. In such cases, all HDUs should contain a full complement of all keywords defined here (including those describing components whose parameters are not present in the file), and `CRPIXn` should be modified such that the `PARAMETER` coordinate is identical to what it would be if the data were stored in a single file.
 
 **Mandatory keywords describing each component**
 
@@ -142,7 +142,7 @@ During the fitting process, one or more data coordinates/dimensions may be absor
 
 `XDIMENm`: <span class=new>The dimension number of the m<sup>th</sup> absorbed dimension, counting left to right starting with 1. For SPICE Level 3 P files `XDIMEN1``=3`.</span>
 
-<span class=new>`SIGMADAT`: Specification of the standard deviation {math}`\sigma` of the data used in the fitting process, given as a formula, a curve, or a pixel-by-pixel specification, see [5.5 Quality aspects](#5.5). When used in a Level P extension, the occurrence of `data` in a formula refers to the data cube in the `DATAEXT`. Keywords used in the formula that are not specified in the Level P extension should be taken from the header of the `DATAEXT` (note that they may be variable keywords). If `SIGMADAT` is not present, {math}`\sigma` is constant across all pixels. The value of `SIGMADAT` in a Level P data extension takes precedence over any occurrence in the `DATAEXT` extension.</span>
+<span class=new>`SIGMADAT`: Specification of the standard deviation {math}`\sigma` of the data used in the fitting process, given as a formula, a curve, or a pixel-by-pixel specification, see [5.5 Quality aspects](#5.5). When used in a Level P extension, the occurrence of `data` in a formula refers to the data cube in the `DATAEXT`. Keywords used in the formula that are not specified in the Level P extension should be taken from the header of the `DATAEXT` (note that they may be variable keywords). If `SIGMADAT` is not present (in neither the Level P extension nor the `DATAEXT` extension), {math}`\sigma` is assumed to be constant across all pixels. The value of `SIGMADAT` in a Level P data extension takes precedence over any occurrence in the `DATAEXT` extension.</span>
 
 <span class=new>`CHISQAVG`: Specification of the average *reduced* {math}`\chi^2` value of the fit. A higher than usual value would be a good indicator that something has gone systematically wrong (not just at single points). If the fitted model is correct and the error estimates (`SIGMADAT`) are correct, the average reduced {math}`\chi^2` should be close to 1.</span>
 
