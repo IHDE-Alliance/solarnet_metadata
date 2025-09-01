@@ -10,30 +10,30 @@ One common type of higher-level data are results from analysing lower-level data
 
 Below we describe a recommended scheme for storing such results, comprehensive enough to store any data resulting from fitting of additive and multiplicative parameterized components. The scheme allows for later manual inspection, verification, and (if desirable) modification of the results. We will refer to files using this scheme as “(SOLARNET) Level P”. We suggest that “P” is used as a suffix to the relevant data level number for such data. E.g., Solar Orbiter SPICE files using this scheme are referred to as SPICE Level 3P. _These files should be considered as a reference implementation of this recommendation_ and will be used as an example below. Below we use dimensions `[x,y,lambda,t]` simply as an example, since those are the dimensions used in SPICE Level 3P FITS files.
 
-For a typical SPICE Level 2 data cube with dimensions `[x,y,lambda,t] = [400,400,32,100]`, fitting of a single Gaussian plus a zero-order polynomial is made for every `(x,y,t)` position. The final result is a data cube `[x,y,t,p] = [400,400,100,5]` where
+For a typical SPICE Level 2 data cube with dimensions `[x,y,lambda,t] = [400,400,32,100]`, fitting of a single Gaussian (with a specified rest wavelength) plus a zero-order polynomial is made for every `(x,y,t)` position. The final result is a data cube `[x,y,t,p] = [400,400,100,5]` where
 
-- `(x,y,t,1)` is the fitted line peak intensity, {math}`I_0`
-- `(x,y,t,2)` is the fitted line center {math}`\lambda_c`
+- `(x,y,t,1)` is the fitted line peak intensity, {math}`I`
+- `(x,y,t,2)` is the fitted line velocity {math}`v`
 - `(x,y,t,3)` is the fitted line width {math}`w`
-- `(x,y,t,4)` is the fitted constant background {math}`a_0` (in a zeroth-order polynomial)
+- `(x,y,t,4)` is the fitted constant background {math}`a` (in a zeroth-order polynomial)
 - `(x,y,t,5)` is the *reduced* {math}`\chi^2` value from the fit
 
-Thus, such SPICE Level 3P data are the best fitting parameters {math}`(\lambda;I_0,\lambda_c,w,a_0)` for the function:
+Thus, such SPICE Level 3P data are the best fitting parameters {math}`(\lambda;I,v,w,a)` for the function:
 
 ```{math}
-F(\lambda;I_0,\lambda_p,w,a_0)=Gaussian(\lambda;I_0,\lambda_c,w) + Polynomial(\lambda;a_0)
+F(\lambda;I,v,w,a)=Gaussian(\lambda;I,v,w) + Polynomial(\lambda;a)
 ```
 for each point `(x,y,t)`.
 
-For readout windows with multiple significant emission lines, multiple Gaussians are used. When e.g., two Gaussians are used, the Level 3P data will be the best-fitting parameters {math}`(I_{0_1},\lambda_{c_1},w_1,I_{0_2},\lambda_{c_2}, w_2, a_0)` of the function:
+For readout windows with multiple significant emission lines, multiple Gaussians are used. When e.g., two Gaussians are used, the Level 3P data will be the best-fitting parameters {math}`(I_1,v_1,w_1,I_2,v_2, w_2, a)` of the function:
 
 ```{math}
-F(\lambda;I_{0_1},\lambda_{c_1},w_1,I_{0_2},\lambda_{c_2}, w_2, a_0)=Gaussian(\lambda;I_{0_1},\lambda_{c_1},w_1) + Gaussian(\lambda;I_{0_2},\lambda_{c_2},w_2) + Polynomial(\lambda;a_0)
+F(\lambda;I_1,v_1,w_1,I_2,v_2, w_2, a)=Gaussian(\lambda;I_1,v_1,w_1) + Gaussian(\lambda;I_2,v_2,w_2) + Polynomial(\lambda;a)
 ```
 
-for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1..3)`) is  {math}`(I_{0_1},\lambda_{c_1},w_1)`, `(x,y,t,4..6)` is {math}`(I_{0_2},\lambda_{c_2},w_2)`, `(x,y,t,7)` is {math}`a_0`, and `(x,y,t,8)` is the reduced {math}`\chi^2` value from the fit.
+for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1..3)`) is  {math}`(I_1,v_1,w_1)`, `(x,y,t,4..6)` is {math}`(I_2,v_2,w_2`, `(x,y,t,7)` is {math}`a`, and `(x,y,t,8)` is the reduced {math}`\chi^2` value from the fit.
 
-Generally, for _n_ Gaussians and a constant background, the size of the parameter dimension would be 3n+1+1. For n Gaussians and a linear background, the size would be 3n+2+1 because the last component would be {math}`Polynomial(\lambda;a_0,a_1) = a_0 + a_1\lambda`. Additional components may be defined, e.g., Voigt profiles and instrument-specific components (broadened Gauss profiles for SOHO/CDS).
+Generally, for _n_ Gaussians and a constant background, the size of the parameter dimension would be 3n+1+1. For n Gaussians and a linear background, the size would be 3n+2+1 because the last component would be {math}`Polynomial(\lambda;a,b) = a + b\lambda`. Additional components may be defined, e.g., Voigt profiles,  instrument-specific components (broadened Gauss profiles for SOHO/CDS), or linked Gaussians (with a fixed {math}`\Delta\lambda`). Other components may be multiplicative, e.g., extinction functions.
 
 Since the lambda coordinates for `(x,y,*,t)` are passed to the fitting function together with the corresponding data points, we refer to the lambda dimension as a “fitting dimension”, whereas dimensions `x`, `y`, and `t` are referred to as “result dimensions”. In principle, both the fitting dimensions and the result dimensions may be entirely different and in a completely different order for other types of data (e.g., a `STOKES` dimension may be included).
 
