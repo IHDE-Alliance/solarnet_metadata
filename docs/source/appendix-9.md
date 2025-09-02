@@ -18,7 +18,7 @@ For a typical SPICE Level 2 data cube with dimensions `[x,y,lambda,t] = [400,400
 - `(x,y,t,4)` is the fitted constant background {math}`a` (in a zeroth-order polynomial)
 - `(x,y,t,5)` is the *reduced* {math}`\chi^2` value from the fit
 
-Thus, such SPICE Level 3P data are the best fitting parameters {math}`(\lambda;I,v,w,a)` for the function:
+Thus, such SPICE Level 3P data are the best fitting parameters {math}`(I,v,w,a)` for the function:
 
 ```{math}
 F(\lambda;I,v,w,a)=Gaussian(\lambda;I,v,w) + Polynomial(\lambda;a)
