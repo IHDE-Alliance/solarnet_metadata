@@ -183,6 +183,12 @@ attribute_key:
     description: Checksum of the data array
     human_readable: Checksum
     required: obs # Mandatory general keywords (sections 15.1, 8, 9, Appendix V-a)
+  CHISQAVG:
+    data_type: float
+    default: null
+    description: Average value of reduced chi-squared over all pixels in the data cube. This is a measure of the goodness of fit, and should ideally be close to 1.0.
+    human_readable: Average reduced chi-squared
+    required: optional # Optional for Type P data
   CMPDESn:
     data_type: str
     default: null
@@ -539,12 +545,30 @@ attribute_key:
     description: The EXTEND keyword is used to indicate that the file contains one or more extensions. The value of EXTEND must be set to 'T' (true) if the file contains one or more extensions, and 'F' (false) if it does not. The default value of EXTEND is 'T'.
     human_readable: File contains extensions
     required: primary
+  EXTLEVEL:
+    data_type: int
+    default: null
+    description: Level of extension, starting with 1 for the first extension after the primary HDU, 2 for the second extension, etc.
+    human_readable: Extension level
+    required: optional # Optional generaral FITS standard keyword
   EXTNAME:
     data_type: str
     default: null
     description: All HDUs - including the primary HDU - in SOLARNET FITS files must contain the string-valued keyword EXTNAME, and each EXTNAME value must be unique within the file. EXTNAME must not contain the characters comma or semicolon except as prescribed for the variable-keyword mechanism, the pixel list mechanism and the meta-observation mechanism. In addition, EXTNAME must not start with a space, but any trailing spaces are ignored. Finally, the CONTINUE Long String Keyword Convention must not be used with EXTNAME, since this is a reserved keyword defined in the FITS standard.
     human_readable: Extension name
-    required: obs 
+    required: obs
+  EXTVER:
+    data_type: int
+    default: null
+    description: Version of the extension, starting with 1 for the first version of a given extension type, 2 for the second version, etc.
+    human_readable: Extension version
+    required: optional # Optional generaral FITS standard keyword
+  EXT_EXT:
+    data_type: str
+    default: null
+    description: External extension placeholder extension path and name. 
+    human_readable: External extension placeholder
+    required: optional # Optional Appendix VII
   FILENAME:
     data_type: str
     default: null
@@ -1152,6 +1176,12 @@ attribute_key:
     description: Additional instrument/acquisition settings
     human_readable: Settings
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
+  SIGMADAT:
+    data_type: float
+    default: null
+    description: standard deviation values of the data as a formula, a lookup table, or as an extension with explicit values
+    human_readable: Data standard deviation
+    required: optional # Optional keywords for the analysis as a whole
   SIMPLE:
     data_type: str
     default: T
@@ -1423,12 +1453,6 @@ attribute_key:
     default: null
     description: WCS name for axis n
     human_readable: WCS name
-    required: optional
-  WGTEXT:
-    data_type: str
-    default: null
-    description: data weights w used during fitting ([x,y,lambda,t]). When not present, all data points are assumed to have equal weight.
-    human_readable: extension weights
     required: optional
   XDIMENm:
     data_type: int
