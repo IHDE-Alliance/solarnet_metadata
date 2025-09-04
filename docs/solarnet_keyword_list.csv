@@ -7,7 +7,7 @@
 `BNAME`,N,a human readable explanation of the data contents
 `BNDCTR`,N,For radio observations may be used instead of WAVELNTH to specify a corresponding frequency in Hz
 `BTYPE`,N,describe what the data cube itself represents
-`BSCALE`,,Linear scaling factor
+`BSCALE`,S,Linear scaling factor
 `BUNIT`,S,Units
 `BZERO`,S,Scale Base
 `CADAVG`,N,[s] Average actual cadence. the average frame-to-frame spacing in seconds
@@ -22,7 +22,8 @@
 `CDELTia`,P,Coordinate scale increment
 `CDi_ja`,P,Linear-transformation matrix element
 `CHECKSUM`,P,Checksum
-`CMPDESn`,N,Description of component n for Type P data
+`CHISQAVG`,N,Average reduced chi-square in Level P data
+`CMPDESn`,N,Description of component n for Level P data
 `CMPINCn`,N,Component inclusion
 `CMPMULn`,N,Component type
 `CMPNAMn`,N,Component name
@@ -77,8 +78,9 @@
 `DWia`,N,Distortion correction
 `ELEV_ANG`,N,[deg] Telescope elevation angle
 `EXTNAME`,S,Extension name
-`EXTVER`,,Extension version
-`EXTLEVEL`,,Extension level
+`EXT_EXT`,N,Identifier for external extension placeholder extensions
+`EXTVER`,S,Extension version
+`EXTLEVEL`,S,Extension level
 `FILENAME`,P,Filename
 `FILEVERP`,N,File Version Pattern
 `FILTER`,O,Filters
@@ -173,6 +175,7 @@
 `RSUN_ARC`,O,Solar angular radius
 `RSUN_REF`,P,Solar radius. [m] Solar rad. used for calc. px scale
 `SETTINGS`,N,Settings
+`SIGMADAT`,N,"specifies the standard deviation values of the data as a formula, a lookup table, or as an extension with explicit values"
 `SLIT_WID`,N,Slit width
 `SOLARNET`,N,specifies if an Obs-HDU is fully (1.0) or partially compliant (0.5)
 `SOLAR_B0`,O,Observer latitude
@@ -181,7 +184,7 @@
 `SOLNETEX`,N,SOLARNET exceptions
 `SPECSYS`,P,Spectral reference frame
 `SVO_GRP`,N,SVO Group
-`SVO_SEPn`,,Separation keywords
+`SVO_SEPn`,N,Separation keywords
 `TCTYPn`,P,Table column type
 `TDESCn`,N,Table column description
 `TDIMn`,S,Table column dimensions
@@ -196,7 +199,7 @@
 `TTYPEn`,S,Table column name
 `TVARKn`,N,Var keys
 `TZEROn`,S,Zero point
-`UCD`,,Unified Content Descriptor
+`UCD`,N,Unified Content Descriptor
 `VAR_KEYS`,N,Variance keys
 `VELOSYS`,P,Velocity system
 `VERSION`,N,Processed version
@@ -212,7 +215,6 @@
 `WCSAXES`,P,WCS axes
 `WCSNAMEa`,P,WCS name
 `WCSNn`,P,WCS name
-`WGTEXT`,N,extension weights
 `XDIMENm`,N,Dimension number
 `XNAXIS`,N,Number of axes in external extension
 `XNAXISn`,N,Number of elements along axis in external extension
