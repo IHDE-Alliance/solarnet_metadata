@@ -501,10 +501,11 @@ def test_validate_file(
 ):
     """Test the validate_file function with different file configurations."""
     # Create a temporary file
-    with tempfile.NamedTemporaryFile(suffix=".fits") as temp_file:
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_file = Path(temp_dir) / "test_file.fits"
         # Create a test FITS file
         filepath = create_test_fits_file(
-            primary_header, data_headers, filepath=temp_file.name
+            primary_header, data_headers, filepath=temp_file
         )
 
         # Unpack warning parameters
