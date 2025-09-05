@@ -3,6 +3,7 @@ This module provides schema metadata templates an information.
 
 """
 
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -12,6 +13,8 @@ import yaml
 
 import solarnet_metadata
 from solarnet_metadata.util import DATA_TYPE_MAP, KeywordRequirement
+
+logger = logging.getLogger(__name__)
 
 __all__ = ["SOLARNETSchema"]
 
@@ -156,8 +159,8 @@ class SOLARNETSchema:
                     self.get_comment(keyword),
                 )
             except Exception as e:
-                print(
-                    f"Warning: Could not cast default value for {keyword} to {info['data_type']} was value {info['default']} with type {type(info['default'])}: FULL EXCEPTION: {e}"
+                logger.warning(
+                    f"Could not cast default value for {keyword} to {info['data_type']} was value {info['default']} with type {type(info['default'])}: FULL EXCEPTION: {e}"
                 )
                 # If we can't cast it, just use the raw value
                 header[keyword] = (info["default"], self.get_comment(keyword))

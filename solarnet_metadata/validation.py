@@ -90,8 +90,8 @@ def validate_file(
             for finding in findings:
                 file_findings.append(f"Observation Header {i}: {finding}")
 
-        # Combine findings from both headers
-        return file_findings
+    # Combine findings from both headers
+    return file_findings
 
 
 def validate_header(
@@ -160,7 +160,6 @@ def validate_header(
                     res = re.fullmatch(pattern, header_key)
                     if res:
                         # There was a match!
-                        # print(f"Pattern match for {header_key} with pattern {pattern}")
                         found_match = True
                         break
                 if not found_match:
@@ -245,7 +244,7 @@ def check_obs_hdu(header: fits.Header, is_obs: bool = False) -> Tuple[bool, List
             is_obs = False
     elif "OBS_HDU" not in header and is_obs:
         logger.warning(
-            f"Keyword `OBS_HDU` is not present in the header, but `is_obs` given as True. Overriding `is_obs` to False. If this is not the desired behavior, please check the header `OBS_HDU`."
+            f"Keyword `OBS_HDU` is not present in the header, but `is_obs` given as True. Overriding `is_obs` to True. If this is not the desired behavior, please check the header `OBS_HDU`."
         )
         is_obs = True
     return is_obs, validation_findings
@@ -349,7 +348,7 @@ def validate_fits_keyword_value_comment(
                 )
 
     # Check for Valid Values in the Schema
-    attribute_key = schema.attribute_schema["attribute_key"]
+    attribute_key = schema.attribute_key
     if keyword in attribute_key:
         valid_values = attribute_key[keyword].get("valid_values", None)
         if valid_values and value not in valid_values:
@@ -390,11 +389,11 @@ def validate_fits_keyword_data_type(
     findings = []
 
     # Check if the keyword is in the schema
-    keyword_info = schema.attribute_schema["attribute_key"].get(keyword, None)
+    keyword_info = schema.attribute_key.get(keyword, None)
     if not keyword_info:
         # Search for Pattern Match in the Schema
         found_match = False
-        for _, info in schema.attribute_schema["attribute_key"].items():
+        for _, info in schema.attribute_key.items():
             if pattern := info.get("pattern", None):
                 res = re.fullmatch(pattern, keyword)
                 if res:
