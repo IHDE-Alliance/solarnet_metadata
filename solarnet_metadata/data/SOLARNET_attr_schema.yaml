@@ -94,7 +94,7 @@ attribute_key:
     required: obs # Mandatory data description keywords (sections 15.4, 5.1, 5.2, 5.6.2)
   BSCALE:
     data_type: float
-    default: 1.0
+    default: null
     description: The value of the pixel in the FITS file is given by BZERO + BSCALE * pixel value
     human_readable: Linear scaling factor
     required: optional
@@ -106,7 +106,7 @@ attribute_key:
     required: obs # Mandatory data description keywords (sections 15.4, 5.1, 5.2, 5.6.2)
   BZERO:
     data_type: float
-    default: 0.0
+    default: null
     description: The value of the pixel in the FITS file is given by BZERO + BSCALE * pixel value
     human_readable: Scale Base
     required: optional

@@ -1,8 +1,14 @@
+import logging
+import tempfile
+from pathlib import Path
+
 import pytest
 from astropy.io import fits
 
 from solarnet_metadata.schema import SOLARNETSchema
 from solarnet_metadata.validation import (
+    check_obs_hdu,
+    validate_file,
     validate_fits_keyword_data_type,
     validate_fits_keyword_value_comment,
     validate_header,
@@ -20,15 +26,27 @@ MOCK_SCHEMA = {
         "SOMESTR": {"required": "optional", "data_type": "str"},
         "SOMEBOOL": {"required": "optional", "data_type": "bool"},
         "SOMETYPE": {"required": "optional", "data_type": "unknown"},
+        "VALIDKEY": {
+            "required": "optional",
+            "data_type": "str",
+            "valid_values": ["A", "B", "C"],
+        },
+        "PATTERNn": {
+            "required": "all",
+            "data_type": "str",
+            "pattern": "PATTERN(?P<n>[1-9])",
+        },
+        "OBS_ATTR": {"required": "obs", "data_type": "str"},
     },
     "conditional_requirements": [],
 }
 
 
-# Helper function to create a SOLARNETSchema instance with mock schema
-def create_mock_schema():
+@pytest.fixture
+def mock_schema():
     schema = SOLARNETSchema()
     schema._attr_schema = MOCK_SCHEMA
+    schema._default_attributes = schema.load_default_attributes
     return schema
 
 
@@ -36,6 +54,108 @@ def create_mock_schema():
 class BadStr:
     def __str__(self):
         raise ValueError("Cannot cast to string")
+
+
+@pytest.fixture
+def header_without_obs_hdu():
+    """Create a FITS header without OBS_HDU keyword."""
+    header = fits.Header()
+    header["SIMPLE"] = True
+    header["NAXIS"] = 0
+    return header
+
+
+@pytest.fixture
+def header_with_obs_hdu_0():
+    """Create a FITS header with OBS_HDU=0."""
+    header = fits.Header()
+    header["SIMPLE"] = True
+    header["NAXIS"] = 0
+    header["OBS_HDU"] = 0
+    return header
+
+
+@pytest.fixture
+def header_with_obs_hdu_1():
+    """Create a FITS header with OBS_HDU=1."""
+    header = fits.Header()
+    header["SIMPLE"] = True
+    header["NAXIS"] = 0
+    header["OBS_HDU"] = 1
+    return header
+
+
+@pytest.fixture
+def header_with_invalid_obs_hdu():
+    """Create a FITS header with invalid OBS_HDU value."""
+    header = fits.Header()
+    header["SIMPLE"] = True
+    header["NAXIS"] = 0
+    header["OBS_HDU"] = 2  # Invalid value, should be 0 or 1
+    return header
+
+
+@pytest.mark.parametrize(
+    "header_fixture, is_obs_input, expected_is_obs, expected_findings, should_log",
+    [
+        # OBS_HDU not in header
+        ("header_without_obs_hdu", False, False, [], False),  # Default case
+        ("header_without_obs_hdu", True, True, [], True),  # Warning case
+        # OBS_HDU=0 in header
+        ("header_with_obs_hdu_0", False, False, [], False),  # Matching case
+        ("header_with_obs_hdu_0", True, False, [], True),  # Override case
+        # OBS_HDU=1 in header
+        ("header_with_obs_hdu_1", False, True, [], True),  # Override case
+        ("header_with_obs_hdu_1", True, True, [], False),  # Matching case
+        # Invalid OBS_HDU in header
+        (
+            "header_with_invalid_obs_hdu",
+            False,
+            False,
+            ["Invalid OBS_HDU value: 2. Must be 0 or 1."],
+            False,
+        ),
+        (
+            "header_with_invalid_obs_hdu",
+            True,
+            False,
+            ["Invalid OBS_HDU value: 2. Must be 0 or 1."],
+            False,
+        ),
+    ],
+)
+def test_check_obs_hdu(
+    header_fixture,
+    is_obs_input,
+    expected_is_obs,
+    expected_findings,
+    should_log,
+    request,
+    caplog,
+):
+    """Test check_obs_hdu function with various scenarios."""
+    # Get the header fixture
+    header = request.getfixturevalue(header_fixture)
+
+    # Set log level to capture warnings
+    caplog.set_level(logging.WARNING)
+
+    # Call the function
+    result_is_obs, result_findings = check_obs_hdu(header, is_obs_input)
+
+    # Check return values
+    assert result_is_obs == expected_is_obs
+    assert result_findings == expected_findings
+
+    # Check if warning was logged when expected
+    if should_log:
+        assert len(caplog.records) > 0
+        assert any("Overriding `is_obs`" in record.message for record in caplog.records)
+    else:
+        # Either no logs or only validation findings (not warnings about overriding)
+        assert all(
+            "Overriding `is_obs`" not in record.message for record in caplog.records
+        )
 
 
 # fmt: off
@@ -67,28 +187,21 @@ class BadStr:
         ("SOMEKEY", "value", 123, ["Comment for 'SOMEKEY' must be a string (got <class 'int'>)."]),
         # Comment is None (should pass, though FITS card includes " / None")
         ("SOMEKEY", "val", None, ["Keyword 'SOMEKEY' has no comment."]),
-    ],
-    ids=[
-        "valid_regular_keyword",
-        "invalid_keyword_too_long",
-        "invalid_keyword_lowercase",
-        "invalid_keyword_empty",
-        "special_keyword_comment",
-        "special_keyword_history",
-        "integer_value",
-        "card_exceeds_80_chars",
-        "card_equals_80_chars",
-        "value_not_castable_to_string",
-        "comment_not_string",
-        "comment_none",
+        # Keyword with Value outside valid_values
+        ("VALIDKEY", "D", "comment", ["Value 'D' for keyword 'VALIDKEY' is not in the list of valid values: ['A', 'B', 'C']."]),
     ]
 )
 # fmt: on
 def test_validate_fits_keyword_value_comment(
-    keyword, value, comment, expected_findings
+    mock_schema, keyword, value, comment, expected_findings
 ):
     findings = validate_fits_keyword_value_comment(
-        keyword, value, comment, warn_empty_keyword=True, warn_no_comment=True
+        keyword,
+        value,
+        comment,
+        warn_empty_keyword=True,
+        warn_no_comment=True,
+        schema=mock_schema,
     )
     assert findings == expected_findings
 
@@ -96,49 +209,41 @@ def test_validate_fits_keyword_value_comment(
 # fmt: off
 # Test cases for validate_fits_keyword_data_type
 @pytest.mark.parametrize(
-    "keyword,value,data_type,expected_findings",
+    "keyword,value,expected_findings",
     [
         # Valid integer
-        ("SOMEINT", "123", "int", []),
+        ("SOMEINT", "123", []),
         # Invalid integer
-        ("SOMEINT", "abc", "int", ["Value for 'SOMEINT' cannot be cast to data type 'int': invalid literal for int() with base 10: 'abc'"]),
+        ("SOMEINT", "abc", ["Value for 'SOMEINT' cannot be cast to data type 'int': invalid literal for int() with base 10: 'abc'"]),
         # Valid float
-        ("SOMEFLOAT", "123.45", "float", []),
+        ("SOMEFLOAT", "123.45", []),
         # Invalid float
-        ("SOMEFLOAT", "not a float", "float", ["Value for 'SOMEFLOAT' cannot be cast to data type 'float': could not convert string to float: 'not a float'"]),
+        ("SOMEFLOAT", "not a float", ["Value for 'SOMEFLOAT' cannot be cast to data type 'float': could not convert string to float: 'not a float'"]),
         # Valid date (ISO format)
-        ("SOMEDATE", "2023-01-01T00:00:00", "date", []),
+        ("SOMEDATE", "2023-01-01T00:00:00", []),
         # Invalid date
-        ("SOMEDATE", "invalid date", "date", ["Value for 'SOMEDATE' cannot be cast to data type 'date': Invalid isoformat string: 'invalid date'"]),
+        ("SOMEDATE", "invalid date", ["Value for 'SOMEDATE' cannot be cast to data type 'date': Invalid isoformat string: 'invalid date'"]),
         # Boolean with non-empty string (passes since bool() succeeds)
-        ("SOMEBOOL", "any", "bool", []),
+        ("SOMEBOOL", "any", []),
         # Boolean with empty string (passes since bool() succeeds)
-        ("SOMEBOOL", "", "bool", []),
+        ("SOMEBOOL", "", []),
         # Integer to string (passes since str() succeeds)
-        ("SOMESTR", 123, "str", []),
+        ("SOMESTR", 123, []),
         # Unknown data type
-        ("SOMETYPE", "value", "unknown", ["Unknown data type 'unknown' for keyword 'SOMETYPE'."]),
+        ("SOMETYPE", "value", ["Unknown data type 'unknown' for keyword 'SOMETYPE'."]),
         # Unknown Keyword
-        ("SOMEKEY", "value", "unknown", ["Keyword 'SOMEKEY' not found in the schema. Cannot Validate Data Type."]),
-    ],
-    ids=[
-        "valid_int",
-        "invalid_int",
-        "valid_float",
-        "invalid_float",
-        "valid_date",
-        "invalid_date",
-        "bool_non_empty_string",
-        "bool_empty_string",
-        "int_to_str",
-        "unknown_data_type",
-        "unknown_keyword",
+        ("SOMEKEY", "value", ["Keyword 'SOMEKEY' not found in the schema. Cannot Validate Data Type."]),
+        # PATTERN matching keyword
+        ("PATTERN1", "value", []),
     ]
 )
 # fmt: on
-def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_findings):
-    schema = create_mock_schema()
-    findings = validate_fits_keyword_data_type(keyword, value, schema)
+def test_validate_fits_keyword_data_type(
+    mock_schema, keyword, value, expected_findings
+):
+    findings = validate_fits_keyword_data_type(
+        keyword=keyword, value=value, schema=mock_schema
+    )
     assert findings == expected_findings
 
 
@@ -148,14 +253,21 @@ def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_fin
     [
         # Test 1: Missing required attribute
         (
-            {"NAXIS": ("3", "Number of axes")},
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
+            },
             False,
             False,
             ["Missing Required Attribute: AUTHOR"],
         ),
         # Test 2: Invalid keyword
         (
-            {"NAXIS": ("3", "Number of axes"), "INVALID_KEY!": ("value", "comment")},
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
+                "INVALID_KEY!": ("value", "comment"),
+            },
             False,
             False,
             [
@@ -165,7 +277,11 @@ def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_fin
         ),
         # Test 3: Warn about missing comments
         (
-            {"NAXIS": ("3", ""), "AUTHOR": ("John Doe", "")},
+            {
+                "NAXIS": ("3", ""),
+                "PATTERN1": ("value", "comment"),
+                "AUTHOR": ("John Doe", ""),
+            },
             True,
             False,
             [
@@ -175,7 +291,11 @@ def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_fin
         ),
         # Test 4: Data type validation with correct types
         (
-            {"NAXIS": ("3", "Number of axes"), "AUTHOR": ("John Doe", "Author name")},
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
+                "AUTHOR": ("John Doe", "Author name"),
+            },
             False,
             True,
             [],
@@ -184,6 +304,7 @@ def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_fin
         (
             {
                 "NAXIS": ("three", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
                 "AUTHOR": ("John Doe", "Author name"),
             },
             False,
@@ -196,6 +317,7 @@ def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_fin
         (
             {
                 "NAXIS": ("3", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
                 "AUTHOR": ("John Doe", "Author name"),
                 "EXTRAKEY": ("value", "comment"),
             },
@@ -209,6 +331,7 @@ def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_fin
         (
             {
                 "NAXIS": ("3", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
                 "AUTHOR": ("John Doe", "Author name"),
                 "COMMENT": ("Test comment", "Comment description"),
             },
@@ -218,19 +341,36 @@ def test_validate_fits_keyword_data_type(keyword, value, data_type, expected_fin
                 "Keyword 'COMMENT' has no data type. Cannot Validate Data Type.",
             ],
         ),
-    ],
-    ids=[
-        "missing_required_attribute",
-        "invalid_keyword",
-        "warn_no_comment",
-        "warn_data_type_correct",
-        "warn_data_type_incorrect",
-        "keyword_not_in_schema",
-        "keyword_without_data_type",
+        # Test 8: Valid keyword with value outside valid_values
+        (
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
+                "AUTHOR": ("John Doe", "Author name"),
+                "VALIDKEY": ("D", "Invalid value"),
+            },
+            False,
+            True,
+            [
+                "Value 'D' for keyword 'VALIDKEY' is not in the list of valid values: ['A', 'B', 'C'].",
+            ],
+        ),
+        # Test 9: Pattern matching keyword not found in schema
+        (
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "AUTHOR": ("John Doe", "Author name"),
+            },
+            False,
+            True,
+            [
+                "Missing Required Attribute: PATTERNn. No pattern match for PATTERNn with pattern PATTERN(?P<n>[1-9])",
+            ],
+        ),
     ],
 )
 def test_validate_header(
-    header_dict, warn_no_comment, warn_data_type, expected_findings
+    mock_schema, header_dict, warn_no_comment, warn_data_type, expected_findings
 ):
     # Helper function to create a fits.Header from a dictionary of (value, comment) tuples
     def create_fits_header(header_dict):
@@ -240,11 +380,151 @@ def test_validate_header(
         return header
 
     header = create_fits_header(header_dict)
-    schema = create_mock_schema()
     findings = validate_header(
         header=header,
         warn_no_comment=warn_no_comment,
         warn_data_type=warn_data_type,
-        schema=schema,
+        schema=mock_schema,
     )
     assert findings == expected_findings
+
+
+def create_test_fits_file(primary_header_dict, data_headers_list=None, filepath=None):
+    """Create a test FITS file with specified headers."""
+    # Create primary HDU
+    primary_hdu = fits.PrimaryHDU()
+    for key, (value, comment) in primary_header_dict.items():
+        primary_hdu.header[key] = (value, comment)
+
+    # Create HDU list
+    hdul = fits.HDUList([primary_hdu])
+
+    # Add data HDUs if provided
+    if data_headers_list:
+        for header_dict in data_headers_list:
+            data_hdu = fits.ImageHDU()
+            for key, (value, comment) in header_dict.items():
+                data_hdu.header[key] = (value, comment)
+            hdul.append(data_hdu)
+
+    # Write to file
+    hdul.writeto(filepath, overwrite=True)
+    return filepath
+
+
+@pytest.mark.parametrize(
+    "primary_header, data_headers, warn_params, expected_patterns",
+    [
+        # Test case 1: Valid file with all required keywords
+        (
+            {
+                "AUTHOR": ("Test Author", "Author name"),
+                "PATTERN1": ("Value", "Pattern match"),
+            },
+            None,
+            (False, False, False),  # (warn_empty, warn_comment, warn_data_type)
+            [],  # No findings expected
+        ),
+        # Test case 2: Missing required keyword in primary header
+        (
+            {
+                "PATTERN1": ("Value", "Pattern match"),
+                # Missing AUTHOR
+            },
+            None,
+            (False, False, False),
+            ["Primary Header: Missing Required Attribute: AUTHOR"],
+        ),
+        # Test case 3: File with valid observation HDU
+        (
+            {
+                "AUTHOR": ("Test Author", "Author name"),
+                "PATTERN1": ("Value", "Pattern match"),
+            },
+            [
+                {
+                    "OBS_HDU": (1, "Observation HDU flag"),
+                    "NAXIS": (2, "Number of axes"),
+                    "AUTHOR": ("Test Author", "Author name"),
+                    "PATTERN1": ("Value", "Pattern match"),
+                    "OBS_ATTR": ("Obs Value", "Observation attribute"),
+                }
+            ],
+            (False, False, False),
+            [],  # No findings expected
+        ),
+        # Test case 4: Error in observation HDU
+        (
+            {
+                "AUTHOR": ("Test Author", "Author name"),
+                "PATTERN1": ("Value", "Pattern match"),
+            },
+            [
+                {
+                    "OBS_HDU": (1, "Observation HDU flag"),
+                    # Missing OBS_ATTR in observation HDU
+                    "AUTHOR": ("Test Author", "Author name"),
+                    "PATTERN1": ("Value", "Pattern match"),
+                }
+            ],
+            (False, False, False),
+            ["Observation Header 1: Missing Required Attribute: OBS_ATTR"],
+        ),
+        # Test case 5: Multiple HDUs with issues
+        (
+            {
+                "AUTHOR": ("Test Author", "Author name"),
+                "PATTERN1": ("Value", "Pattern match"),
+            },
+            [
+                {
+                    "OBS_HDU": (1, "Observation HDU flag"),
+                    "NAXIS": (2, "Number of axes"),
+                    "AUTHOR": ("Test Author", "Author name"),
+                    "PATTERN1": ("Value", "Pattern match"),
+                    "OBS_ATTR": ("Obs Value", "Observation attribute"),
+                },
+                {
+                    "OBS_HDU": (1, "Observation HDU flag"),
+                    # Missing OBS_ATTR
+                    "AUTHOR": ("Test Author", "Author name"),
+                    "PATTERN1": ("Value", "Pattern match"),
+                },
+            ],
+            (False, False, False),
+            ["Observation Header 2: Missing Required Attribute: OBS_ATTR"],
+        ),
+    ],
+)
+def test_validate_file(
+    mock_schema, primary_header, data_headers, warn_params, expected_patterns
+):
+    """Test the validate_file function with different file configurations."""
+    # Create a temporary file
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_file = Path(temp_dir) / "test_file.fits"
+        # Create a test FITS file
+        filepath = create_test_fits_file(
+            primary_header, data_headers, filepath=temp_file
+        )
+
+        # Unpack warning parameters
+        warn_empty, warn_comment, warn_data_type = warn_params
+
+        # Validate the file
+        findings = validate_file(
+            Path(filepath),
+            warn_empty_keyword=warn_empty,
+            warn_no_comment=warn_comment,
+            warn_data_type=warn_data_type,
+            schema=mock_schema,
+        )
+
+        # Check for expected findings patterns
+        if not expected_patterns:
+            assert not findings, f"Expected no findings but got: {findings}"
+        else:
+            for pattern in expected_patterns:
+                assert any(
+                    pattern in finding for finding in findings
+                ), f"Pattern '{pattern}' not found in findings: {findings}"

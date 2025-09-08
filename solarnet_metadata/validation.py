@@ -1,51 +1,22 @@
 import logging
 import re
-from datetime import datetime
-from enum import Enum
 from pathlib import Path
 from typing import Any, List, Optional, Tuple
 
 from astropy.io import fits
 
 from solarnet_metadata.schema import SOLARNETSchema
+from solarnet_metadata.util import DATA_TYPE_MAP, KeywordRequirement
 
 logger = logging.getLogger(__name__)
 
 __all__ = [
-    "DATA_TYPE_MAP",
-    "KeywordRequirement",
     "validate_file",
     "validate_header",
     "check_obs_hdu",
     "validate_fits_keyword_value_comment",
     "validate_fits_keyword_data_type",
 ]
-
-
-DATA_TYPE_MAP = {
-    "bool": bool,
-    "str": str,
-    "int": int,
-    "float": float,
-    "date": datetime.fromisoformat,
-}
-
-
-class KeywordRequirement(Enum):
-    """
-    Enum to represent the requirement level of a keyword in the FITS header.
-
-    Valid values are:
-    - `all`: The keyword is required for all HDUs.
-    - `primary`: The keyword is required for the primary HDU only.
-    - `obs`: Mandatory keywords for fully SOLARNET-compliant Obs-HDUs
-    - `optional`: The keyword is optional and may be included in any HDU.
-    """
-
-    ALL = "all"
-    PRIMARY = "primary"
-    OBS = "obs"
-    OPTIONAL = "optional"
 
 
 def validate_file(
@@ -119,8 +90,8 @@ def validate_file(
             for finding in findings:
                 file_findings.append(f"Observation Header {i}: {finding}")
 
-        # Combine findings from both headers
-        return file_findings
+    # Combine findings from both headers
+    return file_findings
 
 
 def validate_header(
@@ -176,16 +147,7 @@ def validate_header(
     validation_findings.extend(obs_findings)
 
     # Get subset of Required Attributes
-    required_attributes = {
-        keyword: info
-        for keyword, info in schema.attribute_schema["attribute_key"].items()
-        if KeywordRequirement(info["required"]) == KeywordRequirement.ALL
-        or (
-            KeywordRequirement(info["required"]) == KeywordRequirement.PRIMARY
-            and is_primary
-        )
-        or (KeywordRequirement(info["required"]) == KeywordRequirement.OBS and is_obs)
-    }
+    required_attributes = schema.get_required_keywords(primary=is_primary, obs=is_obs)
 
     # Verify that all Required Attributes are present
     for keyword, info in required_attributes.items():
@@ -198,7 +160,6 @@ def validate_header(
                     res = re.fullmatch(pattern, header_key)
                     if res:
                         # There was a match!
-                        # print(f"Pattern match for {header_key} with pattern {pattern}")
                         found_match = True
                         break
                 if not found_match:
@@ -217,6 +178,7 @@ def validate_header(
             comment,
             warn_empty_keyword=warn_empty_keyword,
             warn_no_comment=warn_no_comment,
+            schema=schema,
         )
         validation_findings.extend(findings)
 
@@ -282,7 +244,7 @@ def check_obs_hdu(header: fits.Header, is_obs: bool = False) -> Tuple[bool, List
             is_obs = False
     elif "OBS_HDU" not in header and is_obs:
         logger.warning(
-            f"Keyword `OBS_HDU` is not present in the header, but `is_obs` given as True. Overriding `is_obs` to False. If this is not the desired behavior, please check the header `OBS_HDU`."
+            f"Keyword `OBS_HDU` is not present in the header, but `is_obs` given as True. Overriding `is_obs` to True. If this is not the desired behavior, please check the header `OBS_HDU`."
         )
         is_obs = True
     return is_obs, validation_findings
@@ -294,6 +256,7 @@ def validate_fits_keyword_value_comment(
     comment: Optional[str] = None,
     warn_empty_keyword: bool = False,
     warn_no_comment: bool = False,
+    schema: Optional[SOLARNETSchema] = None,
 ) -> List[str]:
     """
     Validates a FITS keyword, value, and comment set according to FITS standard requirements.
@@ -303,6 +266,7 @@ def validate_fits_keyword_value_comment(
     - Value string representation
     - Comment format
     - Total FITS card length (must be ≤80 characters)
+    - Valid values of the keyword if specified in the schema
 
     Special handling is applied for COMMENT and HISTORY keywords.
 
@@ -318,12 +282,21 @@ def validate_fits_keyword_value_comment(
         Whether to add a warning if the keyword is empty.
     warn_no_comment : bool, default False
         Whether to add a warning if the comment is empty.
+    schema : Optional[SOLARNETSchema], default None
+        The schema to validate against. If None, the default SOLARNET schema is used.
 
     Returns
     -------
     findings : List[str]
         A list of validation issues found; empty if the set is valid.
     """
+
+    # Check if Custom Schema is provided
+    if schema is None or not isinstance(schema, SOLARNETSchema):
+        # Use the default schema
+        schema = SOLARNETSchema()
+
+    # Initialize Empty List for Findings
     findings = []
 
     # Check for Empty Keyword
@@ -374,6 +347,15 @@ def validate_fits_keyword_value_comment(
                     f"FITS card for '{keyword}' exceeds 80 characters (length: {len(card_str)})."
                 )
 
+    # Check for Valid Values in the Schema
+    attribute_key = schema.attribute_key
+    if keyword in attribute_key:
+        valid_values = attribute_key[keyword].get("valid_values", None)
+        if valid_values and value not in valid_values:
+            findings.append(
+                f"Value '{value}' for keyword '{keyword}' is not in the list of valid values: {valid_values}."
+            )
+
     return findings
 
 
@@ -407,11 +389,11 @@ def validate_fits_keyword_data_type(
     findings = []
 
     # Check if the keyword is in the schema
-    keyword_info = schema.attribute_schema["attribute_key"].get(keyword, None)
+    keyword_info = schema.attribute_key.get(keyword, None)
     if not keyword_info:
         # Search for Pattern Match in the Schema
         found_match = False
-        for _, info in schema.attribute_schema["attribute_key"].items():
+        for _, info in schema.attribute_key.items():
             if pattern := info.get("pattern", None):
                 res = re.fullmatch(pattern, keyword)
                 if res:

@@ -12,12 +12,9 @@
 #
 import os
 
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
-
 from docutils import nodes
-from sphinx.util.texescape import escape
 from sphinx import addnodes
+from sphinx.util.texescape import escape
 
 # -- Project information -----------------------------------------------------
 

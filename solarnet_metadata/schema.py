@@ -3,12 +3,18 @@ This module provides schema metadata templates an information.
 
 """
 
+import logging
+from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Any, Dict, Optional
 
+import astropy.io.fits as fits
 import yaml
 
 import solarnet_metadata
+from solarnet_metadata.util import DATA_TYPE_MAP, KeywordRequirement
+
+logger = logging.getLogger(__name__)
 
 __all__ = ["SOLARNETSchema"]
 
@@ -79,6 +85,7 @@ class SOLARNETSchema:
                 base_layer=_attr_schema, new_layer=_def_attr_schema
             )
         if schema_layers is not None:
+            # Merge each successive custom layer on top of the existing schema
             for schema_layer_path in schema_layers:
                 attr_layer = self._load_yaml_data(yaml_file_path=schema_layer_path)
                 _attr_schema = self._merge(
@@ -88,18 +95,21 @@ class SOLARNETSchema:
         self._attr_schema = _attr_schema
 
         # Load Default Attributes
-        self._default_attributes = self._load_default_attributes(
-            schema=self._attr_schema
-        )
+        self._default_attributes: fits.Header = self.load_default_attributes()
 
     @property
-    def attribute_schema(self):
+    def attribute_schema(self) -> Dict[str, Any]:
         """(`dict`) Schema for attributes of the file."""
         return self._attr_schema
 
     @property
-    def default_attributes(self):
-        """(`dict`) Default Attributes applied for all Data Files"""
+    def attribute_key(self) -> Dict[str, Any]:
+        """(`dict`) The attribute_key section of the schema."""
+        return self._attr_schema.get("attribute_key", {})
+
+    @property
+    def default_attributes(self) -> fits.Header:
+        """(`fits.Header`) Default Attributes applied for all Data Files"""
         return self._default_attributes
 
     def _load_default_attr_schema(self) -> dict:
@@ -110,12 +120,52 @@ class SOLARNETSchema:
         # Load the Schema
         return self._load_yaml_data(yaml_file_path=default_schema_path)
 
-    def _load_default_attributes(self, schema: dict) -> dict:
-        return {
-            attr_name: info["default"]
-            for attr_name, info in schema["attribute_key"].items()
-            if info["default"] is not None
-        }
+    def load_default_attributes(self) -> fits.Header:
+        """
+        Function to load the default attributes for a SOLARNET-compliant data file.
+
+        Returns
+        -------
+        header : `fits.Header`
+            A FITS header containing the default attributes.
+        """
+        header = fits.Header()
+
+        # Add Default Attributes to Header
+        for keyword, info in self.attribute_key.items():
+            if info.get("default", None) is None:
+                # skip attributes without a default value
+                continue
+
+            # Try to cast the default value to the correct data type
+            try:
+                # NOTE PyYAML automatically converts ISO 8601 date strings to datetime objects
+                # Additionally, fits.Header does not support datetime objects directly in cards
+                # When we encounter a keyword a default value that is a datetime,
+                # we convert it to an ISO 8601 string
+
+                if isinstance(info["default"], datetime):
+                    # Convert to ISO format string for FITS Header
+                    value = info["default"].isoformat()
+                else:
+                    # Get the type conversion function - default to str if not found
+                    type_converter = DATA_TYPE_MAP.get(info["data_type"], str)
+                    # Convert the value using the appropriate function
+                    value = type_converter(info["default"])
+
+                # Add to Header with Comment
+                header[keyword] = (
+                    value,
+                    self.get_comment(keyword),
+                )
+            except Exception as e:
+                logger.warning(
+                    f"Could not cast default value for {keyword} to {info['data_type']} was value {info['default']} with type {type(info['default'])}: FULL EXCEPTION: {e}"
+                )
+                # If we can't cast it, just use the raw value
+                header[keyword] = (info["default"], self.get_comment(keyword))
+
+        return header
 
     def _load_yaml_data(self, yaml_file_path: Path) -> dict:
         """
@@ -135,17 +185,59 @@ class SOLARNETSchema:
             yaml_data = yaml.safe_load(f)
         return yaml_data
 
+    def get_required_keywords(
+        self, primary: Optional[bool] = False, obs: Optional[bool] = False
+    ) -> Dict[str, Dict[str, Any]]:
+        """
+        Function to get a list of required keywords based on whether the HDU is an observation HDU or not.
+
+        Parameters
+        ----------
+        primary: `bool`, optional, default False
+            Whether or not the HDU is a primary HDU. If True, the function will return
+            keywords required for primary HDUs.
+        obs: `bool`, optional, default False
+            Whether or not the HDU is an observation HDU. If True, the function will return
+            keywords required for observation HDUs.
+
+        Returns
+        -------
+        required_keywords : `Dict[str, Dict[str, Any]]`
+            A dictionary of required keywords and their associated information.
+        """
+        required_attributes = {
+            keyword: info
+            for keyword, info in self.attribute_key.items()
+            if KeywordRequirement(info["required"]) == KeywordRequirement.ALL
+            or (
+                KeywordRequirement(info["required"]) == KeywordRequirement.PRIMARY
+                and primary
+            )
+            or (KeywordRequirement(info["required"]) == KeywordRequirement.OBS and obs)
+        }
+        return required_attributes
+
     def attribute_template(
         self,
+        primary: Optional[bool] = False,
+        obs: Optional[bool] = False,
         observatory_type: Optional[str] = None,
         instrument_type: Optional[str] = None,
-    ) -> dict:
+    ) -> fits.Header:
         """
         Function to generate a template of required attributes
         that must be set for a valid data file.
 
         Parameters
         ----------
+        primary: `bool`, optional, default False
+            Whether or not the template is being generated for a
+            primary HDU. If True, the template will include attributes
+            required for primary HDUs.]
+        obs: `bool`, optional, default False
+            Whether or not the template is being generated for an
+            observation HDU. If True, the template will include
+            attributes required for observation HDUs.
         observatory_type: `str`, optional, default None
             This details whether the observatory is `ground-based`,
             `earth-orbiting` or `deep-space` and can be used to determine
@@ -157,19 +249,22 @@ class SOLARNETSchema:
 
         Returns
         -------
-        template : `dict`
+        template : `fits.Header`
             A template for required attributes that must be provided.
         """
-        template = {}
-        for attr_name, attr_schema in self.attribute_schema["attribute_key"].items():
-            if attr_schema["required"] and attr_name not in self.default_attributes:
-                template[attr_name] = None
+        # Add Default Attributes to Header
+        header = self.default_attributes.copy()
+
+        # Add globally Required Attributes as BLANK keywords in header
+        required_attributes = self.get_required_keywords(primary=primary, obs=obs)
+        for keyword in required_attributes:
+            header[keyword] = (header.get(keyword, None), self.get_comment(keyword))
 
         # Get required attributes for the conditional requirements based on observatory
         if (
             observatory_type
-            and observatory_type
-            in self.attribute_schema["attribute_key"]["OBS_TYPE"]["valid_values"]
+            and "OBS_TYPE" in self.attribute_key
+            and observatory_type in self.attribute_key["OBS_TYPE"]["valid_values"]
         ):
             applicable_conditional_requirements: list[list[str]] = [
                 requirement["required_attributes"]
@@ -179,13 +274,16 @@ class SOLARNETSchema:
             ]
             for conditional_requirement in applicable_conditional_requirements:
                 for required_attribute in conditional_requirement:
-                    template[required_attribute] = None
+                    header[required_attribute] = (
+                        header.get(required_attribute, None),
+                        self.get_comment(required_attribute),
+                    )
 
         # Get required attributes for the conditional requirements based on instrument
         if (
             instrument_type
-            and instrument_type
-            in self.attribute_schema["attribute_key"]["INST_TYP"]["valid_values"]
+            and "INST_TYP" in self.attribute_key
+            and instrument_type in self.attribute_key["INST_TYP"]["valid_values"]
         ):
             applicable_conditional_requirements: list[list[str]] = [
                 requirement["required_attributes"]
@@ -195,9 +293,12 @@ class SOLARNETSchema:
             ]
             for conditional_requirement in applicable_conditional_requirements:
                 for required_attribute in conditional_requirement:
-                    template[required_attribute] = None
+                    header[required_attribute] = (
+                        header.get(required_attribute, None),
+                        self.get_comment(required_attribute),
+                    )
 
-        return template
+        return header
 
     def attribute_info(self, attribute_name: Optional[str] = None):
         """
@@ -225,16 +326,14 @@ class SOLARNETSchema:
         """
         import pandas as pd
 
-        attribute_key = self.attribute_schema["attribute_key"]
-
         # Strip the Description of New Lines
-        for attr_name in attribute_key.keys():
-            attribute_key[attr_name]["description"] = attribute_key[attr_name][
-                "description"
-            ].strip()
+        for attr_name in self.attribute_key.keys():
+            self.attribute_key[attr_name]["description"] = self.attribute_key[
+                attr_name
+            ]["description"].strip()
 
         # Create the Info Table
-        info = pd.DataFrame.from_dict(attribute_key, orient="index")
+        info = pd.DataFrame.from_dict(self.attribute_key, orient="index")
         # Reset the Index, add Attribute as new column
         info.reset_index(names="Attribute", inplace=True)
 
@@ -245,6 +344,22 @@ class SOLARNETSchema:
             raise KeyError(f"Cannot find attribute name: {attribute_name}")
 
         return info
+
+    def get_comment(self, attribute_name: str) -> Optional[str]:
+        """
+        Function to get the comment/description for a given attribute.
+
+        Parameters
+        ----------
+        attribute_name : `str`
+            The name of the attribute to get the comment for.
+
+        Returns
+        -------
+        comment : `str` | `None`
+            The comment/human-readable description for the attribute, or None if not found.
+        """
+        return self.attribute_key.get(attribute_name, {}).get("human_readable", None)
 
     def _merge(self, base_layer: dict, new_layer: dict, path: list = None) -> None:
         """
