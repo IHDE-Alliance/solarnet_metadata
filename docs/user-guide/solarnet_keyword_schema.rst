@@ -180,7 +180,7 @@ You can retrieve detailed information about specific attributes or all attribute
   # Get information about all attributes
   all_info = schema.attribute_info()
 
-This returns a pandas DataFrame containing all the schema information for the requested attribute(s).
+This returns an astropy Table containing all the schema information for the requested attribute(s).
 
 Creating Attribute Templates
 ----------------------------

@@ -1,14 +1,13 @@
 import tempfile
-from datetime import datetime
 from pathlib import Path
 
 import astropy.io.fits as fits
-import pandas as pd
 import pytest
 import yaml
+from astropy.table import Table
 
 from solarnet_metadata.schema import SOLARNETSchema
-from solarnet_metadata.util import DATA_TYPE_MAP, KeywordRequirement
+from solarnet_metadata.util import KeywordRequirement, load_yaml_data
 
 
 def test_schema_default():
@@ -75,7 +74,7 @@ def test_load_yaml_data_non_existant_file():
     with tempfile.TemporaryDirectory() as tmpdirname:
         # Load from an non-existant file
         with pytest.raises(FileNotFoundError):
-            _ = SOLARNETSchema()._load_yaml_data(tmpdirname + "non_existant_file.yaml")
+            _ = load_yaml_data(tmpdirname + "non_existant_file.yaml")
 
 
 def test_load_yaml_data_bad_data():
@@ -92,7 +91,7 @@ def test_load_yaml_data_bad_data():
 
         # Load from an non-existant file
         with pytest.raises(yaml.YAMLError):
-            _ = SOLARNETSchema()._load_yaml_data(tmpdirname + "test.yaml")
+            _ = load_yaml_data(tmpdirname + "test.yaml")
 
 
 def test_schema_load_default_attributes():
@@ -515,8 +514,8 @@ def test_attribute_info_all():
     schema = SOLARNETSchema()
     info = schema.attribute_info()
 
-    # Should return a DataFrame
-    assert isinstance(info, pd.DataFrame)
+    # Should return a Table
+    assert isinstance(info, Table)
 
     # Should contain all attributes in the schema
     assert len(info) == len(schema.attribute_key)
@@ -559,12 +558,12 @@ def test_attribute_info_specific():
         info = schema.attribute_info(attribute_name="TEST_ATTR")
 
         # Should return a DataFrame with one row
-        assert isinstance(info, pd.DataFrame)
+        assert isinstance(info, Table)
         assert len(info) == 1
-        assert info["Attribute"].iloc[0] == "TEST_ATTR"
-        assert info["description"].iloc[0] == "Test attribute description"
-        assert info["default"].iloc[0] == "test_value"
-        assert info["required"].iloc[0] == "optional"
+        assert info["Attribute"][0] == "TEST_ATTR"
+        assert info["description"][0] == "Test attribute description"
+        assert info["default"][0] == "test_value"
+        assert info["required"][0] == "optional"
 
 
 def test_attribute_info_nonexistent():

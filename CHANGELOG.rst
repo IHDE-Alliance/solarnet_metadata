@@ -16,6 +16,10 @@ Latest
     * Enhanced navigation and styling
 * Added build configuration with ``pyproject.toml`` for modern Python packaging
 * Added pre-commit configuration for code quality
+* Converted Section 19 Keyword List generation. 
+    * Previously, this keyword list was generated using a CSV file and some python code to generate the "Section Reference" list. 
+    * This CSV file has been replaced with the larger "schema" YAML file, which contains a larger set of metadata about each keyword. The Python code for generating the keyword list in Section 19 has been updated to read from this schema file.
+    * Future updates to add or remove keywords should be done in the schema file. `solarnet_metadata/data/SOLARNET_attr_schema.yaml`
 
 3.1.0 (2025-06-25)
 ==================

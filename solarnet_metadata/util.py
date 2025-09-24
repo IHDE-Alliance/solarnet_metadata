@@ -1,5 +1,8 @@
 from datetime import datetime
 from enum import Enum
+from pathlib import Path
+
+import yaml
 
 __all__ = ["DATA_TYPE_MAP", "KeywordRequirement"]
 
@@ -28,3 +31,22 @@ class KeywordRequirement(Enum):
     PRIMARY = "primary"
     OBS = "obs"
     OPTIONAL = "optional"
+
+
+def load_yaml_data(yaml_file_path: Path) -> dict:
+    """
+    Function to load data from a Yaml file.
+
+    Parameters
+    ----------
+    yaml_file_path: `Path`
+        Path to YAML file to be used for formatting.
+
+    """
+    if not Path(yaml_file_path).exists():
+        raise FileNotFoundError(f"Cannot find YAML file: {yaml_file_path}")
+    # Load the Yaml file to Dict
+    yaml_data = {}
+    with open(yaml_file_path, "r") as f:
+        yaml_data = yaml.safe_load(f)
+    return yaml_data

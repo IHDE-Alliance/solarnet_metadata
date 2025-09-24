@@ -36,26 +36,17 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  'pandas>=2.2.0',
-  'coverage>=5.0.3',
-  'pytest==8.0.0',
-  'pytest-astropy==0.11.0',
-  'pytest-cov==4.1.0',
-  'black==24.1.1',
-  'flake8==7.0.0',
-  'coverage[toml]==7.4.1'
+  'solarnet_metadata[docs,test,style]',
 ]
 
 docs = [
   'myst-parser==3.0.1',
-  'pandas>=2.2.0',
   'sphinx==7.2.6',
   'sphinx-automodapi==0.16.0',
   'sphinx-copybutton==0.5.2',
 ]
 
 test = [
-  'pandas>=2.2.0',
   'pytest==8.0.0',
   'pytest-astropy==0.11.0',
   'pytest-cov==4.1.0',
