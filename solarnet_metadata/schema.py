@@ -9,10 +9,10 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 import astropy.io.fits as fits
-import yaml
+from astropy.table import Table
 
-import solarnet_metadata
-from solarnet_metadata.util import DATA_TYPE_MAP, KeywordRequirement
+from solarnet_metadata import data_directory
+from solarnet_metadata.util import DATA_TYPE_MAP, KeywordRequirement, load_yaml_data
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +87,7 @@ class SOLARNETSchema:
         if schema_layers is not None:
             # Merge each successive custom layer on top of the existing schema
             for schema_layer_path in schema_layers:
-                attr_layer = self._load_yaml_data(yaml_file_path=schema_layer_path)
+                attr_layer = load_yaml_data(yaml_file_path=schema_layer_path)
                 _attr_schema = self._merge(
                     base_layer=_attr_schema, new_layer=attr_layer
                 )
@@ -114,11 +114,9 @@ class SOLARNETSchema:
 
     def _load_default_attr_schema(self) -> dict:
         # The Default Schema file is contained in the `solarnet_metadata/data` directory
-        default_schema_path = str(
-            Path(solarnet_metadata.__file__).parent / "data" / DEFAULT_ATTRS_SCHEMA_FILE
-        )
+        default_schema_path = str(Path(data_directory) / DEFAULT_ATTRS_SCHEMA_FILE)
         # Load the Schema
-        return self._load_yaml_data(yaml_file_path=default_schema_path)
+        return load_yaml_data(yaml_file_path=default_schema_path)
 
     def load_default_attributes(self) -> fits.Header:
         """
@@ -166,24 +164,6 @@ class SOLARNETSchema:
                 header[keyword] = (info["default"], self.get_comment(keyword))
 
         return header
-
-    def _load_yaml_data(self, yaml_file_path: Path) -> dict:
-        """
-        Function to load data from a Yaml file.
-
-        Parameters
-        ----------
-        yaml_file_path: `Path`
-            Path to schema file to be used for formatting.
-
-        """
-        if not Path(yaml_file_path).exists():
-            raise FileNotFoundError(f"Cannot find Schema file: {yaml_file_path}")
-        # Load the Yaml file to Dict
-        yaml_data = {}
-        with open(yaml_file_path, "r") as f:
-            yaml_data = yaml.safe_load(f)
-        return yaml_data
 
     def get_required_keywords(
         self, primary: Optional[bool] = False, obs: Optional[bool] = False
@@ -302,13 +282,12 @@ class SOLARNETSchema:
 
     def attribute_info(self, attribute_name: Optional[str] = None):
         """
-        Function to generate a `pd.DataFrame` of information about each
-        metadata attribute. The `pd.DataFrame` contains all information in the SOLARNET attribute schema including:
+        Function to generate an `astropy.table.Table` of information about each
+        metadata attribute. The Table contains all information in the SOLARNET attribute schema including:
 
         - description: (`str`) A brief description of the attribute
         - default: (`str`) The default value used if none is provided
         - required: (`bool`) Whether the attribute is required by SOLARNET standards
-
 
         Parameters
         ----------
@@ -317,14 +296,13 @@ class SOLARNETSchema:
 
         Returns
         -------
-        info: `pd.DataFrame`
+        info: `astropy.table.Table`
             A table of information about the SOLARNET keywords
 
         Raises
         ------
         KeyError: If attribute_name is not a recognized attribute.
         """
-        import pandas as pd
 
         # Strip the Description of New Lines
         for attr_name in self.attribute_key.keys():
@@ -332,16 +310,23 @@ class SOLARNETSchema:
                 attr_name
             ]["description"].strip()
 
-        # Create the Info Table
-        info = pd.DataFrame.from_dict(self.attribute_key, orient="index")
-        # Reset the Index, add Attribute as new column
-        info.reset_index(names="Attribute", inplace=True)
+        # Create rows for the table
+        rows = []
+        for attr_name, attr_info in self.attribute_key.items():
+            # Add the attribute name to the info dictionary
+            row_data = {"Attribute": attr_name}
+            row_data.update(attr_info)
+            rows.append(row_data)
 
-        # Limit the Info to the requested Attribute
-        if attribute_name and attribute_name in info["Attribute"].values:
-            info = info[info["Attribute"] == attribute_name]
-        elif attribute_name and attribute_name not in info["Attribute"].values:
-            raise KeyError(f"Cannot find attribute name: {attribute_name}")
+        # Create the Table
+        info = Table(rows=rows)
+
+        # Filter to specific attribute if requested
+        if attribute_name is not None:
+            mask = info["Attribute"] == attribute_name
+            if not any(mask):
+                raise KeyError(f"Cannot find attribute name: {attribute_name}")
+            info = info[mask]
 
         return info
 

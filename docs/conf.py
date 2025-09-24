@@ -6,22 +6,22 @@
 
 # -- Path setup --------------------------------------------------------------
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
 import os
+import sys
 
 from docutils import nodes
 from sphinx import addnodes
-from sphinx.util.texescape import escape
+
+# Add the docs directory to the path for local imports
+sys.path.insert(0, os.path.abspath("."))
+
+from keyword_processor import process_documentation_files
 
 # -- Project information -----------------------------------------------------
 
 project = "SOLARNET Metadata"
 copyright = "2024, Stein Vidar Hagfors Haugan, Terje Fredvik"
 author = "Stein Vidar Hagfors Haugan, Terje Fredvik"
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -138,26 +138,7 @@ intersphinx_mapping = {
 }
 
 # -- Generate CSV Files for Docs ---------------------------------------------
-import csv
-import re
 
-if not os.path.exists("generated"):
-    os.mkdir("generated")  # generate the directory before putting things in it
-
-solarnet_keywords = {}
-with open("solarnet_keyword_list.csv", "r", newline="", encoding="utf-8") as csvfile:
-    reader = csv.reader(csvfile, delimiter=",")
-    for row in reader:
-        if len(row) != 3:
-            raise ValueError(f"Expected 3 columns in CSV file, got {len(row)}: {row}")
-        # Split Row
-        kywd = row[0].rstrip()
-        origin, description = row[1].rstrip(), row[2].rstrip()
-        solarnet_keywords[kywd] = {
-            "origin": origin,
-            "description": description,
-            "references": set(),  # Stub references as empty set
-        }
 
 files_to_annotate = [
     "parta.md",
@@ -173,161 +154,10 @@ files_to_annotate = [
     "appendix-8.md",
     "appendix-9.md",
 ]
-for file in files_to_annotate:
-    with open(f"source/{file}", "r", encoding="utf-8") as input_file:
-        source_content = input_file.read()
+# Process all the documentation files to extract and index keywords
+process_documentation_files(files_to_annotate)
 
-        # Create a mapping from position to section reference
-        section_positions = []
-        current_section = None
-        lines = source_content.split("\n")
-
-        for i, line in enumerate(lines):
-            section_match = re.search(
-                r"\(((?:[0-9]+\.[0-9]+(?:\.[0-9]+)*)|(?:appendix-[a-z0-9-]+))\)=", line
-            )
-            if section_match:
-                current_section = section_match.group(1)
-
-                # Format the reference differently based on section type
-                if current_section.startswith("appendix-"):
-                    # For appendix sections, format as [Appendix X](#appendix-x)
-                    appendix_name = current_section.replace("appendix-", "")
-
-                    # Handle Roman numerals properly
-                    if "-" in appendix_name:
-                        # Handle sub-appendices like 'vi-a' properly
-                        main_part, sub_part = appendix_name.split("-", 1)
-                        # Convert the main Roman numeral to uppercase
-                        display_name = f"Appendix {main_part.upper()}-{sub_part}"
-                    else:
-                        # First check if there's a letter suffix (like 'ia', 'vib')
-                        match = re.match(r"([ivx]+)([a-z]*)", appendix_name)
-                        if match:
-                            roman_part = match.group(1)
-                            letter_part = match.group(2)
-
-                            if letter_part:
-                                # It's a sub-appendix with format like 'ia', 'vib'
-                                display_name = (
-                                    f"Appendix {roman_part.upper()}-{letter_part}"
-                                )
-                            else:
-                                # It's a main appendix
-                                display_name = f"Appendix {roman_part.upper()}"
-                        else:
-                            # Fallback for any other format
-                            display_name = f"Appendix {appendix_name.upper()}"
-
-                    current_section_ref = f"[{display_name}](#{current_section})"
-                else:
-                    # For numeric sections, keep the same format
-                    current_section_ref = f"[{current_section}](#{current_section})"
-
-            if current_section:
-                section_positions.append((i, current_section_ref))
-
-        # Find keyword mentions and associate them with the nearest section above
-        for keyword in solarnet_keywords:
-            # Create patterns for both with and without backticks
-            keyword_text = keyword.strip("`")  # Remove backticks if present
-            keyword_pattern_plain = re.compile(r"\b" + re.escape(keyword_text) + r"\b")
-            keyword_pattern_backticks = re.compile(
-                r"`" + re.escape(keyword_text) + r"`"
-            )
-
-            # Track if we're inside a code block
-            in_code_block = False
-
-            for i, line in enumerate(lines):
-                # Check if this line starts or ends a code block
-                if line.strip().startswith("```"):
-                    in_code_block = not in_code_block
-                    continue
-
-                # Use the appropriate pattern based on whether we're in a code block
-                if in_code_block:
-                    matches = keyword_pattern_plain.findall(line)
-                else:
-                    matches = keyword_pattern_backticks.findall(line)
-
-                if matches:
-                    # Find the nearest section above this line
-                    nearest_section = None
-                    for pos, section_ref in section_positions:
-                        if pos <= i:
-                            nearest_section = section_ref
-                        else:
-                            break
-
-                    if nearest_section:
-                        solarnet_keywords[keyword]["references"].add(nearest_section)
-
-        with open(f"generated/{file}", "w", encoding="utf-8") as output_file:
-
-            # Function to replace keywords outside of code blocks
-            def replace_keywords(text):
-                for this_key in solarnet_keywords:
-                    text = re.sub(rf"{this_key}", f"{{codeindex}}`{this_key}`", text)
-                return text
-
-            # Define a regex pattern to match code blocks
-            code_block_pattern = re.compile(r"(```.*?```)", re.DOTALL)
-            # Split the file into segments using the code block pattern
-            parts = code_block_pattern.split(source_content)
-            # Apply replacements only to non-code block parts
-            for i in range(len(parts)):
-                if not code_block_pattern.match(
-                    parts[i]
-                ):  # If the part is not a code block
-                    parts[i] = replace_keywords(parts[i])
-
-            # Rejoin the parts and write to the output file
-            output_file.write("".join(parts))
-
-# Make a copy for direct inclusion in the documentation
-with open(
-    "generated/solarnet_keyword_list.csv", "w", newline="", encoding="utf-8"
-) as csvfile:
-    writer = csv.writer(csvfile)
-
-    # Define a custom sorting function for references
-    def section_reference_sort_key(ref):
-        # Extract the section identifier from the reference
-        match = re.search(r"\[(.*?)\]", ref)
-        if not match:
-            return (999, ref)  # Default case for unexpected formats
-
-        section_text = match.group(1)
-
-        # Check if it's an appendix reference
-        if section_text.startswith("Appendix "):
-            return (2, section_text)  # Appendices come after numeric sections
-
-        # For numeric sections (like 3.1, 18.7)
-        try:
-            # Convert each part to an integer for proper numeric ordering
-            parts = [int(part) for part in section_text.split(".")]
-            # Pad with zeros to handle different section depths
-            while len(parts) < 3:
-                parts.append(0)
-            return (1, parts[0], parts[1], parts[2])  # Numeric sections come first
-        except ValueError:
-            # Fallback for anything else
-            return (999, section_text)
-
-    # Loop each keyword and write to the CSV
-    for keyword, data in sorted(
-        solarnet_keywords.items(), key=lambda x: x[0].strip("`").lower()
-    ):
-        keyword_references = data["references"]
-        # Sort references using the custom sorting function
-        formatted_refs = (
-            ", ".join(sorted(keyword_references, key=section_reference_sort_key))
-            if keyword_references
-            else ""
-        )
-        writer.writerow([keyword, data["origin"], data["description"], formatted_refs])
+# -- Custom role for code indexing -------------------------------------------
 
 
 def code_index_role(name, rawtext, text, lineno, inliner, options=None, content=None):

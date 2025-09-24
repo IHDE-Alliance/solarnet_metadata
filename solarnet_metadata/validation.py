@@ -6,7 +6,7 @@ from typing import Any, List, Optional, Tuple
 from astropy.io import fits
 
 from solarnet_metadata.schema import SOLARNETSchema
-from solarnet_metadata.util import DATA_TYPE_MAP, KeywordRequirement
+from solarnet_metadata.util import DATA_TYPE_MAP
 
 logger = logging.getLogger(__name__)
 
