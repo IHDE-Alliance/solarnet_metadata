@@ -285,9 +285,15 @@ class SOLARNETSchema:
         Function to generate an `astropy.table.Table` of information about each
         metadata attribute. The Table contains all information in the SOLARNET attribute schema including:
 
-        - description: (`str`) A brief description of the attribute
+        - attribute: (`str`) The name of the attribute
+        - data_type: (`str`) The data type of the attribute        
         - default: (`str`) The default value used if none is provided
-        - required: (`bool`) Whether the attribute is required by SOLARNET standards
+        - description: (`str`) A description of the attribute and its context
+        - human_readable: (`str`) A human-readable version of the attribute name
+        - required: (`str`) Whether the attribute is required by SOLARNET standards
+        - origin: (`str`) The origin of the attribute
+        - valid_values: (`list`) A list of valid values for the attribute
+        - pattern: (`str`) A regex pattern that the attribute value must match
 
         Parameters
         ----------

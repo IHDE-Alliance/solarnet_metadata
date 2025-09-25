@@ -168,7 +168,13 @@ def generate_keyword_csv(solarnet_keywords, output_path):
                 else ""
             )
             writer.writerow(
-                [keyword, data["origin"], data["description"], formatted_refs]
+                [
+                    f"`{keyword}`",
+                    f"`{data['origin']}`",
+                    data["description"],
+                    f"`{data['required']}`",
+                    formatted_refs,
+                ]
             )
 
 

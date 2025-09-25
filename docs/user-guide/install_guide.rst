@@ -1,11 +1,11 @@
-.. install_guide
+.. _install_guide:
 
 ************************************
 Installing SOLARNET Metadata Package
 ************************************
 
-Overview
-========
+Installation Overview
+=====================
 
 .. note::
     **Beta Development Notice**: The SOLARNET Metadata Package is currently in beta development and not yet available on PyPI. 

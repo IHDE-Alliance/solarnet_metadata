@@ -1,8 +1,8 @@
 .. _acknowledging:
 
-***************************************************************
-Acknowledging the SOLARNET Metadata Package and Recommendations
-***************************************************************
+*******************************************
+Acknowledging the SOLARNET Metadata Project
+*******************************************
 
 The SOLARNET Metadata Recommendations for Solar Observations have been developed to standardize metadata descriptions of solar observations, facilitating better data sharing and collaboration between ground-based and space-based solar observatories.
 
@@ -26,4 +26,4 @@ If you use the SOLARNET Metadata Recommendations in your work, we kindly ask tha
     :target: https://arxiv.org/abs/2011.12139v4
     :alt: arXiv
 
-Citing this reference helps to spread awareness of the SOLARNET Metadata Package's capabilities and gives credit to those who have contributed.
+Citing this reference helps to spread awareness of the SOLARNET Metadata Projects's capabilities and gives credit to those who have contributed.

@@ -9,10 +9,16 @@ Keyword origins are defined using a code:
 - `P`: Keywords defined in Paper I-V and Thompson (2006)[^footnote-18].
 - `O`: Other keywords in common use before being specified in this document
 
+Keyword requirements are defined as:
+- `all`: Required for all FITS headers
+- `primary`: Required for primary header
+- `obs`: Required for observation headers
+- `optional`: Optional
+
 ```{csv-table} Solarnet keywords
 :header: >
-:   "Keyword", "Origin", "Description", "Section Reference"
-:widths: 10 5 30 15
+:   "Keyword", "Origin", "Description", "Required", "Section Reference"
+:widths: 5 5 30 5 15
 :file: solarnet_keyword_list.csv
 ```
 

@@ -11,6 +11,7 @@ This guide provides an overview of how to use the SOLARNET metadata schema, incl
    :maxdepth: 2
 
    install_guide
-   solarnet_keyword_schema
+   templates
    validation
+   solarnet_schema_customization
    acknowledging
