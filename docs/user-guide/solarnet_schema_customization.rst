@@ -1,8 +1,8 @@
-.. solarnet_keyword_schema:
+.. _solarnet_schema_customization:
 
-*********************************************
-Using SOLARNET Schema for Metadata Attributes
-*********************************************
+*******************************
+Customizing the SOLARNET Schema
+*******************************
 
 Overview
 ========
@@ -61,14 +61,15 @@ Here's an example of the schema file format:
 
   attribute_key:
     attribute_name:
-      data_type: <string> 
+      data_type: <string> # one of ['int', 'float', 'str', 'date', 'bool']
       default: <Any> | null 
       description: >
         Include a meaningful description of the attribute and context needed to understand its values.
-      human_readable: <string>
-      required: <bool>
+      human_readable: <string> # Provides a default value for the keyword comment
+      required: <string> # one of ['all', 'primary', 'obs', 'optional']
       valid_values: optional[list]
       pattern: optional[string]  # For attributes with variable indices (e.g., NAXISn, CTYPEia)
+      origin: <string> # one of ['N', 'S', 'P', 'O'] (for more information, see Section 19)
   conditional_requirements:
     - condition_type: <string>
       condition_key: <string>
@@ -78,7 +79,7 @@ Here's an example of the schema file format:
 Each of the keys for the :py:attr:`attribute_key` section is defined in the table below:
 
 .. list-table:: Attribute Schema Keys
-  :widths: 20 50 10 10
+  :widths: 10 50 10 10
   :header-rows: 1
 
   * - Schema Key
@@ -90,7 +91,7 @@ Each of the keys for the :py:attr:`attribute_key` section is defined in the tabl
     - `str`
     - `True`
   * - `data_type`
-    - the expected data type of the attribute (`int`, `float`, `str`, `date`)
+    - the expected data type of the attribute (`int`, `float`, `str`, `date`, `bool`)
     - `str`
     - `True`
   * - `default`
@@ -106,7 +107,7 @@ Each of the keys for the :py:attr:`attribute_key` section is defined in the tabl
     - `str`
     - `True`
   * - `required`
-    - whether the attribute is required in your data products (`primary`, `obs`, `optional`)
+    - whether the attribute is required in your data products (`all`, `primary`, `obs`, `optional`)
     - various
     - `True`
   * - `valid_values`
@@ -117,11 +118,19 @@ Each of the keys for the :py:attr:`attribute_key` section is defined in the tabl
     - regular expression pattern for attributes with variable indices (e.g., NAXISn, CTYPEia)
     - `str`
     - `False`
+  * - `origin`
+    - indicates the origin of the keyword attribute. For more information, see :ref:`19.0`
+    - `str`
+    - `True`
+
 
 The :py:attr:`conditional_requirements` section defines when certain attributes are required based on other attribute values:
 
+This functionality allows you to specify that certain attributes are only required when specific conditions are met, such as the value of another attribute.
+This section is still under development and is planned to be expanded in future releases.
+
 .. list-table:: Conditional Requirements Schema
-  :widths: 20 50 10 10
+  :widths: 10 50 10 10
   :header-rows: 1
 
   * - Schema Key
@@ -158,60 +167,6 @@ For example, the schema includes conditional requirements based on observatory t
       - OBSGEO-Z
 
 This specifies that when `OBS_TYPE==ground-based`, the `OBSGEO-X`, `OBSGEO-Y`, and `OBSGEO-Z` attributes are required.
-
-Using the SOLARNET Schema
-=========================
-
-The SOLARNET Schema provides several useful methods for working with metadata attributes:
-
-Getting Attribute Information
------------------------------
-
-You can retrieve detailed information about specific attributes or all attributes using the `attribute_info()` method:
-
-.. code-block:: python
-
-  # Create a schema object
-  schema = SOLARNETSchema(use_defaults=True)
-  
-  # Get information about a specific attribute
-  author_info = schema.attribute_info(attribute_name="AUTHOR")
-  
-  # Get information about all attributes
-  all_info = schema.attribute_info()
-
-This returns an astropy Table containing all the schema information for the requested attribute(s).
-
-Creating Attribute Templates
-----------------------------
-
-You can generate a template of required attributes based on observatory and instrument types:
-
-.. code-block:: python
-
-  # Create a schema object
-  schema = SOLARNETSchema(use_defaults=True)
-  
-  # Get a template for ground-based imager
-  template = schema.attribute_template(
-    observatory_type="ground-based",
-    instrument_type="Imager"
-  )
-
-This returns a dictionary where keys are required attribute names and values are None. You can then fill in the appropriate values for your data.
-
-Accessing Default Attributes
-----------------------------
-
-You can access the default attributes directly:
-
-.. code-block:: python
-
-  # Create a schema object
-  schema = SOLARNETSchema(use_defaults=True)
-  
-  # Get the default attributes
-  defaults = schema.default_attributes
 
 Creating and Using Attribute Files
 ==================================
