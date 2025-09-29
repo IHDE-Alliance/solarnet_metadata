@@ -24,6 +24,7 @@ def validate_file(
     warn_empty_keyword: bool = False,
     warn_no_comment: bool = False,
     warn_data_type: bool = False,
+    warn_missing_optional: bool = False,
     schema: Optional[SOLARNETSchema] = None,
 ) -> List[str]:
     """
@@ -45,6 +46,8 @@ def validate_file(
         Whether to report warnings for keywords missing comments.
     warn_data_type : bool, default False
         Whether to validate and report warnings about incorrect data types.
+    warn_missing_optional : bool, default False
+        Whether to report warnings for optional keywords that aren't included.
     schema : Optional[SOLARNETSchema], default None
         The schema to validate against. If None, the default SOLARNET schema is used.
 
@@ -71,6 +74,7 @@ def validate_file(
             warn_empty_keyword=warn_empty_keyword,
             warn_no_comment=warn_no_comment,
             warn_data_type=warn_data_type,
+            warn_missing_optional=warn_missing_optional,
             schema=schema,
         )
         for finding in primary_findings:
@@ -85,6 +89,7 @@ def validate_file(
                 warn_empty_keyword=warn_empty_keyword,
                 warn_no_comment=warn_no_comment,
                 warn_data_type=warn_data_type,
+                warn_missing_optional=warn_missing_optional,
                 schema=schema,
             )
             for finding in findings:
@@ -101,6 +106,7 @@ def validate_header(
     warn_empty_keyword: bool = False,
     warn_no_comment: bool = False,
     warn_data_type: bool = False,
+    warn_missing_optional: bool = False,
     schema: Optional[SOLARNETSchema] = None,
 ) -> List[str]:
     """
@@ -126,6 +132,8 @@ def validate_header(
         Whether to report warnings for keywords missing comments.
     warn_data_type : bool, default False
         Whether to validate and report warnings about incorrect data types.
+    warn_missing_optional : bool, default False
+        Whether to report warnings for optional keywords that aren't included.
     schema : Optional[SOLARNETSchema], default None
         The schema to validate against. If None, the default SOLARNET schema is used.
 
@@ -148,7 +156,6 @@ def validate_header(
 
     # Get subset of Required Attributes
     required_attributes = schema.get_required_keywords(primary=is_primary, obs=is_obs)
-
     # Verify that all Required Attributes are present
     for keyword, info in required_attributes.items():
         if keyword not in header:
@@ -169,8 +176,30 @@ def validate_header(
             else:
                 validation_findings.append(f"Missing Required Attribute: {keyword}")
 
-    for keyword, value, comment in header.cards:
+    # Optionally Warn if Optional Attributes are missing
+    if warn_missing_optional:
+        optional_attributes = schema.get_optional_keywords()
+        for keyword, info in optional_attributes.items():
+            if keyword not in header:
+                # Check if there is a pattern match
+                if pattern := info.get("pattern", None):
+                    found_match = False
+                    # See if anything in header matches the pattern
+                    for header_key in header.keys():
+                        res = re.fullmatch(pattern, header_key)
+                        if res:
+                            # There was a match!
+                            found_match = True
+                            break
+                    if not found_match:
+                        validation_findings.append(
+                            f"Missing Optional Attribute: {keyword}. No pattern match for {keyword} with pattern {pattern}"
+                        )
+                else:
+                    validation_findings.append(f"Missing Optional Attribute: {keyword}")
 
+    # Validate all of the existing keywords in the header
+    for keyword, value, comment in header.cards:
         # Validate each keyword, value, comment set
         findings = validate_fits_keyword_value_comment(
             keyword,

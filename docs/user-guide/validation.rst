@@ -65,6 +65,7 @@ The validation functions accept several parameters to control the validation pro
 - :py:attr:`warn_empty_keyword` (bool): If :py:attr:`True`, the validator will issue warnings for any keywords that contain empty strings as values.
 - :py:attr:`warn_no_comment` (bool): If :py:attr:`True`, the validator will issue warnings for any keywords that are missing comments.
 - :py:attr:`warn_data_type` (bool): If :py:attr:`True`, the validator will check that keyword values match the expected data types defined in the schema.
+- :py:attr:`warn_missing_optional` (bool): If :py:attr:`True`, the validator will issue warnings for optional keywords that aren't included, encouraging more complete metadata.
 - :py:attr:`schema` (:py:class:`~solarnet_metadata.schema.SOLARNETSchema`): You can provide a custom schema instance to validate against custom requirements. If not provided, the default SOLARNET schema will be used.
 
 .. code-block:: python
@@ -79,12 +80,13 @@ The validation functions accept several parameters to control the validation pro
     # Custom schema (optional)
     custom_schema = SOLARNETSchema()
 
-    # Validate with all warning options enabled
+    ## Validate with all warning options enabled
     validation_findings: List[str] = validate_file(
         file_path=fits_path,
         warn_empty_keyword=True,    # Report warnings for empty keywords
         warn_no_comment=True,       # Report warnings for missing comments
         warn_data_type=True,        # Validate data types against schema
+        warn_missing_optional=True, # Report warnings for missing optional keywords
         schema=custom_schema        # Use custom schema (optional)
     )
 
@@ -102,6 +104,7 @@ Specific options available for this function include:
 - :py:attr:`warn_empty_keyword` (bool): If :py:attr:`True`, the validator will issue warnings for any keywords that contain empty strings as values.
 - :py:attr:`warn_no_comment` (bool): If :py:attr:`True`, the validator will issue warnings for any keywords that are missing comments.
 - :py:attr:`warn_data_type` (bool): If :py:attr:`True`, the validator will check that keyword values match the expected data types defined in the schema.
+- :py:attr:`warn_missing_optional` (bool): If :py:attr:`True`, the validator will issue warnings for optional keywords that aren't included.
 - :py:attr:`schema` (:py:class:`~solarnet_metadata.schema.SOLARNETSchema`): You can provide a custom schema instance to validate against custom requirements. If not provided, the default SOLARNET schema will be used.
 
 .. code-block:: python
@@ -116,7 +119,8 @@ Specific options available for this function include:
             header=hdul[0].header,
             is_primary=True,
             is_obs=False,
-            warn_data_type=True
+            warn_data_type=True,
+            warn_missing_optional=True,
         )
         
     # Print primary header findings
