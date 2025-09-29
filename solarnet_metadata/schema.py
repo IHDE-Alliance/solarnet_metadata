@@ -197,6 +197,22 @@ class SOLARNETSchema:
         }
         return required_attributes
 
+    def get_optional_keywords(self) -> Dict[str, Dict[str, Any]]:
+        """
+        Function to get a list of optional keywords.
+
+        Returns
+        -------
+        optional_keywords : `Dict[str, Dict[str, Any]]`
+            A dictionary of optional keywords and their associated information.
+        """
+        optional_attributes = {
+            keyword: info
+            for keyword, info in self.attribute_key.items()
+            if KeywordRequirement(info["required"]) == KeywordRequirement.OPTIONAL
+        }
+        return optional_attributes
+
     def attribute_template(
         self,
         primary: Optional[bool] = False,

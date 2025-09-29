@@ -37,6 +37,11 @@ MOCK_SCHEMA = {
             "pattern": "PATTERN(?P<n>[1-9])",
         },
         "OBS_ATTR": {"required": "obs", "data_type": "str"},
+        "OPT_PTRn": {
+            "required": "optional",
+            "data_type": "str",
+            "pattern": "OPT_PTR(?P<n>[1-9])",
+        },
     },
     "conditional_requirements": [],
 }
@@ -247,9 +252,8 @@ def test_validate_fits_keyword_data_type(
     assert findings == expected_findings
 
 
-# Parameterized test cases for the validate method
 @pytest.mark.parametrize(
-    "header_dict, warn_no_comment, warn_data_type, expected_findings",
+    "header_dict, warn_no_comment, warn_data_type, warn_missing_optional, expected_findings",
     [
         # Test 1: Missing required attribute
         (
@@ -257,6 +261,7 @@ def test_validate_fits_keyword_data_type(
                 "NAXIS": ("3", "Number of axes"),
                 "PATTERN1": ("value", "comment"),
             },
+            False,
             False,
             False,
             ["Missing Required Attribute: AUTHOR"],
@@ -268,6 +273,7 @@ def test_validate_fits_keyword_data_type(
                 "PATTERN1": ("value", "comment"),
                 "INVALID_KEY!": ("value", "comment"),
             },
+            False,
             False,
             False,
             [
@@ -284,6 +290,7 @@ def test_validate_fits_keyword_data_type(
             },
             True,
             False,
+            False,
             [
                 "Keyword 'NAXIS' has no comment.",
                 "Keyword 'AUTHOR' has no comment.",
@@ -298,6 +305,7 @@ def test_validate_fits_keyword_data_type(
             },
             False,
             True,
+            False,
             [],
         ),
         # Test 5: Data type validation with incorrect type
@@ -309,6 +317,7 @@ def test_validate_fits_keyword_data_type(
             },
             False,
             True,
+            False,
             [
                 "Value for 'NAXIS' cannot be cast to data type 'int': invalid literal for int() with base 10: 'three'",
             ],
@@ -323,6 +332,7 @@ def test_validate_fits_keyword_data_type(
             },
             False,
             True,
+            False,
             [
                 "Keyword 'EXTRAKEY' not found in the schema. Cannot Validate Data Type.",
             ],
@@ -337,6 +347,7 @@ def test_validate_fits_keyword_data_type(
             },
             False,
             True,
+            False,
             [
                 "Keyword 'COMMENT' has no data type. Cannot Validate Data Type.",
             ],
@@ -351,6 +362,7 @@ def test_validate_fits_keyword_data_type(
             },
             False,
             True,
+            False,
             [
                 "Value 'D' for keyword 'VALIDKEY' is not in the list of valid values: ['A', 'B', 'C'].",
             ],
@@ -363,14 +375,68 @@ def test_validate_fits_keyword_data_type(
             },
             False,
             True,
+            False,
             [
                 "Missing Required Attribute: PATTERNn. No pattern match for PATTERNn with pattern PATTERN(?P<n>[1-9])",
+            ],
+        ),
+        # Test 10: Missing optional pattern-matching keywords with warn_missing_optional=True
+        (
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
+                "AUTHOR": ("John Doe", "Author name"),
+                # Only one optional keyword present
+                "COMMENT": ("Test comment", "Comment description"),
+                # No optional pattern keywords
+            },
+            False,
+            False,
+            True,  # warn_missing_optional
+            [
+                "Missing Optional Attribute: SOMEINT",
+                "Missing Optional Attribute: SOMEFLOAT",
+                "Missing Optional Attribute: SOMEDATE",
+                "Missing Optional Attribute: SOMESTR",
+                "Missing Optional Attribute: SOMEBOOL",
+                "Missing Optional Attribute: SOMETYPE",
+                "Missing Optional Attribute: VALIDKEY",
+                "Missing Optional Attribute: OPT_PTRn. No pattern match for OPT_PTRn with pattern OPT_PTR(?P<n>[1-9])",
+            ],
+        ),
+        # Test 11: Pattern-matching optional keyword is present
+        (
+            {
+                "NAXIS": ("3", "Number of axes"),
+                "PATTERN1": ("value", "comment"),
+                "AUTHOR": ("John Doe", "Author name"),
+                "OPT_PTR1": ("value", "Optional pattern value"),
+                # One optional pattern keyword present
+            },
+            False,
+            False,
+            True,  # warn_missing_optional
+            [
+                "Missing Optional Attribute: COMMENT",
+                "Missing Optional Attribute: SOMEINT",
+                "Missing Optional Attribute: SOMEFLOAT",
+                "Missing Optional Attribute: SOMEDATE",
+                "Missing Optional Attribute: SOMESTR",
+                "Missing Optional Attribute: SOMEBOOL",
+                "Missing Optional Attribute: SOMETYPE",
+                "Missing Optional Attribute: VALIDKEY",
+                # No warning for OPT_PTRn since OPT_PTR1 is present
             ],
         ),
     ],
 )
 def test_validate_header(
-    mock_schema, header_dict, warn_no_comment, warn_data_type, expected_findings
+    mock_schema,
+    header_dict,
+    warn_no_comment,
+    warn_data_type,
+    warn_missing_optional,
+    expected_findings,
 ):
     # Helper function to create a fits.Header from a dictionary of (value, comment) tuples
     def create_fits_header(header_dict):
@@ -384,6 +450,7 @@ def test_validate_header(
         header=header,
         warn_no_comment=warn_no_comment,
         warn_data_type=warn_data_type,
+        warn_missing_optional=warn_missing_optional,
         schema=mock_schema,
     )
     assert findings == expected_findings
