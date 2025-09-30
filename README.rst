@@ -33,7 +33,7 @@ SOLARNET Metadata Recommendations for Solar Observations
     :target: https://solarnet-metadata.readthedocs.io/en/latest/?badge=latest
     :alt: ReadTheDocs Status
 
-.. |DOI| image:: image:: https://zenodo.org/badge/794299551.svg
+.. |DOI| image:: https://zenodo.org/badge/794299551.svg
     :target: https://doi.org/10.5281/zenodo.15741506
     :alt: DOI
 
