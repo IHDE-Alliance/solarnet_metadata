@@ -25,7 +25,7 @@ SOLARNET Metadata Recommendations for Solar Observations
     :target: https://github.com/IHDE-Alliance/solarnet_metadata/actions/workflows/codestyle.yml
     :alt: Codestyle and linting using flake8
 
-.. |coverage| image:: https://codecov.io/gh/IHDE-Alliance/solarnet_metadata/branch/main/graph/badge.svg?token=C6JLIWZRBU
+.. |coverage| image:: https://codecov.io/gh/IHDE-Alliance/solarnet_metadata/graph/badge.svg?token=PZLLKDTPGU
     :target: https://codecov.io/gh/IHDE-Alliance/solarnet_metadata
     :alt: Testing coverage
 
