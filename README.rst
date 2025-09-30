@@ -58,7 +58,7 @@ The latest rendered documentation can be found on `readthedocs <http://solarnet-
 Acknowledging or Citing The SOLARNET Metadata Recommendations
 -------------------------------------------------------------
 
-If you use the SOLARNET Metadata Recommendations in your scientific work, we would appreciate your [citing it in your publications](http://solarnet-metadata.readthedocs.io/en/latest/citation.html).
+If you use the SOLARNET Metadata Recommendations in your scientific work, we would appreciate your `citing it in your publications <http://solarnet-metadata.readthedocs.io/en/latest/citation.html>`_.
 The continued growth and development of the SOLARNET Metadata Recommendations is dependent on the community being aware of them.
 
 Building the Documentation Locally
