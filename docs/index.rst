@@ -37,6 +37,15 @@ These recommendations are currently being followed by at least nine data pipelin
 
 .. [#footnote2] Solar Orbiter SPICE, SST CHROMIS/CRISP (SSTRED), AISAS/Lomnicky Stit COMP-S/SCD, SAMNET, Gregor HiFI/GFPI, ROB USET, Alma pipeline for Solar data (SOAP), INAF IBIS-A (IBIS data Archive), PADRE/MeDDEA
 
+Release History
+----------------
+
+.. toctree::
+   :maxdepth: 2
+
+   whatsnew/index
+
+
 Part A. Description of FITS Keywords
 ------------------------------------
 .. toctree::
@@ -59,12 +68,27 @@ Part C. Part C. Alphabetical listings of FITS keywords with section references
 
    generated/partc
 
-Version Guidelines
-------------------
+User's Guide
+------------
 .. toctree::
-   :maxdepth: 0
+   :maxdepth: 2
 
-   version_guidelines
+   user-guide/index
+
+Developer's Guide
+-----------------
+.. toctree::
+   :maxdepth: 2
+
+   dev-guide/index
+
+API Guide
+----------
+
+.. toctree::
+   :maxdepth: 2
+
+   api
 
 Citation and Acknowledgements
 -----------------------------

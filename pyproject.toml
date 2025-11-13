@@ -1,0 +1,112 @@
+[build-system]
+requires = ["setuptools>=45",
+            "setuptools_scm[toml]>=6.2",
+            "wheel"]
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = "solarnet_metadata"
+description = "A Python package to support metadata attribute management for generating SOLARNET compliant FITS files."
+readme = "README.rst"
+dynamic = ["version"]
+authors = [
+  {name = "Stein Vidar Hagfors", email="prits-group@astro.uio.no"},
+  {name = "Terje Fredvik", email="prits-group@astro.uio.no"},
+  {name = "Steven Christe", email="steven.d.christe@nasa.gov"},
+  {name = "Andrew Robbertz", email="a.robbertz@gmail.com"},
+]
+license = {file = "LICENSE.rst"}
+requires-python = ">=3.10"
+keywords = ["solarnet_metadata", "nasa mission", "space weather"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+  'pyyaml>=5.3.1',
+  'astropy==6.1.*',
+]
+
+[project.optional-dependencies]
+dev = [
+  'solarnet_metadata[docs,test,style]',
+]
+
+docs = [
+  'myst-parser==3.0.1',
+  'sphinx==7.2.6',
+  'sphinx-automodapi==0.16.0',
+  'sphinx-copybutton==0.5.2',
+]
+
+test = [
+  'pytest==8.0.0',
+  'pytest-astropy==0.11.0',
+  'pytest-cov==4.1.0',
+  'coverage[toml]==7.4.1'
+]
+
+style = [
+  'black==24.1.1',
+  'flake8==7.0.0',
+  'rstcheck==6.2.0',
+]
+
+[tool.setuptools.package-data]
+solarnet_metadata = ["data/*"]
+
+[tool.setuptools]
+packages = ["solarnet_metadata"]
+
+[tool.setuptools_scm]
+write_to = "solarnet_metadata/_version.py"
+
+[tool.pytest.ini_options]
+testpaths = [
+   "solarnet_metadata/tests",
+   "solarnet_metadata/util/tests",
+   "docs"
+]
+doctest_plus = "enabled"
+text_file_format = "rst"
+addopts = "--doctest-rst"
+
+[tool.coverage.run]
+omit = [
+  'solarnet_metadata/__init*',
+  'solarnet_metadata/conftest.py',
+  'solarnet_metadata/*setup_package*',
+  'solarnet_metadata/tests/*',
+  'solarnet_metadata/*/tests/*',
+  'solarnet_metadata/extern/*',
+  'solarnet_metadata/version*',
+  '*/solarnet_metadata/__init*',
+  '*/solarnet_metadata/conftest.py',
+  '*/solarnet_metadata/*setup_package*',
+  '*/solarnet_metadata/tests/*',
+  '*/solarnet_metadata/*/tests/*',
+  '*/solarnet_metadata/extern/*',
+  '*/solarnet_metadata/version*',
+]
+
+[tool.rstcheck]
+report_level = "WARNING"
+ignore_roles = [
+  "py:class",
+  "py:class",
+  "file",
+]
+ignore_directives = [
+    "plot",
+    "doctest",
+    "automodapi",
+    "csv-table",
+    "graphviz",
+]
+ignore_messages = "not referenced"
