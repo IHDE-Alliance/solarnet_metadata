@@ -1,7 +1,7 @@
 This project uses `semantic versioning <https://semver.org>`_. 
 
-Latest
-======
+3.2.2
+=====
 
 * Added Python package structure with validation and schema functionality:
     * New ``solarnet_metadata.schema`` module with ``SOLARNETSchema`` class for attribute schema handling
