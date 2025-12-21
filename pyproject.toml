@@ -29,8 +29,9 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Physics",
 ]
 dependencies = [
-  'pyyaml>=5.3.1',
   'astropy==6.1.*',
+  'numpy<2.4',
+  'pyyaml>=5.3.1',
 ]
 
 [project.optional-dependencies]

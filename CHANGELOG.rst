@@ -1,5 +1,10 @@
 This project uses `semantic versioning <https://semver.org>`_. 
 
+3.2.3
+=====
+
+* Addresses NumPy compatibility issues with Astropy 6.1.Z by adding a NumPy version constraint to prevent installation of NumPy 2.4.Z and later, which deprecate functionality required by Astropy. This ensures the package remains compatible with Python 3.10.
+
 3.2.2
 =====
 
