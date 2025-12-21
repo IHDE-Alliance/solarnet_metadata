@@ -30,7 +30,7 @@ classifiers = [
 ]
 dependencies = [
   'astropy==6.1.*',
-  'numpy==2.2.*',
+  'numpy<2.4',
   'pyyaml>=5.3.1',
 ]
 
