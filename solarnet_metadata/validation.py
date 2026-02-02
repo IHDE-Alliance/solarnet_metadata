@@ -379,7 +379,7 @@ def validate_fits_keyword_value_comment(
                 card_str = f"{keyword.ljust(8)}= {value_str} / {comment}"
             else:
                 card_str = f"{keyword.ljust(8)}= {value_str}"
-            print(card_str)
+
             if len(card_str) > 80:
                 findings.append(
                     f"FITS card for '{keyword}' exceeds 80 characters (length: {len(card_str)})."
