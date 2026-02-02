@@ -33,7 +33,7 @@ jobs:
         pip install -e .[test]
 
     - name: Run Tests
-      run: pytest --pyargs solarnet_metadata --cov --junitxml=junit.xml -o junit_family=legacy solarnet_metadata
+      run: pytest --pyargs solarnet_metadata --cov=solarnet_metadata --junitxml=junit.xml -o junit_family=legacy
       env:
         PLATFORM: ${{ matrix.platform }}
 
