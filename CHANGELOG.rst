@@ -3,7 +3,7 @@ This project uses `semantic versioning <https://semver.org>`_.
 Latest
 ======
 
-* Fixed FITS card length validation to correctly handle keywords without comments. Previously, the validator incorrectly assumed all keywords had comments and added `/ ` separator when calculating card length, causing false positives for valid 80-character cards without comments.
+* Fixed FITS card length validation to correctly handle keywords without comments. Previously, the validator incorrectly assumed all keywords had comments and added ``/`` separator when calculating card length, causing false positives for valid 80-character cards without comments.
 * Fixed FITS card length validation to properly account for quotes around string values. The validator now adds quotes to string values when constructing the card representation, matching the actual FITS format and ensuring accurate length calculations.
 * Updated CI workflow to upload test results to Codecov using ``codecov/test-results-action@v1`` for improved test reporting and coverage tracking.
 
