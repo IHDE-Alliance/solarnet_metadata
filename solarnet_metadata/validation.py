@@ -370,7 +370,18 @@ def validate_fits_keyword_value_comment(
             # - Column 9: '='
             # - Column 10: space
             # - Columns 11-80: value + ' / ' + comment (up to 70 characters total)
-            card_str = f"{keyword.ljust(8)}= {value_str} / {comment}"
+            # String values are quoted in FITS cards. Embedded single quotes are doubled
+            # per FITS rules (e.g., O'Brien -> 'O''Brien').
+            if isinstance(value, str):
+                escaped_value_str = value_str.replace("'", "''")
+                value_str = f"'{escaped_value_str}'"
+
+            # Build card with or without comment
+            if comment is not None and str(comment).strip():
+                card_str = f"{keyword.ljust(8)}= {value_str} / {comment}"
+            else:
+                card_str = f"{keyword.ljust(8)}= {value_str}"
+
             if len(card_str) > 80:
                 findings.append(
                     f"FITS card for '{keyword}' exceeds 80 characters (length: {len(card_str)})."

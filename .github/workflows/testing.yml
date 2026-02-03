@@ -33,11 +33,12 @@ jobs:
         pip install -e .[test]
 
     - name: Run Tests
-      run: pytest --pyargs solarnet_metadata --cov solarnet_metadata
+      run: pytest --pyargs solarnet_metadata --cov=solarnet_metadata --junitxml=junit.xml -o junit_family=legacy
       env:
         PLATFORM: ${{ matrix.platform }}
 
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}

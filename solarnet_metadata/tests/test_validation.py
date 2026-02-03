@@ -166,46 +166,50 @@ def test_check_obs_hdu(
 # fmt: off
 # Test cases for validate_fits_keyword_value_comment
 @pytest.mark.parametrize(
-    "keyword,value,comment,expected_findings",
+    "keyword,value,comment,warn_no_comment,expected_findings",
     [
         # Valid case: regular keyword, string value, string comment
-        ("NAXIS", "3", "Number of axes", []),
+        ("NAXIS", "3", "Number of axes", True, []),
         # Invalid keyword: too long
-        ("TOOLONGKEYWORD", "value", "comment", ["Invalid keyword 'TOOLONGKEYWORD': Must be 1-8 characters, containing only A-Z, 0-9, -, _."]),
+        ("TOOLONGKEYWORD", "value", "comment", True, ["Invalid keyword 'TOOLONGKEYWORD': Must be 1-8 characters, containing only A-Z, 0-9, -, _."]),
         # Invalid keyword: contains lowercase letters
-        ("lower_case", "value", "comment", ["Invalid keyword 'lower_case': Must be 1-8 characters, containing only A-Z, 0-9, -, _."]),
+        ("lower_case", "value", "comment", True, ["Invalid keyword 'lower_case': Must be 1-8 characters, containing only A-Z, 0-9, -, _."]),
         # Invalid keyword: empty string
-        ("", "value", "comment", ["Invalid keyword '': Must be 1-8 characters, containing only A-Z, 0-9, -, _."]),
+        ("", "value", "comment", True, ["Invalid keyword '': Must be 1-8 characters, containing only A-Z, 0-9, -, _."]),
         # Special keyword COMMENT: currently passes regardless of value/comment
-        ("COMMENT", "", "This is a comment", []),
+        ("COMMENT", "", "This is a comment", True, []),
         # Special keyword HISTORY: currently passes regardless of value/comment
-        ("HISTORY", None, "History entry", []),
+        ("HISTORY", None, "History entry", True, []),
         # Regular keyword with integer value (castable to string)
-        ("SOMEKEY", 123, "comment", []),
+        ("SOMEKEY", 123, "comment", True, []),
         # FITS card exceeds 80 characters
-        ("SOMEKEY", "a" * 30, "b" * 38, ["FITS card for 'SOMEKEY' exceeds 80 characters (length: 81)."]),
+        ("TOOLONG", "a" * 30, "b" * 38, True, ["FITS card for 'TOOLONG' exceeds 80 characters (length: 83)."]),
         # FITS card exactly 80 characters (should pass)
-        ("SOMEKEY", "a" * 30, "b" * 37, []),
+        ("JUSTRGHT", "a" * 30, "b" * 35, True, []),
+        # FITS Card exactly 80 characters without comment (should pass)
+        ("JUSTRGHT", "a" * 68, None, False, []),
+        # FITS Card exactly 80 characters without comment (should pass)
+        ("JUSTRGHT", "a" * 68, "", False, []),
         # Value cannot be cast to string
-        ("SOMEKEY", BadStr(), "comment", ["Value for 'SOMEKEY' cannot be cast to a string: Cannot cast to string"]),
+        ("SOMEKEY", BadStr(), "comment", True, ["Value for 'SOMEKEY' cannot be cast to a string: Cannot cast to string"]),
         # Comment is not a string or None
-        ("SOMEKEY", "value", 123, ["Comment for 'SOMEKEY' must be a string (got <class 'int'>)."]),
+        ("SOMEKEY", "value", 123, True, ["Comment for 'SOMEKEY' must be a string (got <class 'int'>)."]),
         # Comment is None (should pass, though FITS card includes " / None")
-        ("SOMEKEY", "val", None, ["Keyword 'SOMEKEY' has no comment."]),
+        ("SOMEKEY", "val", None, True, ["Keyword 'SOMEKEY' has no comment."]),
         # Keyword with Value outside valid_values
-        ("VALIDKEY", "D", "comment", ["Value 'D' for keyword 'VALIDKEY' is not in the list of valid values: ['A', 'B', 'C']."]),
+        ("VALIDKEY", "D", "comment", True, ["Value 'D' for keyword 'VALIDKEY' is not in the list of valid values: ['A', 'B', 'C']."]),
     ]
 )
 # fmt: on
 def test_validate_fits_keyword_value_comment(
-    mock_schema, keyword, value, comment, expected_findings
+    mock_schema, keyword, value, comment, warn_no_comment, expected_findings
 ):
     findings = validate_fits_keyword_value_comment(
         keyword,
         value,
         comment,
         warn_empty_keyword=True,
-        warn_no_comment=True,
+        warn_no_comment=warn_no_comment,
         schema=mock_schema,
     )
     assert findings == expected_findings
