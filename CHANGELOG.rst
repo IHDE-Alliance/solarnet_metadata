@@ -6,6 +6,7 @@ Latest
 * Fixed FITS card length validation to correctly handle keywords without comments. Previously, the validator incorrectly assumed all keywords had comments and added ``/`` separator when calculating card length, causing false positives for valid 80-character cards without comments.
 * Fixed FITS card length validation to properly account for quotes around string values. The validator now adds quotes to string values when constructing the card representation, matching the actual FITS format and ensuring accurate length calculations.
 * Updated CI workflow to upload test results to Codecov using ``codecov/test-results-action@v1`` for improved test reporting and coverage tracking.
+* Clarified requirement for the ``EXTEND`` keyword in the primary header. The presence of ``EXTEND`` with a value of ``T`` indicates that the FITS file may contain conforming extensions, but its absence does not necessarily imply that the file does not contain extensions. This keyword is advisory and should only appear in the primary header.
 
 3.2.3
 =====
