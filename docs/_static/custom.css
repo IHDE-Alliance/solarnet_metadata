@@ -1,4 +1,15 @@
 /* _static/custom.css */
+
+/* Footnote references: render as bold superscript so they remain visible
+   even when the footnotes themselves are collected at the end of a part. */
+a.footnote-reference {
+    font-weight: bold;
+    vertical-align: super;
+    font-size: 0.75em;
+    line-height: 0;
+    text-decoration: none;
+}
+
 div.related {
     background-color: #FF8800; /* Orange from lightbulb outline */
     color: #000000; /* Black text for contrast */
