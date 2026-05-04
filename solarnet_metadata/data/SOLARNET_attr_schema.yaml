@@ -628,9 +628,9 @@ attribute_key:
   EXTEND:
     data_type: str
     default: null
-    description: The EXTEND keyword is used to indicate that the file contains one or more extensions. The value of EXTEND must be set to 'T' (true) if the file contains one or more extensions, and 'F' (false) if it does not. The default value of EXTEND is 'T'.
+    description: If present, the value field shall contain a logical value indicating whether the FITS file is allowed to contain conforming extensions following the primary HDU. This keyword may only appear in the primary header and must not appear in an extension header. If the value field is T then there may be conforming extensions in the FITS file following the primary HDU. This keyword is only advisory, so its presence with a value T does not require that the FITS file contains extensions, nor does the absence of this keyword necessarily imply that the file does not contain extensions. 
     human_readable: File contains extensions
-    required: primary
+    required: optional # Recommended general FITS standard keyword 
     origin: S
   EXTLEVEL:
     data_type: int
