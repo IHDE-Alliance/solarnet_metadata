@@ -110,6 +110,14 @@ def test_schema_load_default_attributes():
             assert keyword not in header
 
 
+def test_default_schema_keyword_origins_are_populated():
+    """Test that default schema keyword origins are always set to a known code."""
+    schema = SOLARNETSchema()
+
+    for keyword, info in schema.attribute_key.items():
+        assert info["origin"] in {"N", "S", "P", "O"}, keyword
+
+
 @pytest.mark.parametrize(
     "data_type,default_value,expected_result,expected_data_type",
     [
