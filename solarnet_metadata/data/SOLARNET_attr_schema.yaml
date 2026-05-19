@@ -1364,6 +1364,13 @@ attribute_key:
     human_readable: Settings
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
     origin: N
+  SCI_SW:
+    data_type: str
+    default: null
+    description: Name and url of the recommended data analysis software package for scientists to use to analyze these data.
+    human_readable: Recommended analysis software
+    required: optional
+    origin: N
   SIGMADAT:
     data_type: float
     default: null

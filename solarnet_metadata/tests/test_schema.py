@@ -110,6 +110,21 @@ def test_schema_load_default_attributes():
             assert keyword not in header
 
 
+def test_default_schema_contains_sci_sw():
+    """Test the default schema includes the recommended analysis software keyword"""
+    schema = SOLARNETSchema()
+    sci_sw = schema.attribute_key["SCI_SW"]
+
+    assert sci_sw["data_type"] == "str"
+    assert sci_sw["default"] is None
+    assert sci_sw["required"] == "optional"
+    assert (
+        sci_sw["description"]
+        == "Name and url of the recommended data analysis software package for scientists to use to analyze these data."
+    )
+    assert sci_sw["human_readable"] == "Recommended analysis software"
+
+
 @pytest.mark.parametrize(
     "data_type,default_value,expected_result,expected_data_type",
     [
