@@ -492,6 +492,17 @@ HASH_SW = 'a7ef89ad998ea7feef4bbc0bbc1bbc2bbc3bbc4' / Commit hash of software ap
 VERS_CAL = '2.4'       / Version of calibration pack applied
 ```
 
+If the software package recommended for scientific analysis of the data is different from the software that produced the FITS file, the optional keyword `SCI_SW` may be used to give a human-readable package name together with a URL for the recommended software. This complements the processing-oriented keywords above: `CREATOR`, `VERS_SW`, and `HASH_SW` describe the provenance of the file that was generated, while `SCI_SW` points the reader to the software package that is recommended for subsequent scientific analysis. When the same package serves both roles, `SCI_SW` may be omitted as redundant.
+
+E.g.:
+
+```none
+CREATOR = 'sstred_pipeline' / Name of software pipeline that produced the FITS file
+VERS_SW = '1.8.3' / Version of software applied
+HASH_SW = '4f3d2c1b9a887766554433221100ffeeddccbbaa' / Commit hash of software applied
+SCI_SW = 'SolarSoft https://www.lmsal.com/solarsoft/' / Recommended analysis software
+```
+
 In addition, `PRSTEPn` should specify the nature of the processing steps, if any, that has been applied to the data. Each `PRSTEPn` may contain a comma separated list if multiple processing steps are inseparable. The number n specifies the step number and should reflect the order in which the steps have been performed, e.g.:
 
 ```none
