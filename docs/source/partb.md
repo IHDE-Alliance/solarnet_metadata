@@ -419,6 +419,7 @@ VERSION = 2 / FITS file processing generation/version
 CREATOR = 'ZUN_MOMF_PIPELINE' / Name of software pipeline that produced the FITS file
 VERS_SW = '2.5'       / Version of CREATOR software applied
 HASH_SW = ' a7ef89ad998ea7feef4bbc0bbc1bbc2bbc3bbc4'/ GIT commit hash for pipeline
+SCI_SW = 'SolarSoft https://www.lmsal.com/solarsoft/' / Recommended analysis software
 VERS_CAL= '2.4'       / Version of calibration pack applied
 PRSTEP1 = 'MOMFBD ' / Processing step type
 PRPROC1 = 'zun_momf.pro' / Name of procedure performing PRSTEP1
