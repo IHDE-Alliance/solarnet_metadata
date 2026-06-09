@@ -492,7 +492,9 @@ HASH_SW = 'a7ef89ad998ea7feef4bbc0bbc1bbc2bbc3bbc4' / Commit hash of software ap
 VERS_CAL = '2.4'       / Version of calibration pack applied
 ```
 
-If the software package recommended for scientific analysis of the data is different from the software that produced the FITS file, the optional keyword `SCI_SW` may be used to give a human-readable package name together with a URL for the recommended software. This complements the processing-oriented keywords above: `CREATOR`, `VERS_SW`, and `HASH_SW` describe the provenance of the file that was generated, while `SCI_SW` points the reader to the software package that is recommended for subsequent scientific analysis. When the same package serves both roles, `SCI_SW` may be omitted as redundant.
+If the software package(s) recommended for scientific analysis of the data are different from the software that produced the FITS file, the optional keyword SCI_SW may be used to give human-readable package names together with a URL for the recommended software, with commas used to separate different software packages. 
+This complements the processing-oriented keywords above: CREATOR, VERS_SW, and HASH_SW describe the provenance of the file, while SCI_SW points the reader to the software package(s) recommended for subsequent scientific analysis. 
+When the same package serves both roles, SCI_SW may be omitted as redundant.
 
 E.g.:
 

@@ -1367,8 +1367,8 @@ attribute_key:
   SCI_SW:
     data_type: str
     default: null
-    description: Name and url of the recommended data analysis software package for scientists to use to analyze these data.
-    human_readable: Recommended analysis software
+    description: Package name(s) and URL(s) for the recommended analysis software, with commas used to separate different software packages. 
+    human_readable: Recommended scientific analysis software (name and URL)
     required: optional
     origin: N
   SIGMADAT:
