@@ -3,6 +3,8 @@ This project uses `semantic versioning <https://semver.org>`_.
 Latest
 ======
 
+* Added new optional keyword ``SCI_SW`` for recomended analysis software package.
+
 3.2.4
 =====
 
