@@ -379,9 +379,9 @@ We _strongly_ recommend that all such “free-text” keywords are filled in fro
 
 `OBS_MODE`: A string (from a limited/discrete list) uniquely identifying the mode of operation.
 
-`OBS_DESC`: A string describing the observation, e.g., “Sit and stare on AR10333”. Content sources may be e.g., observation logs. Should be identical to `OBSTITLE` when no more suitable value is available.
+`OBSTITLE`: A more generic/higher-level description, e.g., “Flare sit-and-stare”, “High cadence large raster”. The contents will often correspond to `OBS_MODE`, though not necessarily as a one-to-one relationship. Set to `OBS_MODE` when no more suitable value is available.
 
-`OBSTITLE`: A more generic/higher-level description, e.g., “Flare sit-and-stare”, “High cadence large raster”). The contents will often correspond to `OBS_MODE`, though not necessarily as a one-to-one relationship. Used by IRIS and SPICE, corresponds to Hinode `OBS_DEC`. Should be identical to `OBS_DESC` or `OBS_MODE` when no more suitable value is available.
+`OBS_DESC`: A string describing the observation, e.g., “Sit and stare on AR10333”. Content sources may be e.g., observation logs. Should be identical to `OBSTITLE` when no more suitable value is available.
 
 `SETTINGS`: Other settings – numerical values can be given as `'parameter1=n, parameter2=m'`.
 
