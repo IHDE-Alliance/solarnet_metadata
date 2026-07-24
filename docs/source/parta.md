@@ -81,9 +81,9 @@ Additional comments may be added using the `COMMENT` keyword or by leaving the k
 
 The World Coordinate System (WCS) is a very comprehensive standard that should be used for the description of physical data coordinates in Obs-HDUs.
 
-In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`. Future pipelines, however, should use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`)[^footnote-3]. `CROTA` without an `n`, however, may be used for the rotation of the FOV around the line of sight. This is particularly useful for data with very complicated WCS specifications (tabulated coordinates, etc) that are to be included in a Virtual Observatory (VO). The `XCEN`, `YCEN`, `FOVX`, and `FOVY` keywords may still be used for convenience (e.g. archive searches and quick-look visualisations of the field of view), but they should be derived from the WCS keywords and _not_ used to define the WCS.
+In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`. Future pipelines, however, should use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`)[^footnote-3]. The `XCEN`, `YCEN`, `FOVX`, and `FOVY` keywords may still be used for convenience to describe the observation's actual field of view (e.g. for archive searches and quick-look visualisations of the field of view). `CROTA` (without an `n`), may likewise be used to express the counterclockwise rotation of the actual FOV around the line of sight. Note that for observations that have been embedded in a larger data cube, these keywords do not describe the data cube, but the observations themselves.
 
-All keywords described in this Section are defined by the FITS Standard and Papers I-V. See also Thompson (2006).
+All keywords described below in this Section are defined by the FITS Standard and Papers I-V. See also Thompson (2006).
 
 [^footnote-3]: If a full description seems impossible through the existing WCS framework, create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
 
