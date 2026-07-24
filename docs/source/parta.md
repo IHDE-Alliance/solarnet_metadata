@@ -76,11 +76,12 @@ We are considering making a machine- and human-readable catalogue of keyword com
 Additional comments may be added using the `COMMENT` keyword or by leaving the keyword field blank – see Section 4.4.2.4 in the FITS Standard.
 
 (3.0)=
-# 3 The World Coordinate System (WCS) and related keywords
+
+# 3 The World Coordinate System (WCS) and related keywords (spatial and positional)
 
 The World Coordinate System (WCS) is a very comprehensive standard that should be used for the description of physical data coordinates in Obs-HDUs.
 
-In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`, etc. Future pipelines, however, should _only_ use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`) or any instrument- or mission-specific practices[^footnote-3].
+In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`. Future pipelines, however, should use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`)[^footnote-3]. `CROTA` without an `n`, however, may be used for the rotation of the FOV around the line of sight. This is particularly useful for data with very complicated WCS specifications (tabulated coordinates, etc) that are to be included in a Virtual Observatory (VO). The `XCEN`, `YCEN`, `FOVX`, and `FOVY` keywords may still be used for convenience (e.g. archive searches and quick-look visualisations of the field of view), but they should be derived from the WCS keywords and _not_ used to define the WCS.
 
 All keywords described in this Section are defined by the FITS Standard and Papers I-V. See also Thompson (2006).
 
@@ -137,7 +138,7 @@ Ground based observatories must report their geographical location using the key
 
 Earth-orbiting satellites must report their position through `GEOX_OBS`, `GEOY_OBS`, and `GEOZ_OBS`. Contrary to the `OBSGEO-X/Y/Z` keywords, these keywords do _not_ implicitly imply that the coordinates are fixed w.r.t. Earth’s rotation, but are otherwise identically defined (ITRF, but GPS is an acceptable proxy). For many observations, these keywords must be reported using the variable-keyword mechanism ([Appendix I](#appendix-i)) since the spacecraft might move considerably during the observation.
 
-For deep space missions, the keywords `DSUN_OBS` (distance from Sun centre in metres), `HGLN_OBS` (longitude), and `HGLT_OBS` (latitude) must be used to report the instrument position in the Stonyhurst Heliographic system (see Thompson 2006, Sections 2.1 and 9.1). The distance from the Sun centre in astronomical units may be reported in `DSUN_AU` (in addition to `DSUN_OBS`). Note that the Solar B angle is identical to `HGLT_OBS`, and although it is a duplication of information, it may be reported also in `SOLAR_B0` for convenience.
+For deep space missions, the keywords `DSUN_OBS` (distance from Sun centre in metres), `HGLN_OBS` (longitude), and `HGLT_OBS` (latitude) must be used to report the instrument position in the Stonyhurst Heliographic system (see Thompson 2006, Sections 2.1 and 9.1). The distance from the Sun centre in astronomical units may be reported in `DSUN_AU` (in addition to `DSUN_OBS`). Note that the Solar B angle is identical to `HGLT_OBS`, and although it is a duplication of information, it may be reported also in `SOLAR_B0` for convenience (see also `SOLAR_B0` below).
 
 If other coordinate systems or positional information are given for the observer position, they should follow the specifications in Thompson (2006), Sections 2.1 and 9.1.
 
