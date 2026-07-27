@@ -49,6 +49,11 @@ def main():
         if not os.path.exists(path):
             continue
 
+        ext = os.path.splitext(path)[1].lower()
+        if ext in {".py", ".yml", ".yaml"}:
+            print(f"Skipping indentation-sensitive file: {path}")
+            continue
+
         with open(path, "rb") as f:
             work_bytes = f.read()
 
