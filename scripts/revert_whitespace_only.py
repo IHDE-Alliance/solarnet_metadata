@@ -98,7 +98,7 @@ def main():
         if merged != work_text:
             # write back
             with open(path, "wb") as f:
-                f.write(merged.encode("utf-8"))
+                f.write(merged.encode("utf-8", "surrogateescape"))
             changed.append(path)
 
     if changed:
