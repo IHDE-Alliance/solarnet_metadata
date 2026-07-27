@@ -78,7 +78,7 @@
              spectro(polari)meters CRISP, CRISP2, and CHROMIS. The
              data products are science-ready data cubes in FITS
              files, produced by running the SSTRED data processing
-             pieline.
+             pipeline.
              
              The FITS files are all 5-dimensional, where the
              dimensions are [spatial, spatial, spectral, Stokes,
