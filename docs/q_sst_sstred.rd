@@ -311,8 +311,8 @@
           <bind key="time_refposition">'TOPOCENTER'</bind>
           <bind key="time_sampling_step_min">@CADMIN</bind>
           <bind key="time_sampling_step_max">@CADMAX</bind>
-          <bind key="spectral_resolution_min">@spectral_resolution_min</bind>
-          <bind key="spectral_resolution_max">@spectral_resolution_max</bind>
+          <bind key="spectral_resolution_min">@spectral_resolution</bind>
+          <bind key="spectral_resolution_max">@spectral_resolution</bind>
           <bind key="spectral_sampling_step_min">@spectral_sampling_step_min</bind>
           <bind key="spectral_sampling_step_max">@spectral_sampling_step_max</bind>
           <bind key="release_date">@RELEASE</bind>
