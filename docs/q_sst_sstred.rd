@@ -73,7 +73,7 @@
              Details
              ==========
              
-             The data avaialable here are observations from the
+             The data available here are observations from the
              Swedish 1-meter Solar telescope (SST), using the imaging
              spectro(polari)meters CRISP, CRISP2, and CHROMIS. The
              data products are science-ready data cubes in FITS
