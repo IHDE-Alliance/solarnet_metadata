@@ -212,7 +212,13 @@
                 # delta Hz = Hz(lambda) - Hz(lambda + delta lambda)
                 # Minimum wavelength step -> maximum frequency step, and vice versa
                 #
-                if "CSPMIN3" in vars and "CSPMAX3" in vars:
+                if (
+                    "CSPMIN3" in vars
+                    and "CSPMAX3" in vars
+                    and "CBBMIN3" in vars
+                    and "CBBMAX3" in vars
+                    and "WAVEUNIT" in vars
+                ):
 
                     @_lambda = (@CBBMIN3+@CBBMAX3)/2*10**@WAVEUNIT
 
