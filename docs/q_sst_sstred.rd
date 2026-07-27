@@ -202,8 +202,8 @@
                 # might be used if present and nonzero:
                 #
                 elif "CBBMIN3" in vars and "CBBMAX3" in vars:
-                    @spectral_range_max = LIGHT_C/(@CBBMIN3*10**9) if @CBBMIN3 > 0 else None
-                    @spectral_range_min = LIGHT_C/(@CBBMAX3*10**9) if @CBBMAX3 > 0 else None
+                    @spectral_range_max = LIGHT_C/(@CBBMIN3*10**@WAVEUNIT) if @CBBMIN3 > 0 else None
+                    @spectral_range_min = LIGHT_C/(@CBBMAX3*10**@WAVEUNIT) if @CBBMAX3 > 0 else None
                 else:
                     @spectral_range_max = None
                     @spectral_range_min = None
@@ -214,12 +214,12 @@
                 #
                 if "CSPMIN3" in vars and "CSPMAX3" in vars:
 
-                    @_lambda = (@CBBMIN3+@CBBMAX3)/2*10**9
+                    @_lambda = (@CBBMIN3+@CBBMAX3)/2*10**@WAVEUNIT
 
-                    @_lambda_plus_min_step = @_lambda + @CSPMIN3*10**9
+                    @_lambda_plus_min_step = @_lambda + @CSPMIN3*10**@WAVEUNIT
                     @spectral_sampling_step_max = LIGHT_C/@_lambda - LIGHT_C/@_lambda_plus_min_step
 
-                    @_lambda_plus_max_step = @_lambda + @CSPMAX3*10**9
+                    @_lambda_plus_max_step = @_lambda + @CSPMAX3*10**@WAVEUNIT
                     @spectral_sampling_step_min = LIGHT_C/@_lambda - LIGHT_C/@_lambda_plus_max_step
                 else:
                     @spectral_sampling_step_min = None
