@@ -9,7 +9,7 @@
   - [An unofficial errata for Papers I, II, and II](http://fits.gsfc.nasa.gov/wcs/errata_20071222.pdf)I (Calabretta & Greisen, <http://fits.gsfc.nasa.gov/wcs/errata_20071222.pdf>)
 - Paper IV: [Representations of Time Coordinates in FITS](http://hea-www.cfa.harvard.edu/~arots/TimeWCS/) (Rots, 2015, A&A, **574**, A36, <https://www.aanda.org/articles/aa/pdf/2015/02/aa24653-14.pdf>)
 - Paper V: [Representations of distortions in FITS world coordinate systems](http://fits.gsfc.nasa.gov/wcs/dcs_20040422.pdf) (Calabretta, Valdes, Greisen, Allen, ADASS, 2004, **314**, <http://fits.gsfc.nasa.gov/wcs/dcs_20040422.pdf>)
-- [Coordinate systems for solar image data](http://adsabs.harvard.edu/abs/2006A%26A...449..791T) (Thompson, 2006, A&A, **449**. 791-803), [http://www.aanda.org/articles/aa/pdf/2006/14/aa4262-05.pdf)](http://www.aanda.org/articles/aa/pdf/2006/14/aa4262-05.pdf%29)
+- [Coordinate systems for solar image data](http://adsabs.harvard.edu/abs/2006A%26A...449..791T) (Thompson, 2006, A&A, **449**, 791-803, <http://www.aanda.org/articles/aa/pdf/2006/14/aa4262-05.pdf>)
 - FITS: A Flexible Image Transport System (Wells et al, 1981, A&AS, **44**, 363)
 - [Precision effects for solar image coordinates within the FITS world coordinate system](http://www.aanda.org/articles/aa/pdf/2010/07/aa10357-08.pdf) (Thompson, 2010, A&A, **515**, A59, <http://www.aanda.org/articles/aa/pdf/2010/07/aa10357-08.pdf>).
 - [The SolarSoft WCS Routines: A Tutorial](ftp://sohoftp.nascom.nasa.gov/solarsoft/stereo/gen/documentation/wcs_tutorial.pdf) (Thompson, 2010) [http://hesperia.gsfc.nasa.gov/ssw/gen/idl/wcs/wcs_tutorial.pdf)](http://hesperia.gsfc.nasa.gov/ssw/gen/idl/wcs/wcs_tutorial.pdf%29)
