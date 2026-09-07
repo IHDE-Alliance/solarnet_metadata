@@ -144,4 +144,7 @@ docs/build
 # VSCode settings
 .vscode/
 
+# Hide utility:
+/scripts/revert_whitespace_only.py
+
 _version.py
