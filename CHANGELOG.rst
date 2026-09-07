@@ -58,3 +58,7 @@ Latest
 * Updated License to CC BY 4.0 (#16)
 * Added issue templates (#7, #10)
 * Added text of the original word file for the Solarnet recommendations (#5)
+
+3.0.1 (2026-09-07)
+==================
+* Added Section 11.1 on Virtual Observatory (VO) publication of data sets and an example resource descriptor file.
