@@ -380,7 +380,7 @@ We _strongly_ recommend that all such “free-text” keywords are filled in fro
 
 `DETECTOR`: Name of the detector.
 
-`OBS_MODE`: A string (from a limited/discrete list) uniquely identifying the mode of operation.
+`OBS_MODE`: A string (from a limited/discrete list) uniquely identifying the mode of operation, e.g. imaging, spectrography, spectropolarimetry, polarimetry, photometry, interferometry
 
 `OBSTITLE`: A more generic/higher-level description, e.g., “Flare sit-and-stare”, “High cadence large raster”. The contents will often correspond to `OBS_MODE`, though not necessarily as a one-to-one relationship. Set to `OBS_MODE` when no more suitable value is available.
 
@@ -656,7 +656,7 @@ When possible, such events/features should also be reported to relevant registri
 # 11 Miscellaneous
 
 (11.1)=
-## 11.1 Virtual Observatory (VO) matters
-In principle, all SOLARNET-compliant FITS files are VO-compliant, but there are some additional matters that may be relevant for VO users. We have introduced the keywords `CBBMINia` and `CBBMAXia` (coordinate bounding box min and max), and `CSPMINia` and `CSPMAXia` (coordinate spacing min and max) to simplify ingestion of data with complex coordinate descriptions into VO services.
+## 11.1 Virtual Observatory (VO) publication of data sets
+In principle, all SOLARNET-compliant FITS files are already VO-compliant, but we have introduced the keywords `CBBMINia` and `CBBMAXia` (coordinate bounding box min and max), and `CSPMINia` and `CSPMAXia` (coordinate spacing min and max) to simplify ingestion of data with complex coordinate descriptions into VO services.
 
-The easiest way to make observations VO-accessible is to use the DaCHS suite (<https://dachs-doc.readthedocs.io/index.html>). In the github repository of this document, we have provided an example resource descriptor file for your convenience, which is used to publish SST data processed with the SSTRED pipeline: <https://github.com/IHDE-Alliance/solarnet_metadata/tree/main/docs/q_sst_sstred.rd>
+The easiest way to make observations VO-accessible is to use the GAVO DaCHS suite (<https://dachs-doc.readthedocs.io/index.html>). DaCHS uses "resource descriptor files" (typically `q.rd`) to publish data in VO services. As an illustrative example that should be relatively easy to understand and adapt to other data sets, we have provided the resource descriptor file used to publish SST data from the Stockholm SST Archive in the github repository of this document. See the file `docs/source/q_sst_sstred.rd` in <https://github.com/IHDE-Alliance/solarnet_metadata/>.
