@@ -184,6 +184,22 @@ attribute_key:
     human_readable: Carrington rotation
     required: optional
     origin: P
+  CBBMAXia:
+    pattern: CBBMAX(?P<i>[1-9])(?P<a>[A-Z])?
+    data_type: float
+    default: null
+    description: Coordinate bounding box min/max may be used to specify the min and max coordinate values of coordinate n within the data cube.
+    human_readable: Coordinate bounding box max
+    required: optional # Optional WCS coordinate keywords (Sections 11.1, 3.0)
+    origin: N
+  CBBMINia:
+    pattern: CBBMIN(?P<i>[1-9])(?P<a>[A-Z])?
+    data_type: float
+    default: null
+    description: Coordinate bounding box min/max may be used to specify the min and max coordinate values of coordinate n within the data cube.
+    human_readable: Coordinate bounding box min
+    required: optional # Optional WCS coordinate keywords (Sections 11.1, 3.0)
+    origin: N
   CCURRENT:
     data_type: str
     default: null
@@ -389,6 +405,22 @@ attribute_key:
     human_readable: Reference value
     required: obs # Fundamental WCS coordinate keywords (sections 15, 3.1)
     origin: P
+  CSPMAXia:
+    pattern: CSPMAX(?P<i>[1-9])(?P<a>[A-Z])?
+    data_type: float
+    default: null
+    description: Coordinate spacing min/max may be used to specify the minimum and maximum spacing of coordinate n
+    human_readable: Coordinate spacing max
+    required: optional # Optional WCS coordinate keywords (Sections 11.1, 3.0)
+    origin: N
+  CSPMINia:
+    pattern: CSPMIN(?P<i>[1-9])(?P<a>[A-Z])?
+    data_type: float
+    default: null
+    description: Coordinate spacing min/max may be used to specify the minimum and maximum spacing of coordinate n
+    human_readable: Coordinate spacing min
+    required: optional # Optional WCS coordinate keywords (Sections 11.1, 3.0)
+    origin: N
   CSYERia:
     pattern: CSYER(?P<i>[1-9])(?P<a>[A-Z])?
     data_type: float

@@ -76,13 +76,17 @@ We are considering making a machine- and human-readable catalogue of keyword com
 Additional comments may be added using the `COMMENT` keyword or by leaving the keyword field blank – see Section 4.4.2.4 in the FITS Standard.
 
 (3.0)=
-# 3 The World Coordinate System (WCS) and related keywords
+
+# 3 The World Coordinate System (WCS) and related keywords (spatial and positional)
 
 The World Coordinate System (WCS) is a very comprehensive standard that should be used for the description of physical data coordinates in Obs-HDUs.
 
-In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`, etc. Future pipelines, however, should _only_ use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`) or any instrument- or mission-specific practices[^footnote-3].
+In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`. Future pipelines, however, should use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`)[^footnote-3]. The `XCEN`, `YCEN`, `FOVX`, and `FOVY` keywords may still be used for convenience to describe the observation's actual field of view (e.g. for archive searches and quick-look visualisations of the field of view). `CROTA` (without an `n`) may likewise be used to express the counterclockwise rotation of the actual FOV around the line of sight. Note that for observations that have been embedded in a larger data cube, these keywords do not describe the data cube, but the observations themselves.
 
-All keywords described in this Section are defined by the FITS Standard and Papers I-V. See also Thompson (2006).
+For complicated coordinate specifications, e.g. tabulated coordinates with rotation compensation/feature tracking, or a rotating FOV, the keywords `CBBMINia` and `CBBMAXia` (coordinate bounding box min/max) may be used to specify the min and max coordinate values of coordinate `ia` within the data cube. This can be used to e.g., specify the coordinate range of a rotating FOV, which is not easily determined from the `CRVALia` and `CDELTia` values. Similarly, `CSPMINia` and `CSPMAXia` (coordinate spacing min/max) may be used to specify the minimum and maximum spacing of coordinate `ia`. This simplifies the ingestion of data into a Virtual Observatory (VO), see [Section 11](#11.0).
+
+
+All keywords described below in this Section are defined by the FITS Standard and Papers I-V. See also Thompson (2006).
 
 [^footnote-3]: If a full description seems impossible through the existing WCS framework, create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues).
 
@@ -137,7 +141,7 @@ Ground based observatories must report their geographical location using the key
 
 Earth-orbiting satellites must report their position through `GEOX_OBS`, `GEOY_OBS`, and `GEOZ_OBS`. Contrary to the `OBSGEO-X/Y/Z` keywords, these keywords do _not_ implicitly imply that the coordinates are fixed w.r.t. Earth’s rotation, but are otherwise identically defined (ITRF, but GPS is an acceptable proxy). For many observations, these keywords must be reported using the variable-keyword mechanism ([Appendix I](#appendix-i)) since the spacecraft might move considerably during the observation.
 
-For deep space missions, the keywords `DSUN_OBS` (distance from Sun centre in metres), `HGLN_OBS` (longitude), and `HGLT_OBS` (latitude) must be used to report the instrument position in the Stonyhurst Heliographic system (see Thompson 2006, Sections 2.1 and 9.1). The distance from the Sun centre in astronomical units may be reported in `DSUN_AU` (in addition to `DSUN_OBS`). Note that the Solar B angle is identical to `HGLT_OBS`, and although it is a duplication of information, it may be reported also in `SOLAR_B0` for convenience.
+For deep space missions, the keywords `DSUN_OBS` (distance from Sun centre in metres), `HGLN_OBS` (longitude), and `HGLT_OBS` (latitude) must be used to report the instrument position in the Stonyhurst Heliographic system (see Thompson 2006, Sections 2.1 and 9.1). The distance from the Sun centre in astronomical units may be reported in `DSUN_AU` (in addition to `DSUN_OBS`). Note that the Solar B angle is identical to `HGLT_OBS`, and although it is a duplication of information, it may be reported also in `SOLAR_B0` for convenience (see also `SOLAR_B0` below).
 
 If other coordinate systems or positional information are given for the observer position, they should follow the specifications in Thompson (2006), Sections 2.1 and 9.1.
 
@@ -260,7 +264,7 @@ The keyword `AO_NMODE` should be used to indicate the number of adaptive optics 
 
 The keyword `FT_LOCK` is used to indicate the status of any feature tracking `FT_LOCK``=0` (no feature tracking lock) or `FT_LOCK``=1` (feature tracking lock) for individual exposures, with appropriate averages as mentioned above.
 
-The keyword `ROT_COMP` should be set to 1 if solar rotation compensation was in effect during the observation <span class=new>*and is accounted for in the WCS coordinates*. If rotation compensation was in effect *but is not reflected in the WCS coordinates*, it should be set to 2. If rotation compensation was not in effect, it should be set to 0 or be absent</span>. If `ROT_COMP``=1` the keyword `ROT_MODL` should be set to specify the rotation model used for rotation compensation[^footnote-4]. It can refer to specific, predefined models such as `ALLEN` (Allen, Astrophys. Quantities, 1979), `HOWARD` (Howard _et al._), `SIDEREAL`, `SYNODIC`, `CARRINGTON`, `SNODGRASS` or `aaa.a` (arcseconds per hour). See also the SolarSoft routine `diff_rot.pro`. If other models have been used, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues), or set `ROT_MODL` to `FORMULA`, and specify the formula in the keyword `ROT_FORM`. The formula is meant to be human-readable, not machine readable (e.g., `'A sin(…)'`), using parameter names that are common within your community. Header keywords may be used directly in the formula, as can coordinates (e.g., HPLT or HPLT-TAN). Since both keywords and coordinate names may contain dashes, the formula should always have spaces surrounding actual minus signs. An explanation in the comments may be useful.
+The keyword `ROT_COMP` should be set to 1 if solar rotation compensation was in effect during the observation <span class=new>_and is accounted for in the WCS coordinates_. If rotation compensation was in effect _but is not reflected in the WCS coordinates_, it should be set to 2. If rotation compensation was not in effect, it should be set to 0 or be absent</span>. If `ROT_COMP` is nonzero, the keyword `ROT_MODL` should be set to specify the rotation model used for rotation compensation[^footnote-4]. It can refer to specific, predefined models such as `ALLEN` (Allen, Astrophys. Quantities, 1979), `HOWARD` (Howard _et al._), `SIDEREAL`, `SYNODIC`, `CARRINGTON`, `SNODGRASS` or `aaa.a` (arcseconds per hour). See also the SolarSoft routine `diff_rot.pro`. If other models have been used, please create an [issue](https://github.com/IHDE-Alliance/solarnet_metadata/issues), or set `ROT_MODL` to `FORMULA`, and specify the formula in the keyword `ROT_FORM`. The formula is meant to be human-readable, not machine readable (e.g., `'A sin(…)'`), using parameter names that are common within your community. Header keywords may be used directly in the formula, as can coordinates (e.g., HPLT or HPLT-TAN). Since both keywords and coordinate names may contain dashes, the formula should always have spaces surrounding actual minus signs. An explanation in the comments may be useful.
 
 [^footnote-4]: This might be important when comparing observations where cross-correlation cannot be used for alignment -e.g., coronal observations vs. photospheric observations. In such cases, different rotation models might cause a drift between the two. The information in this keyword can be used to prevent misunderstandings and misinterpretations in in such situations.
 
@@ -274,7 +278,7 @@ However, for searching and sorting purposes it would be useful to have a generic
 
 `COMPQUAL` could therefore be set to a number between 0.0 and 1.0, where 1.0 indicates lossless compression (if any) and 0.0 indicates “all information is lost”. In practice, however, the actual value is not crucial, as long as a higher value corresponds to a higher data quality. If there is a choice between different compression algorithms for this instrument, the name of the algorithm should be given in `COMP_ALG` – starting with either `'Lossy'` or `'Lossless'`, then typically a concatenation of all instrument-specific compression-related keywords, separated with slashes.
 
-<span class=new>`SIGMADAT`: Normally a formula specifying how to calculate the standard deviation {math}`\sigma` of each pixel. The formula should be given as a human-readable string, e.g., `'sqrt( data^2 + (2*GAIN*XPOSURE)^2 )'`, where `data` is the pixel value. Header keywords (e.g., `XPOSURE`) may be used directly in the formula. Since keyword names may contain dashes, *actual minus signs in the formula must be surrounded by spaces*. To increase the readability and interpretability of the formula, try to avoid using "magical constants" (i.e., add instead descriptive keywords in the header to use in the formula, with comments). If formula parameters are not constant for the entire data cube (e.g., for different readout quadrants), variable keywords can be used ([Appendix I](#appendix-i)). Even the formula itself can be specified as a pixel-to-pixel variable keyword ([Appendix I-b](#appendix-ib))</span>
+<span class=new>`SIGMADAT`: Normally a formula specifying how to calculate the standard deviation {math}`\sigma` of each pixel. The formula should be given as a human-readable string, e.g., `'sqrt( data^2 + (2*GAIN*XPOSURE)^2 )'`, where `data` is the pixel value. Header keywords (e.g., `XPOSURE`) may be used directly in the formula. Since keyword names may contain dashes, _actual minus signs in the formula must be surrounded by spaces_. To increase the readability and interpretability of the formula, try to avoid using "magical constants" (i.e., add instead descriptive keywords in the header to use in the formula, with comments). If formula parameters are not constant for the entire data cube (e.g., for different readout quadrants), variable keywords can be used ([Appendix I](#appendix-i)). Even the formula itself can be specified as a pixel-to-pixel variable keyword ([Appendix I-b](#appendix-ib))</span>
 
 <span class=new>If it's not practical to give a formula at all (e.g., if the sigma values as a function of data is discontinuous), it may be specified as a curve in a separate extension using an `EXTNAME` name that starts with `'CURVE:'`, e.g., `SIGMADAT``='CURVE:SIGMA-TABLE'`. The contents of this extension should be a data cube with dimension `[2,n]`, functioning as a lookup table where `(1,*)` are data values and `(2,*)` are the corresponding {math}`\sigma` values. The table is subject to linear interpolation. The {math}`\sigma` values may also be specified on a pixel-by-pixel basis.</span>
 
@@ -376,11 +380,11 @@ We _strongly_ recommend that all such “free-text” keywords are filled in fro
 
 `DETECTOR`: Name of the detector.
 
-`OBS_MODE`: A string (from a limited/discrete list) uniquely identifying the mode of operation.
+`OBS_MODE`: A string (from a limited/discrete list) uniquely identifying the mode of operation, e.g. imaging, spectrography, spectropolarimetry, polarimetry, photometry, interferometry
+
+`OBSTITLE`: A more generic/higher-level description, e.g., “Flare sit-and-stare”, “High cadence large raster”. The contents will often correspond to `OBS_MODE`, though not necessarily as a one-to-one relationship. Set to `OBS_MODE` when no more suitable value is available.
 
 `OBS_DESC`: A string describing the observation, e.g., “Sit and stare on AR10333”. Content sources may be e.g., observation logs. Should be identical to `OBSTITLE` when no more suitable value is available.
-
-`OBSTITLE`: A more generic/higher-level description, e.g., “Flare sit-and-stare”, “High cadence large raster”). The contents will often correspond to `OBS_MODE`, though not necessarily as a one-to-one relationship. Used by IRIS and SPICE, corresponds to Hinode `OBS_DEC`. Should be identical to `OBS_DESC` or `OBS_MODE` when no more suitable value is available.
 
 `SETTINGS`: Other settings – numerical values can be given as `'parameter1=n, parameter2=m'`.
 
@@ -616,7 +620,7 @@ For plain parameter lists, IDL parameter syntax must be used. For ASCII table ex
 
 `PRENVn` can be used to specify the operating environment of the pipeline such as the hardware (CPU type) and the operating system type/version, compiler/interpreter versions, compiler options, etc.[^footnote-6] The default value of a `PRENVn` keyword is the value of `PRENVn` in the previous processing step, so for a pipeline that has been run from beginning to end in a single environment, only `PRENV1` will have to be specified.
 
-[^footnote-6]: This may seem like overkill, but there are instances where e.g., OS versions have mattered, see https://www.i-programmer.info/news/231-methodology/13188-python-script-invalidates-hundreds-of-papers.html, leading to papers being retracted/corrected. Also, for the BIFROST code, on some  particular platform a particular CPU instruction optimization has to be turned off with a compiler flag to produce correct results.In the SPICE project it was observed that calculations of mean, variance, skewness, and kurtosis using the built-in IDL method `MOMENT()` differed by as muchas 0.6%, 1.6%, 2.4% and 3%, respectively! This may be very significant if such parameters are used to make cuts in a data set.
+[^footnote-6]: This may seem like overkill, but there are instances where e.g., OS versions have mattered, see <https://www.i-programmer.info/news/231-methodology/13188-python-script-invalidates-hundreds-of-papers.html>, leading to papers being retracted/corrected. Also, for the BIFROST code, on some  particular platform a particular CPU instruction optimization has to be turned off with a compiler flag to produce correct results. In the SPICE project it was observed that calculations of mean, variance, skewness, and kurtosis using the built-in IDL method `MOMENT()` differed by as much as 0.6%, 1.6%, 2.4% and 3%, respectively! This may be very significant if such parameters are used to make cuts in a data set.
 
 `PRREFn` is a catch-all keyword that can be used to specify other factors/inputs influencing a processing step, e.g., references to images used for pointing adjustments. `PRREFn` may be a comma separated list of multiple factors/inputs[^footnote-7].
 
@@ -647,3 +651,12 @@ Proprietary data should be marked by setting the keyword `RELEASE` to the date a
 If the pipeline uses event/feature detection algorithms that will only work on the raw data, not the final pipeline product, detected events/features should be reported in pixel lists (see [Appendix I-d](#appendix-id)). If possible, events that are detected during acquisition of the data but are not detectable in the acquired data should also be reported (e.g., on-board-detected events in spacecraft).
 
 When possible, such events/features should also be reported to relevant registries following the appropriate standards (e.g., VOEvents).
+
+(11.0)=
+# 11 Miscellaneous
+
+(11.1)=
+## 11.1 Virtual Observatory (VO) publication of data sets
+In principle, all SOLARNET-compliant FITS files are already VO-compliant, but we have introduced the keywords `CBBMINia` and `CBBMAXia` (coordinate bounding box min and max), and `CSPMINia` and `CSPMAXia` (coordinate spacing min and max) to simplify ingestion of data with complex coordinate descriptions into VO services.
+
+The easiest way to make observations VO-accessible through an EPN-TAP service is to use the GAVO DaCHS suite (<https://dachs-doc.readthedocs.io/index.html>). DaCHS uses "resource descriptor files" (typically `q.rd`) to configure ingestion and publishing of data. As an illustrative example that should be relatively easy to understand and adapt to other data sets, we have provided the resource descriptor file used to publish SST data from the Stockholm SST Archive in the github repository of this document. See the file `docs/source/q_sst_sstred.rd` in <https://github.com/IHDE-Alliance/solarnet_metadata/>.
