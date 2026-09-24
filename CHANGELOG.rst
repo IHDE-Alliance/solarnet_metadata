@@ -62,3 +62,5 @@ Latest
 3.1.0 (2026-09-07)
 ==================
 * Added Section 11.1 on Virtual Observatory (VO) publication of data sets and an example resource descriptor file.
+* Added `CBBMINia`, `CBBMAXia`, `CSPMINia`, `CSPMAXia` and `CROTAa`
+* Added `TOT_DUR`

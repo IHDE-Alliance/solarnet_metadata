@@ -643,6 +643,12 @@ attribute_key:
     human_readable: Distance to Sun
     required: optional # Mandatory WCS Positional keywords (sections 15, 3.2), Only required for deep-space observatories
     origin: P
+  TOT_DUR:
+    data_type: float
+    default: null
+    description: Time in seconds between the beginning and end of an observation series ("movie") or simulation
+    required: optional # 5.3 Cadence and duration
+    origin: N
   DWia: # NOTE Equivalent to CDDISia?
     data_type: str
     default: null

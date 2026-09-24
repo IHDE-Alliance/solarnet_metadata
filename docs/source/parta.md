@@ -81,7 +81,7 @@ Additional comments may be added using the `COMMENT` keyword or by leaving the k
 
 The World Coordinate System (WCS) is a very comprehensive standard that should be used for the description of physical data coordinates in Obs-HDUs.
 
-In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`. Future pipelines, however, should use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`)[^footnote-3]. The `XCEN`, `YCEN`, `FOVX`, and `FOVY` keywords may still be used for convenience to describe the observation's actual field of view (e.g. for archive searches and quick-look visualisations of the field of view). `CROTA` (without an `n`) may likewise be used to express the counterclockwise rotation of the actual FOV around the line of sight. Note that for observations that have been embedded in a larger data cube, these keywords do not describe the data cube, but the observations themselves.
+In some earlier data sets, the data coordinates are not specified using the WCS standard, but rather through e.g., `XCEN`, `YCEN`, `FOVX`, and `FOVY`. Future pipelines, however, should use the full, recommended WCS standard, without any deprecated features (e.g., `CROTAia`)[^footnote-3]. The `XCEN`, `YCEN`, `FOVX`, and `FOVY` keywords may still be used for convenience to describe the observation's actual field of view (e.g. for archive searches and quick-look visualisations of the field of view). `CROTAa` (without an `i`) may likewise be used to express the counterclockwise rotation of the actual FOV around the line of sight. Note that for observations that have been embedded in a larger data cube, these keywords do not describe the data cube, but the observations themselves.
 
 For complicated coordinate specifications, e.g. tabulated coordinates with rotation compensation/feature tracking, or a rotating FOV, the keywords `CBBMINia` and `CBBMAXia` (coordinate bounding box min/max) may be used to specify the min and max coordinate values of coordinate `ia` within the data cube. This can be used to e.g., specify the coordinate range of a rotating FOV, which is not easily determined from the `CRVALia` and `CDELTia` values. Similarly, `CSPMINia` and `CSPMAXia` (coordinate spacing min/max) may be used to specify the minimum and maximum spacing of coordinate `ia`. This simplifies the ingestion of data into a Virtual Observatory (VO), see [Section 11](#11.0).
 
@@ -201,9 +201,9 @@ Note that if the data has been binned, the `XPOSURE` keyword should reflect the 
 In order to provide a simple way to determine the combined binning factor (for archive searches), the keyword `NBIN` should be set to the product of all specified `NBINj` keywords.
 
 (5.3)=
-## 5.3 Cadence
+## 5.3 Cadence and duration
 
-Cadence may be a very important search term. A meta-Obs-HDU may be used to report such attributes even if it is impossible to do so in the constituent HDUs ([Appendix III](#appendix-iii)).
+Observation cadence and duration may be a very important search term. A meta-Obs-HDU may be used to report such attributes even if it is impossible to do so in the constituent HDUs ([Appendix III](#appendix-iii)).
 
 The planned/commanded cadence (frame-to-frame timing between frames of the same type measured in seconds) should be reported in `CADENCE`. The average (actual) cadence should be reported in `CADAVG`.
 
@@ -212,6 +212,8 @@ The cadence _regularity_ is also important: The keywords `CADMAX` and `CADMIN` s
 Some instruments take interleaved observation series with a difference in cadence between different filters (“A” and “B”), e.g., AAABAAAB. For such a series, `CADENCE` for the A series should be the planned _median_ spacing between A exposures.
 
 For e.g., on-going synoptic observation series stored with single exposures in separate files (thus separate HDUs) it may be impossible to use the Meta-observation mechanism. The `CADENCE` keyword should be set to the planned series' cadence. The rest of the keywords should be set based on the available history of the synoptic series.
+
+For observations or simulations broken into multiple files, the total duration of the series (heuristically defined as a "movie") should be reported in the keyword `TOT_DUR` in seconds.
 
 (5.4)=
 ## 5.4 Instrument/data characteristics etc
