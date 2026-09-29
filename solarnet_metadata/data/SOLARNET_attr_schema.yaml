@@ -381,8 +381,16 @@ attribute_key:
     human_readable: File Creator
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
     origin: O
+  CROTAa:
+    pattern: CROTA(?P<a>[A-Z])?
+    data_type: float
+    default: null
+    description: The counterclockwise rotation of the actual FOV around the line of sight.
+    human_readable: Coordinate rotation
+    required: optional # Fundamental WCS coordinate keywords (sections 3)
+    origin: O
   CROTAia:
-    pattern: CROT(?P<i>[1-9])?(?P<a>[A-Z])?
+    pattern: CROTA(?P<i>[1-9])?(?P<a>[A-Z])?
     data_type: float
     default: null
     description: The amount of rotation from the standard coordinate system to a different coordinate system. Further use of this of this keyword is deprecated, in favor of the newer formalisms that use the CDi_j or PCi_j keywords to define the rotation.
