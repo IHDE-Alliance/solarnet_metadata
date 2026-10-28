@@ -654,7 +654,7 @@ attribute_key:
   TOT_DUR:
     data_type: float
     default: null
-    description: Total time in seconds between the beginning and end of a simulation or observation set provided in multiple files. Should be larger than the difference between DATE-END and DATE-BEG and NOT used if a single file contains all the total data.
+    description: Total time in seconds between the beginning and end of a simulation or observation set provided in multiple files.
     required: optional # 5.3 Cadence and duration
     origin: N
   DWia: # NOTE Equivalent to CDDISia?
