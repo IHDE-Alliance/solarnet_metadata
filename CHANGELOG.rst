@@ -3,6 +3,11 @@ This project uses `semantic versioning <https://semver.org>`_.
 Latest
 ======
 
+3.3.0
+=====
+* Added Section 11.1 on Virtual Observatory (VO) publication of data sets and an example resource descriptor file.
+* Added ``CBBMINia``, ``CBBMAXia``, ``CSPMINia``, ``CSPMAXia`` and ``CROTAa``
+* Added ``TOT_DUR``
 * Added new optional keyword ``SCI_SW`` for recomended analysis software package.
 
 3.2.4

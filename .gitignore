@@ -141,4 +141,13 @@ dmypy.json
 docs/generated
 docs/build
 
+# VSCode settings
+.vscode/
+
+# Hide utility:
+/scripts/revert_whitespace_only.py
+
+# Temporary file:
+solarnet-only-addresses.txt
+
 _version.py

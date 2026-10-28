@@ -4,10 +4,11 @@ KIS:
 cale@leibniz-kis.de				Peter Caligari 
 nbello@leibniz-kis.de				Nazaret Bello Gonzalez
 rolf.schlichenmaier@leibniz-kis.de		Rolf Schlichenmaier
-schaffer@leibniz-kis.de				Carl Schaffer
 steiner@leibniz-kis.de                          Oskar Steiner
 vigeesh@leibniz-kis.de				Vigeesh Gangadharan   
 schmassmann@leibniz-kis.de			Markus Schmassmann
+yakobchuk@leibniz-kis.de                        Taras Yakobchuk
+hendrik.heinl@inaf.it                           Hendrik Heinl
 
 IAC:
 bgelly@themis.iac.es				Bernard Gelly
@@ -16,6 +17,7 @@ dr16.cellule.contrats@cnrs.fr
 jorge.quintero.nehrkorn@iac.es			Jorge Quintero
 khomenko.iac@gmail.com				Elena Khomenko
 ckuckein.iac@gmail.com				Christoph Kuckein
+claudia.ruiz@iac.es                             Claudia Ruiz de Galarreta
 
 SU:
 dan@astro.su.se					Dan Kiselman
@@ -32,21 +34,18 @@ knapic@oats.inaf.it				Cristina Knapic
 marassi@oats.inaf.it				Alessandro Marassi
 gianna.cauzzi@inaf.it				Gianna Cauzzi
 marco.molinaro@inaf.it				Marco Molinaro
+mariarita.murabito@inaf.it
 
 AIP:
 cdenker@aip.de					Carsten Denker
 mverma@aip.de					Meetu Verma
 
 UCL:
-b.bentley@ucl.ac.uk				Bob Bentley
 k.benson@ucl.ac.uk				Kevin Benson
 sarah.matthews@ucl.ac.uk			Sarah Matthews
 
 QUB:
 p.keys@qub.ac.uk				Peter Keys
-
-MPG:
-solanki@mps.mpg.de				Sami Solanki
 
 USFD:
 robertus@sheffield.ac.uk			Robertus Erdelyi
@@ -57,6 +56,8 @@ USI/IRSOL:
 martina.pestoni@usi.ch				Martina Pestoni
 michele.delorenzi@cscs.ch      			Michele De Lorenzi
 rolf.krause@usi.ch				Rolf Krause
+ramelli@irsol.ch
+svetlana.berdyugina@irsol.usi.ch                Svetlana Berdyugina
 
 ASU:
 michal.sobotka@asu.cas.cz			Michal Sobotka
@@ -117,3 +118,4 @@ julia.faurie@cnrs.fr                            Julia Faurie
 
 MISC:
 lyndsay.fletcher@glasgow.ac.uk			Lyndsay Fletcher
+mikhail.modestov@gmail.com                      Mikhail Modestov
