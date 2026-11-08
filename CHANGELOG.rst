@@ -3,6 +3,12 @@ This project uses `semantic versioning <https://semver.org>`_.
 Latest
 ======
 
+3.3.1
+=====
+* Extended Level P (Appendix 9) to include "pseudo-components" to allow specification of non-parameter values such as estimated parameter errors, flags, etc., with a default pseudo-component definition for the chi square values (for backwards compatibility).
+* Made inclusion of chi square values in the data cube optional
+* Emphasised that the format is not only for results of chi square minisation
+ 
 3.3.0
 =====
 * Added Section 11.1 on Virtual Observatory (VO) publication of data sets and an example resource descriptor file.
