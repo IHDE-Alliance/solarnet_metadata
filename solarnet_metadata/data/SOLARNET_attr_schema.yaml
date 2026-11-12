@@ -382,7 +382,7 @@ attribute_key:
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
     origin: O
   CROTA:
-    pattern: CROTA(?P<a>[A-Z])?
+    pattern: CROTA
     data_type: float
     default: null
     description: The counterclockwise rotation of the actual FOV around the line of sight (see XCEN/YCEN/FOVX/FOVY)
