@@ -1752,7 +1752,7 @@ attribute_key:
   XCEN:
     data_type: float
     default: null
-    description: The X coordinate (HPLN) of the center of field of view. Defines the center of the FOV together with YCEN. If the FOV is rotated, use CROTA to indicate a CCW rotation around XCEN/YCEN
+    description: The X coordinate (HPLN) of the center of field of view. Defines the center of the FOV together with YCEN. If the FOV is rotated, use CROTA to indicate a counter-clockwise rotation around XCEN/YCEN
     human_readable: X coordinate (HPLN) of the center of field of view
     required: optional
     origin: O
