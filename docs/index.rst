@@ -18,7 +18,7 @@ This specification is licensed under the Creative Commons Attribution 4.0 Intern
 .. _GitHub Repository: https://github.com/IHDE-Alliance/solarnet_metadata
 .. _Creative Commons website: https://creativecommons.org/licenses/by/4.0/
 
-If you want to find the latest released or past version, see the releases. To provide comments or suggestions, please create an issue or a pull request, or contact prits-group@astro.uio.no.
+**If you use these recommendations in your data pipeline, please notify prits-group@astro.uio.no so you can be registered as a stakeholder for this document.** This is important to ensure we do not implement changes that have already been "locked in". If you want to find the latest released or past version, see the releases. To provide comments or suggestions, please create an issue or a pull request, or contact prits-group@astro.uio.no. 
 
 .. raw:: html
 
@@ -31,11 +31,11 @@ Abstract
 
 Prior to these SOLARNET [#footnote1]_ recommendations, metadata descriptions of solar observations have been standardized only for space-based observations, but the standards have been mostly within a single mission at a time - at times with significant differences between different missions. Ground-based solar observations have typically not been made freely available to the general community, resulting in an even greater lack of standards for metadata descriptions. This situation makes it difficult to construct multi-instrument archives/virtual observatories, and makes it difficult to write generic data analysis tools. The metadata recommendations in this document aim to remedy this, to foster more collaboration and data sharing by acting as a common reference for generic analysis software and for ingestion into solar virtual observatories. As part of this, we also introduce a set of new, flexible mechanisms to represent metadata in FITS files (see the list of Appendices).
 
-These recommendations are currently being followed by at least nine data pipelines [#footnote2]_ . *Please notify prits-group@astro.uio.no if you use these recommendations so your pipeline can be added to the list*. We also highly recommend that you ask to be put on our mailing list for occasional discussions and announcements of changes (prior to implementation in the document itself). This is important to ensure we do not implement changes that have already been "locked in".
+These recommendations are currently being followed by at least ten data pipelines [#footnote2]_ . *Please notify prits-group@astro.uio.no if you use these recommendations so your pipeline can be added to the list*.
 
 .. [#footnote1] The SOLARNET project was funded by the European Union's Horizon 2020 and FP7 programmes under grant agreements No 312495 and 824135. Version 2.0 of this document was the final version produced under these grants, but it keeps evolving as further needs and issues arise. 
 
-.. [#footnote2] Solar Orbiter SPICE, SST CHROMIS/CRISP (SSTRED), AISAS/Lomnicky Stit COMP-S/SCD, SAMNET, Gregor HiFI/GFPI, ROB USET, Alma pipeline for Solar data (SOAP), INAF IBIS-A (IBIS data Archive), PADRE/MeDDEA
+.. [#footnote2] Solar Orbiter SPICE, SST CHROMIS/CRISP (SSTRED), AISAS/Lomnicky Stit COMP-S/SCD, SAMNET, Gregor HiFI/GFPI, ROB USET, Alma pipeline for Solar data (SOAP), INAF IBIS-A (IBIS data Archive), PADRE/MeDDEA, MUSE
 
 Release History
 ----------------
