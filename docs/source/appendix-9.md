@@ -4,15 +4,15 @@
 }
 </style>
 (appendix-ix)=
-# <span class='new'>Appendix IX. Higher-level (Level P) data: parameterized components</span>
+# <span class='new'>Appendix IX. Higher-level data: parameterized components (Level P)</span>
 
-One common type of higher-level data are results from analysing lower-level data by fitting of parameterized components (e.g., emission line profiles) to spectroscopic data by means of {math}`\chi^2` minimization, but so far there has been no standard mechanism for how to store such results in FITS files. The scheme presented here provides such a mechanism, general enough to be used for any type of data resulting from fitting of additive and multiplicative parameterized components. It can also be used for other types of higher-level data, including when the data is not derived from {math}`\chi^2` minimization.
+One common type of higher-level data are results from analysing lower-level data by fitting of parameterized components (e.g., emission line profiles) to spectroscopic data by means of {math}`\chi^2` minimization, but so far there has been no standard mechanism for storing such results in FITS files. The scheme presented below provides such a mechanism, general enough to represent any type of data resulting from fitting of additive and multiplicative parameterized components to observational data. It can also be used for other types of higher-level data containing parameters, including when the data is not derived from {math}`\chi^2` minimization.
 
-Below we describe a recommended scheme for storing such results, comprehensive enough to store any data resulting from fitting of additive and multiplicative parameterized components. The scheme allows for later manual inspection, verification, and (if desirable) modification of the results. We will refer to files using this scheme as “(SOLARNET) Level P”. We suggest that “P” is used as a suffix to the relevant data level number for such data. E.g., Solar Orbiter SPICE files using this scheme are referred to as SPICE Level 3P. _These files should be considered as a reference implementation of this recommendation_ and will be used as an example below. Below we use dimensions `[x,y,lambda,t]` simply as an example, since those are the dimensions used in SPICE Level 3P FITS files.
+We will refer to files using this scheme as “(SOLARNET) Level P”. We suggest that “P” is used as a suffix to the relevant data level number for such data, when appropriate. The scheme is used in SPICE Level 3P files. _These files should be considered as a reference implementation of this recommendation_ and will be used as an example below. Below we use dimensions `[x,y,lambda,t]` simply as an example, since those are the dimensions used in SPICE Level 3P FITS files.
 
 (appendix-ixa)=
 ## Appendix IX-a. SPICE Level 2 and Level 3P data
-For a typical SPICE Level 2 data cube with dimensions `[x,y,lambda,t] = [400,400,32,100]`, fitting of a single Gaussian (with a specified rest wavelength) plus a zero-order polynomial is made for every `(x,y,t)` position. The final result is a data cube `[x,y,t,p] = [400,400,100,5]` where
+For a typical SPICE Level 2 data cube with dimensions `[x,y,lambda,t] = [400,400,32,100]`, fitting of one or more Gaussians components (with a specified rest wavelength) plus a zero-order polynomial is made for every `(x,y,t)` position. The final result for a single-Gaussian fit, stored as a Level 3P file, is a data cube `[x,y,t,p] = [400,400,100,5]` where
 
 - `(x,y,t,1)` is the fitted line peak intensity, {math}`I`
 - `(x,y,t,2)` is the fitted line velocity {math}`v`
@@ -20,7 +20,7 @@ For a typical SPICE Level 2 data cube with dimensions `[x,y,lambda,t] = [400,400
 - `(x,y,t,4)` is the fitted constant background {math}`a` (in a zeroth-order polynomial)
 - `(x,y,t,5)` is the *reduced* {math}`\chi^2` value from the fit
   
-Note that storing the {math}`\chi^2` values is optional in Level P files, see Specifying non-parameter values (errors, flags) below.
+Note that storing the {math}`\chi^2` values is optional in Level P files, see Pseudo-components specifying non-parameter values (errors, flags) below.
 
 Thus, such SPICE Level 3P data are the best fitting parameters {math}`(I,v,w,a)` for the function:
 
@@ -35,7 +35,7 @@ For readout windows with multiple significant emission lines, multiple Gaussians
 F(\lambda;I_1,v_1,w_1,I_2,v_2, w_2, a)=Gaussian(\lambda;I_1,v_1,w_1) + Gaussian(\lambda;I_2,v_2,w_2) + Polynomial(\lambda;a)
 ```
 
-for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1..3)`) is  {math}`(I_1,v_1,w_1)`, `(x,y,t,4..6)` is {math}`(I_2,v_2,w_2`), `(x,y,t,7)` is {math}`a`, and `(x,y,t,8)` is the reduced {math}`\chi^2` value from the fit.
+for every point `(x,y,t)`, giving a Level 3P data cube with dimensions `[x,y,t,p] = [400,400,200,8]`, where (`x,y,t,1..3)`) is  {math}`(I_1,v_1,w_1)`, `(x,y,t,4..6)` is {math}`(I_2,v_2,w_2)`, `(x,y,t,7)` is {math}`a`, and `(x,y,t,8)` is the reduced {math}`\chi^2` value from the fit.
 
 Generally, for _n_ Gaussians and a constant background, the size of the parameter dimension would be 3n+1+1. For n Gaussians and a linear background, the size would be 3n+2+1 because the last component would be {math}`Polynomial(\lambda;a,b) = a + b\lambda`. Additional components may be defined, e.g., Voigt profiles,  instrument-specific components (broadened Gauss profiles for SOHO/CDS), or linked Gaussians (with a fixed {math}`\Delta\lambda`). Other components may be multiplicative, e.g., extinction functions.
 
@@ -69,7 +69,7 @@ To ensure that the result of the analysis can be interpreted correctly, the full
 
 <span class=new>In order to make the Level P format as broadly useful as possible by generic software in as many domains as possible, _HDUs containing Level P data (i.e., `OBS_HDU``=2`) are exempt from most SOLARNET metadata requirements_. Although it is recommended to propagate SOLARNET keywords from the parent extension(s) when available, it is also possible to attach the metadata through the `PARENTXT` keyword (see below). For HDUs with `OBS_HDU``=2`, parent extensions specified by `PARENTXT` are to be treated as if they are primary HDUs, with the `INHERIT` convention in use for the referring HDU.</span>
 
-`ANA_NCMP` must be set to the number of components used in the analysis.
+`ANA_NCMP` must be set to the number of components used in the analysis (excluding any pseudo-components; see below). 
 
 The `CTYPEi` of the parameter dimension must be `'PARAMETER'`, and the coordinate value must match the parameter number. Note that the Meta-HDU mechanism ([Appendix III](#appendix-iii)) may be used to split Level P data over multiple files along this dimension, so e.g., parameters from each component are stored in separate files. In such cases, all HDUs should contain a full complement of all keywords defined here (including those describing components whose parameters are not present in the file), and `CRPIXn` should be modified such that the `PARAMETER` coordinate is identical to what it would be if the data were stored in a single file.
 
@@ -88,7 +88,7 @@ The `CTYPEi` of the parameter dimension must be `'PARAMETER'`, and the coordinat
 
 `CMPMULn`: Indicates whether component n is multiplicative (`CMPMULn``=1`), in which case it is to be applied to the result of all previous components `n-1`, `n-2`, etc. This can be used for e.g., extinction functions. Default value is `0`.
 
-`CMPINCn`: Indicates whether component `n` is included (`CMPINCn``=1`) or excluded (`CMPINCn``=0`) in the fit. This allows specification of components that would normally be included but for some reason (e.g., poor S/N ratio) has been left out for this particular data set. If `CMPINCn` is zero, additive components have a value of zero independent of the parameter values, and multiplicative components have a value of 1. Default value is 1, i.e., the component is included in the fit. The parameters in the data cube should be set to the initial values that would have been used if the component was included. If this is not feasible, the parameters should be set such that the component value would be zero if it had in fact been included.
+`CMPINCn`: Indicates whether component `n` is included (`CMPINCn``=1`, the default value) or excluded (`CMPINCn``=0`) in the fit. This allows specification of components that would normally be included but for some reason (e.g., poor S/N ratio) has been left out for this particular data set. If `CMPINCn` is zero, additive components have a value of zero independent of the stored parameter values, and multiplicative components have a value of 1. The parameters in the data cube should be set to the initial values that would have been used if the component was included. If this is not feasible, the parameters should be set such that the component value would be zero if it had in fact been included.
 
 ### Optional _descriptive_ keywords for each component
 
@@ -98,12 +98,9 @@ The `CTYPEi` of the parameter dimension must be `'PARAMETER'`, and the coordinat
 
 `CMPSTRn`: Used by SSW’s `cfit` routines for the string to be included in composite function names. E.g., the function string for a Gaussian is `'g'`, and `'p1'` for a first-order polynomial. An automatically generated composite function of the two would be called `'cf_g_p1_'`.
 
-Each component can have up to 26 parameters labelled with `a=A-Z`, corresponding to
-component parameters {math}`p_a = p_1 \dots p_{26}`.
-
 ### Mandatory functional keyword for each parameter
 
-Below, `n` is the component number, and `ab` are letters `A-Z` (`b` can also be blank) specifying the parameter number within the component. I.e., `PUNIT1A` is the units for the first parameter of the first component, `PUNIT2B` is the units for the second parameter of the second component, `PUNIT1AA` is the 27th parameter of the first component, etc., up to `PUNIT1ZZ` for the 702nd parameter of the first component.
+Below, `n` is the component number, and `ab` are letters `A-Z` (`b` can also be blank) specifying the parameter number within the component. I.e., `PINIT1A` is the units for the first parameter of the first component, `PUNIT2B` is the units for the second parameter of the second component, `PUNIT1AA` is the 27th parameter of the first component, etc., up to `PUNIT1ZZ` for the 702nd parameter of the first component.
 
 `PUNITna`: The units for parameter a of component `n`, specified according to the FITS Standard Section 4.3, e.g., `'nm'` or `'km/s'`.
 
@@ -141,35 +138,35 @@ Likewise for the third parameter of a Gaussian, if {math}`A = \frac{1}{2\sqrt(2l
 
 `PDESCnab`: Parameter description
 
-### Pseudo-components specifying non-parameter values (errors, flags)
+### <span class='new'>Pseudo-components specifying non-parameter values (errors, flags)</span>
 
-For an analysis with a total of `m` parameters, data cube values (when present) with a `PARAMETER` dimension index value of `p=m+1` is by default interpreted as the standard deviation {math}`\sigma` of the fit. This implicitly defines a pseudo-component that is *not* counted in `ANA_NCMP`, with `CMPTYPn``='CHISQR` and with `PNAMEnA``='CHISQR'`. However, it is possible to override this, as well as to specify other non-parameter values such as estimated errors and flags, by defining other pseudo-components following the ones included in the `ANA_NCMP` count. E.g. estimated parameter errors should be included in a pseudo-component with `CMPTYPn``='ERROR'` and with `PNAMEnab``='ERROR-xxx'` where `xxx` is the `nab` values of the parameter whose error has been estimated. I.e., if `PNAME3A``='ERROR-1A'`, then the data cube values corresponding to `PNAME3A` are the estimated errors for parameter `1A`. The meaning of "estimated error" should be explained in the corresponding `PDESCnab` keyword. The pseudo-component mechanism allows for any number of non-parameter values to be included in the Level P data cube, and they may be used for any purpose, not just for errors and flags. The `CHISQR` pseudo-component should always be the last component (SHOULD IT?? OR SHOULD IT BE THE FIRST PSEUDO-COMPONENT??).
+<span class='new'>For an analysis with a total of `m` parameters, data cube values with a `PARAMETER` dimension index value of `p=m+1` (when present) is by default interpreted as the reduced {math}`\chi^2`of the fit. This implicitly defines a pseudo-component that is *not* counted in `ANA_NCMP`, with `CMPTYPn``='CHISQR` and with `PNAMEnA``='CHISQR'`. However, it is possible to override this, as well as to specify other non-parameter values such as estimated errors and flags, by defining other pseudo-components following the ones included in the `ANA_NCMP` count. E.g. estimated parameter errors should be included in a pseudo-component with `CMPTYPn``='ERROR'` and with `PNAMEnab``='ERROR-nab'` where `nab` is to the `nab` of the parameter whose error has been estimated. I.e., if `PNAME3A``='ERROR-1A'`, then the data cube values corresponding to `PNAME3A` are the estimated errors for parameter `1A`. The meaning of "estimated error" should be explained in the corresponding `PDESCnab` keyword. The pseudo-component mechanism allows for any number of non-parameter values to be included in the Level P data cube, and they may be used for any purpose, not just for errors and flags. The `CHISQR` pseudo-component (when present) should always be the first pseudo-component.</span>
 
 ### Optional functional keywords for the analysis as a whole
 
 During the fitting process, one or more data coordinates/dimensions may be absorbed/removed and will not appear in the result extension. In the example above, the {math}`\lambda` coordinate and the corresponding dimension is absorbed. The following keywords describe the absorbed/removed coordinates/dimensions. Note that `m` does not refer to the coordinate number, it is just a counter starting with 1 for the first absorbed/removed coordinate or dimension, 2 for the second, etc. In the example above, there is only one absorbed/removed coordinate and dimension, so only `m=1` is used. Note also that in FITS, *there is no automatic correspondence between coordinates and dimensions* (if the `PCi_j` matrix is not diagonal), so the keywords below refer to coordinates and dimensions separately. In theory, a coordinate may disappear while no dimension disappears, or vice versa.
 
-`XTYPEm`: <span class=new>The `CTYPE` of the m<sup>th</sup> coordinate(s) that was absorbed/removed during the fitting process (typically `XTYPE1``='WAVE'` for a disappearing {math}`\lambda` coordinate).</span>
+`XTYPEm`: The `CTYPE` of the m<sup>th</sup> coordinate(s) that was absorbed/removed during the fitting process (typically `XTYPE1``='WAVE'` for a disappearing {math}`\lambda` coordinate).
 
-`XDIMENm`: <span class=new>The dimension number of the m<sup>th</sup> absorbed dimension, counting left to right starting with 1. For SPICE Level 3 P files `XDIMEN1``=3`.</span>
+`XDIMENm`: The dimension number of the m<sup>th</sup> absorbed dimension, counting left to right starting with 1. For SPICE Level 3 P files `XDIMEN1``=3`.
 
-<span class=new>`SIGMADAT`: Specification of the standard deviation {math}`\sigma` of the data used in the fitting process, given as a formula, a curve, or a pixel-by-pixel specification, see [5.5 Quality aspects](#5.5). When used in a Level P extension, the occurrence of `data` in a formula refers to the data cube in the `DATAEXT`. Keywords used in the formula that are not specified in the Level P extension should be taken from the header of the `DATAEXT` (note that they may be variable keywords). If `SIGMADAT` is not present (in neither the Level P extension nor the `DATAEXT` extension), {math}`\sigma` is assumed to be constant across all pixels. The value of `SIGMADAT` in a Level P data extension takes precedence over any occurrence in the `DATAEXT` extension.</span>
+`SIGMADAT`: Specification of the standard deviation {math}`\sigma` of the data used in the fitting process, given as a formula, a curve, or a pixel-by-pixel specification, see [5.5 Quality aspects](#5.5). When used in a Level P extension, the occurrence of `data` in a formula refers to the data cube in the `DATAEXT`. Keywords used in the formula that are not specified in the Level P extension should be taken from the header of the `DATAEXT` (note that they may be variable keywords). If `SIGMADAT` is not present (in neither the Level P extension nor the `DATAEXT` extension), {math}`\sigma` is assumed to be constant across all pixels. The value of `SIGMADAT` in a Level P data extension takes precedence over any occurrence in the `DATAEXT` extension.
 
-<span class=new>`CHISQAVG`: Specification of the average *reduced* {math}`\chi^2` value of the fit. A higher than usual value would be a good indicator that something has gone systematically wrong (not just at single points). If the fitted model is correct and the error estimates (`SIGMADAT`) are correct, the average reduced {math}`\chi^2` should be close to 1.</span>
+`CHISQAVG`: Specification of the average *reduced* {math}`\chi^2` value of the fit. A higher than usual value would be a good indicator that something has gone systematically wrong (not just at single points). If the fitted model is correct and the error estimates (`SIGMADAT`) are correct, the average reduced {math}`\chi^2` should be close to 1.
 
 To allow manual inspection, verification, and modification of the analysis results, several auxiliary data arrays may be stored in separate HDUs, with their `EXTNAME` given in the following keywords. In the description we specify their dimensionalities that would result from the example discussed above.
 
 `RESEXT`: The HDU containing the analysis results ([x,y,t,p]). Note OBS_HDU=2
 
-`DATAEXT`: The original data/Obs-HDU (`[x,y,lambda,t]`). <span class=new>`DATAEXT` will often be an external extension (see [Appendix VII](#appendix-vii)). In this case, although not mandatory, it is _strongly recommended to include a placeholder extension_, as this allows e.g., reconstruction of all coordinates and dimensions of the original data. If necessary, it may be a minimal extension with little metadata other than to specify coordinates and data dimensions through `XNAXIS`, `XNAXISn` and the WCS keywords.</span>
+`DATAEXT`: The original data/Obs-HDU (`[x,y,lambda,t]`). `DATAEXT` will often be an external extension (see [Appendix VII](#appendix-vii)). In this case, although not mandatory, it is _strongly recommended to include a placeholder extension_, as this allows e.g., reconstruction of all coordinates and dimensions of the original data. If necessary, it may be a minimal extension with little metadata other than to specify coordinates and data dimensions through `XNAXIS`, `XNAXISn` and the WCS keywords.
 
-`PARENTXT`: <span class=new>A reference (external or local) to the parent extension containing the original data. The value of this keyword will often be identical to `DATAEXT`, but not necessarily: the original data may have been modified prior to the analysis, e.g., by applying e.g., cosmic ray removal, flatfielding etc.</span>
+`PARENTXT`: A reference (external or local) to the parent extension containing the original data. The value of this keyword will often be identical to `DATAEXT`, but not necessarily: the original data may have been modified prior to the analysis, e.g., by applying e.g., cosmic ray removal, flatfielding etc.
 
 `RESIDEXT`: Residuals from the fitting process (`[x,y,lambda,t]`) which may in some cases be an important factor in the verification e .g., to discover emission lines that have not been considered during the fitting. This extention is normally not included, since it can be calculated from the original data and the fit paramters.
 
-`CONSTEXT`: Constant mask (`[x,y,t,p]`). If constant mask `(x,y,t,p)` is 1 (not zero), parameter `p` has been kept constant/frozen *at the present value* (not necessarily the initial value) during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless `PCONSn``a=1 `. <span class=new>`CONSTEXT` may also be specified as a pixel list ([Appendix II](#appendix-ii)). If the list contains an entry `(x,y,t,p)`, it means that the value of `(x,y,t,p)` in the result cube has been kept constant.</span>
+`CONSTEXT`: Constant mask (`[x,y,t,p]`). If constant mask `(x,y,t,p)` is 1 (not zero), parameter `p` has been kept constant/frozen *at the present value* (not necessarily the initial value) during the fitting process for point `(x,y,t)`. When the constant mask extension is not present, it is assumed that all parameters have been fitted freely (between the specified min and max values) at all times unless `PCONSn``a=1 `. `CONSTEXT` may also be specified as a pixel list ([Appendix II](#appendix-ii)). If the list contains an entry `(x,y,t,p)`, it means that the value of `(x,y,t,p)` in the result cube has been kept constant.
 
-`INCLEXT`: Component inclusion mask (`[x,y,t,n]`). If `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. If `(x,y,t,n)=1`, the component has been included in the fit. When the extension is not present, it is assumed that all components have been included at all times. <span class=new>As for `CONSTEXT`, `INCLEXT` may be defined through the pixel list mechanism ([Appendix II](#appendix-ii)); if the list contains `(x,y,t,n)` then component `n` has *not* been included for point `(x,y,t,*)`. Where a component is not included, its parameter values should be set to `NaN`.</span>
+`INCLEXT`: Component inclusion mask (`[x,y,t,n]`). If `(x,y,t,n)=0`, component `n` has not been included for point `(x,y,t)`. If `(x,y,t,n)=1`, the component has been included in the fit. When the extension is not present, it is assumed that all components have been included at all times. As for `CONSTEXT`, `INCLEXT` may be defined through the pixel list mechanism ([Appendix II](#appendix-ii)); if the list contains `(x,y,t,n)` then component `n` has *not* been included for point `(x,y,t,*)`. Where a component is not included, its parameter values should be set to `NaN`.
 
 In all such extensions, all WCS keywords that apply must be present, given their dimensionalities, as must all Level P-related keywords (including e.g., the extension names and component/parameter descriptions etc., and `OBS_HDU``=2` as these are also “Level P data"). For the component inclusion mask extension (`INCLEXT`), the `CTYPEi` of the component dimension should be `'COMPONENT'`.
 
