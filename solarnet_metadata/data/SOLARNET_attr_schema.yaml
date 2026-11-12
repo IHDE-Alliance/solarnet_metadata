@@ -730,7 +730,7 @@ attribute_key:
   FOVX:
     data_type: float
     default: null
-    description: The extent of the field of view in the "instrument X" direction, corresponding to HPLN if the FOV is not rotated. If the FOV is rotated, use CROTA to indicate a CCW rotation around XCEN/YCEN
+    description: The extent of the field of view in the "instrument X" direction, corresponding to HPLN if the FOV is not rotated. If the FOV is rotated, use CROTA to indicate a counter-clockwise rotation around XCEN/YCEN
     human_readable: Field of view extent in the "instrument X" 
     required: optional
     origin: O
