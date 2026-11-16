@@ -382,7 +382,6 @@ attribute_key:
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
     origin: O
   CROTA:
-    pattern: CROTA
     data_type: float
     default: null
     description: The counterclockwise rotation of the actual FOV around the line of sight (see XCEN/YCEN/FOVX/FOVY)
@@ -1068,7 +1067,8 @@ attribute_key:
     human_readable: Parent extension
     required: optional
     origin: N
-  PCONSna:
+  PCONSnab:
+    pattern: PCONS(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: int
     default: null
     description: Optional functional keyword for parameters in parameterized components. Set to 1 if pa has been kept constant during fitting.
@@ -1125,14 +1125,16 @@ attribute_key:
     human_readable: linear transformation matrix element
     required: optional # Fundamental WCS coordinate keywords (sections 15, 3.1)
     origin: P
-  PDESCna:
+  PDESCnab:
+    pattern: PDESC(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: str
     default: null
     description: Optional functional keyword for parameters in parameterized components. Parameter desciption
     human_readable: Parameter Desscription
     required: optional
     origin: N
-  PINITna:
+  PINITnab:
+    pattern: PINIT(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components. Initial value of parameter
@@ -1160,21 +1162,24 @@ attribute_key:
     human_readable: Planner
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
     origin: O
-  PMAXna:
+  PMAXnab:
+    pattern: PMAX(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components. Maximum value of parameter
     human_readable: Maximum value
     required: optional
     origin: N
-  PMINna:
+  PMINnab:
+    pattern: PMIN(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components. Minimum value of parameter
     human_readable: Minimum value
     required: optional
     origin: N
-  PNAMEna:
+  PNAMEnab:
+    pattern: PNAME(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: str
     default: null
     description: Optional functional keyword for parameters in parameterized components. Parameter name
@@ -1305,24 +1310,27 @@ attribute_key:
     human_readable: Processing code version for library a in step n
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
     origin: N
-  PTRAna:
+  PTRAnab:
+    pattern: PTRA(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components.  Linear transformation coefficient A.
     human_readable: Linear transformation coefficient A
     required: optional
     origin: N
-  PTRBna:
+  PTRBnab:
+    pattern: PTRB(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components.  Linear transformation constant B.
     human_readable: Linear transformation constant B
     required: optional
     origin: N
-  PUNITna:
+  PUNITnab:
+    pattern: PUNIT(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: str
     default: null
-    description: Optional functional keyword for parameters in parameterized components. The units for parameter a of component n, specified according to the FITS Standard Section 4.3, e.g., 'nm' or 'km/s'.
+    description: Mandatory functional keyword for parameters in parameterized components. The units for parameter a of component n, specified according to the FITS Standard Section 4.3, e.g., 'nm' or 'km/s'.
     human_readable: Parameter unit
     required: optional
     origin: N
