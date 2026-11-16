@@ -100,9 +100,9 @@ The `CTYPEi` of the parameter dimension must be `'PARAMETER'`, and the coordinat
 
 ### Mandatory functional keyword for each parameter
 
-Below, `n` is the component number, and `ab` are letters `A-Z` (`b` can also be blank) specifying the parameter number within the component. I.e., `PINIT1A` is the units for the first parameter of the first component, `PUNIT2B` is the units for the second parameter of the second component, `PUNIT1AA` is the 27th parameter of the first component, etc., up to `PUNIT1ZZ` for the 702nd parameter of the first component.
+Below, `n` is the component number, and `ab` are letters `A-Z` (`b` can also be blank) specifying the parameter number within the component. I.e., `PUNIT1A` is the units for the first parameter of the first component, `PUNIT2B` is the units for the second parameter of the second component, `PUNIT1AA` is the 27th parameter of the first component, etc., up to `PUNIT1ZZ` for the 702nd parameter of the first component.
 
-`PUNITna`: The units for parameter a of component `n`, specified according to the FITS Standard Section 4.3, e.g., `'nm'` or `'km/s'`.
+`PUNITnab`: The units for parameter a of component `n`, specified according to the FITS Standard Section 4.3, e.g., `'nm'` or `'km/s'`.
 
 ### Optional functional keywords for each parameter
 
