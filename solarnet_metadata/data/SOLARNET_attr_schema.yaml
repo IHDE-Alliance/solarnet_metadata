@@ -381,11 +381,10 @@ attribute_key:
     human_readable: File Creator
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
     origin: O
-  CROTAa:
-    pattern: CROTA(?P<a>[A-Z])?
+  CROTA:
     data_type: float
     default: null
-    description: The counterclockwise rotation of the actual FOV around the line of sight.
+    description: The counterclockwise rotation of the actual FOV around the line of sight (see XCEN/YCEN/FOVX/FOVY)
     human_readable: Coordinate rotation
     required: optional # Fundamental WCS coordinate keywords (sections 3)
     origin: O
@@ -393,8 +392,8 @@ attribute_key:
     pattern: CROTA(?P<i>[1-9])?(?P<a>[A-Z])?
     data_type: float
     default: null
-    description: The amount of rotation from the standard coordinate system to a different coordinate system. Further use of this of this keyword is deprecated, in favor of the newer formalisms that use the CDi_j or PCi_j keywords to define the rotation.
-    human_readable: Coordinate rotation
+    description: DEPRECATED in favor of the newer formalisms that use the CDi_j or PCi_j keywords to define the rotation.
+    human_readable: DEPRECATED coordinate rotation
     required: optional # Fundamental WCS coordinate keywords (sections 3)
     origin: O
   CRPIXja:
@@ -727,6 +726,20 @@ attribute_key:
     human_readable: Filters
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
     origin: O
+  FOVX:
+    data_type: float
+    default: null
+    description: The extent of the field of view in the "instrument X" direction, corresponding to HPLN if the FOV is not rotated. If the FOV is rotated, use CROTA to indicate a counter-clockwise rotation around XCEN/YCEN
+    human_readable: Field of view extent in the "instrument X" 
+    required: optional
+    origin: O
+  FOVY:
+    data_type: float
+    default: null
+    description: The extent of the field of view in the "instrument Y" direction, corresponding to HPLN if the FOV is not rotated. If the FOV is rotated, use CROTA to indicate a counter-clockwise rotation around XCEN/YCEN
+    human_readable: Field of view extent in the "instrument Y" direction 
+    required: optional
+    origin: O
   FT_LOCK:
     data_type: float
     default: null
@@ -1054,7 +1067,8 @@ attribute_key:
     human_readable: Parent extension
     required: optional
     origin: N
-  PCONSna:
+  PCONSnab:
+    pattern: PCONS(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: int
     default: null
     description: Optional functional keyword for parameters in parameterized components. Set to 1 if pa has been kept constant during fitting.
@@ -1111,14 +1125,16 @@ attribute_key:
     human_readable: linear transformation matrix element
     required: optional # Fundamental WCS coordinate keywords (sections 15, 3.1)
     origin: P
-  PDESCna:
+  PDESCnab:
+    pattern: PDESC(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: str
     default: null
     description: Optional functional keyword for parameters in parameterized components. Parameter desciption
     human_readable: Parameter Desscription
     required: optional
     origin: N
-  PINITna:
+  PINITnab:
+    pattern: PINIT(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components. Initial value of parameter
@@ -1146,21 +1162,24 @@ attribute_key:
     human_readable: Planner
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
     origin: O
-  PMAXna:
+  PMAXnab:
+    pattern: PMAX(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components. Maximum value of parameter
     human_readable: Maximum value
     required: optional
     origin: N
-  PMINna:
+  PMINnab:
+    pattern: PMIN(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components. Minimum value of parameter
     human_readable: Minimum value
     required: optional
     origin: N
-  PNAMEna:
+  PNAMEnab:
+    pattern: PNAME(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: str
     default: null
     description: Optional functional keyword for parameters in parameterized components. Parameter name
@@ -1291,24 +1310,27 @@ attribute_key:
     human_readable: Processing code version for library a in step n
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
     origin: N
-  PTRAna:
+  PTRAnab:
+    pattern: PTRA(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components.  Linear transformation coefficient A.
     human_readable: Linear transformation coefficient A
     required: optional
     origin: N
-  PTRBna:
+  PTRBnab:
+    pattern: PTRB(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: float
     default: null
     description: Optional functional keyword for parameters in parameterized components.  Linear transformation constant B.
     human_readable: Linear transformation constant B
     required: optional
     origin: N
-  PUNITna:
+  PUNITnab:
+    pattern: PUNIT(?P<n>[1-9])(?P<a>[A-Z])(?P<b>[A-Z])?
     data_type: str
     default: null
-    description: Optional functional keyword for parameters in parameterized components. The units for parameter a of component n, specified according to the FITS Standard Section 4.3, e.g., 'nm' or 'km/s'.
+    description: Mandatory functional keyword for parameters in parameterized components. The units for parameter a of component n, specified according to the FITS Standard Section 4.3, e.g., 'nm' or 'km/s'.
     human_readable: Parameter unit
     required: optional
     origin: N
@@ -1735,6 +1757,13 @@ attribute_key:
     human_readable: WCS name
     required: optional
     origin: P
+  XCEN:
+    data_type: float
+    default: null
+    description: The X coordinate (HPLN) of the center of field of view. Defines the center of the FOV together with YCEN. If the FOV is rotated, use CROTA to indicate a counter-clockwise rotation around XCEN/YCEN
+    human_readable: X coordinate (HPLN) of the center of field of view
+    required: optional
+    origin: O
   XDIMENm:
     data_type: int
     default: null
@@ -1781,6 +1810,13 @@ attribute_key:
     - TABLE
     - BINTABLE
     origin: S
+  YCEN:
+    data_type: float
+    default: null
+    description: The Y coordinate (HPLT) of the center of field of view. Defines the center of the FOV together with XCEN. If the FOV is rotated, use CROTA to indicate a counter-clockwise rotation around XCEN/YCEN
+    human_readable: Y coordinate (HPLT) of the center of field of view
+    required: optional
+    origin: O
   iCRVLn:
     data_type: float
     default: null

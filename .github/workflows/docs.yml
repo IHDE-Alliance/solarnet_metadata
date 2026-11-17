@@ -30,7 +30,14 @@ jobs:
       run: |
         pip install -e .[style,docs,all]
         rstcheck -r docs
-    - name: Install Graphviz
-      run: sudo apt-get update && sudo apt-get install -y graphviz
+    - name: Install Graphviz & neato Layout Plugin
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y graphviz
+        # Ubuntu 26.04 ships neato in a separate plugin package; older releases bundle it
+        if apt-cache show libgvplugin-neato-layout8 >/dev/null 2>&1; then
+          sudo apt-get install -y libgvplugin-neato-layout8
+        fi
+        dot -V
     - name: Build docs
       run: sphinx-build docs docs/_build/html -W -b html
