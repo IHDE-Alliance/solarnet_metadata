@@ -622,6 +622,12 @@ attribute_key:
     human_readable: detector
     required: optional # Mandatory keywords identifying the origin of the observations (sections 15.5, 6)
     origin: O
+  DOI: 
+    datatype: str
+    default: null
+    description: The digital object identifiers (DOIs) for the dataset and any reference publications that should be cited with it. If a DOI is not available for the dataset, then some other type of persistent identifier should be entered here. The DOI should be entered as a full URL (e.g., https://doi.org/10.48322/5gmz-ka58), with multiple values separated by a comma and a space in a list (e.g., [https://doi.org/10.48322/5gmz-ka58, https://doi.org/10.1007/s11207-026-02608-2]).
+    human_readable: The digital object identifiers (DOIs) for the dataset and any reference publications that should be cited with it. If a DOI is not available for the dataset, then some other type of persistent identifier should be entered here. The DOI should be entered as a full URL (e.g., https://doi.org/10.48322/5gmz-ka58), with multiple values separated by a comma and a space in a list (e.g., [https://doi.org/10.48322/5gmz-ka58, https://doi.org/10.1007/s11207-026-02608-2]).
+    required: optional
   DPja: # NOTE: Equivalent to CPDISia?
     data_type: str
     default: null
@@ -841,6 +847,12 @@ attribute_key:
     human_readable: Data level of fits file
     required: optional # Optional pipeline processing keywords (sections 18, 8, 8.1, 8.2)
     origin: O
+  LICENSE:
+    data_type: str
+    default: null
+    description: The URI of the SPDX license applicable to the data, e.g., https://spdx.org/licenses/CC0-1.0.html or https://spdx.org/licenses/CC-BY-4.0.html
+    human_readable: The URI of the SPDX license applicable to the data, e.g., https://spdx.org/licenses/CC0-1.0.html or https://spdx.org/licenses/CC-BY-4.0.html
+    required: obs
   METADIM:
     data_type: str
     default: null
@@ -1435,8 +1447,8 @@ attribute_key:
   SCI_SW:
     data_type: str
     default: null
-    description: Package name(s) and URL(s) for the recommended analysis software, with commas used to separate different software packages. 
-    human_readable: Recommended scientific analysis software (name and URL)
+    description: Package name(s) and URL(s), preferably DOI(s) for the version of the recommended analysis software, with commas used to separate different software packages and dashes between names and URL(s)/DOI(s). E.g., ["name of software A v2.2 - https//doi.org/10.1234/1nfhw8f", "NameB v3.65 - URL2"].
+    human_readable: List of recommended scientific analysis software (name and DOI/URL)
     required: optional
     origin: N
   SIGMADAT:
